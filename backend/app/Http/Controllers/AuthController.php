@@ -14,6 +14,10 @@ class AuthController extends Controller
 {
     public function register(Request $request){
 
+        $messages=[
+            'email.unique'=>'This email is already in use. Please use another email!',
+            'username.unique'=>'This username is already in use. Please use another username!',
+        ];
         $validator=Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -21,17 +25,17 @@ class AuthController extends Controller
             'date_of_birth' => 'required|date',
             'phone_number' => 'required|string|max:255',
             'address' => 'required|string|max:255',
-            'email' => 'required|string|max:255|unique:users',
-            'username' => 'required|string|max:255|unique:users',
+            'email' => 'required|string|max:255|unique:users,email',
+            'username' => 'required|string|max:255|unique:users,username',
             'password' => 'required|string|min:6',
-        ]);
+        ],$messages);
     
         if($validator->fails()){
             return response()->json($validator->errors(),400);
         }
 
-        $consumerRole=Role::where('roleName','Customer')->first();
-         if(!$consumerRole){
+        $costumerRole=Role::where('roleName','Customer')->first();
+         if(!$costumerRole){
             return response()->json(['error'=>'Role Customer not found'],500);
         }
 
@@ -45,7 +49,7 @@ class AuthController extends Controller
             'email'=>$request->get('email'),
             'username'=>$request->get('username'),
             'password'=>Hash::make($request->get('password')),
-            'roleID'=>$consumerRole->id,
+            'roleID'=>$costumerRole->id,
         ]);
         $token=JWTAuth::fromUser($user);
 
@@ -72,7 +76,7 @@ class AuthController extends Controller
             \Log::error('User has no role assigned.');
             return response()->json(['error' => 'User has no role assigned'], 500);
         }
-
+        
         return response()->json([
             'token'=>$token,
             'user'=>[

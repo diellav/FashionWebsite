@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product_Variants;
+use Illuminate\Support\Facades\Validator;
 
 class Product_VariantsController extends Controller
 {

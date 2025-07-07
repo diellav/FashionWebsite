@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order_Items;
+use Illuminate\Support\Facades\Validator;
 
 class Order_ItemsController extends Controller
 {
@@ -29,11 +30,11 @@ class Order_ItemsController extends Controller
         }
 
         $order_items = Order_Items::create([
-            'orderID ' => $request->get('orderID '),
-            'productID ' => $request->get('productID '),
-            'product_variantID ' => $request->get('product_variantID '),
+            'orderID' => $request->get('orderID'),
+            'productID' => $request->get('productID'),
+            'product_variantID' => $request->get('product_variantID'),
             'quantity' => $request->get('quantity'),
-            'price' => $request->get('shipping_address'),
+            'price' => $request->get('price'),
         ]);
 
         return response()->json($order_items, 201);

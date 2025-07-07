@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Payment;
+use Illuminate\Support\Facades\Validator;
 
 class PaymentController extends Controller
 {
@@ -18,7 +19,7 @@ class PaymentController extends Controller
      public function createPayment(Request $request) {
         $validator = Validator::make($request->all(), [
             'userID' => 'nullable|exists:users,id',
-            'orderID ' => 'nullable|exists:orders,id',
+            'orderID' => 'nullable|exists:orders,id',
             'total_price' => 'required|numeric',
             'payment_status' => 'required|string|max:255',
             'transaction_reference' => 'nullable|string|max:255',
@@ -29,8 +30,8 @@ class PaymentController extends Controller
         }
 
         $payment = Payment::create([
-            'userID ' => $request->get('userID '),
-            'orderID ' => $request->get('orderID '),
+            'userID' => $request->get('userID'),
+            'orderID' => $request->get('orderID'),
             'total_price' => $request->get('total_price'),
             'payment_status' => $request->get('payment_status'),
             'transaction_reference' => $request->get('transaction_reference'),
@@ -43,7 +44,7 @@ class PaymentController extends Controller
         $payment = Payment::findOrFail($id);
 
         $payment->update($request->only([
-            'userID','orderID ', 'total_price', 'payment_status', 'transaction_reference'
+            'userID','orderID', 'total_price', 'payment_status', 'transaction_reference'
         ]));
 
         return response()->json($payment);

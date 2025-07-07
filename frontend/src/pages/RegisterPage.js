@@ -26,9 +26,17 @@ const RegisterPage=()=>{
         try{
             await axiosInstance.post("/register",formData);
             navigate('/login', {replace:true});
-        }catch(err){
-            setError(err.response?.data?.error||'Register failed');
-        }
+        }catch(err) {
+          if (err.response && err.response.data) {
+            const errors = err.response.data;
+            setError(
+              (errors.email ? 'Email already in use! Please use another email address. ' : '') +
+              (errors.username ? 'Username already in use! Please use another username.' : '')
+            );
+          } else {
+    setError('Registration failed');
+  }
+}
     };
     return(
     <div>

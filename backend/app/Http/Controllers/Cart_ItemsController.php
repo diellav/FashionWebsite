@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cart_Items;
+use Illuminate\Support\Facades\Validator;
 
 class Cart_ItemsController extends Controller
 {

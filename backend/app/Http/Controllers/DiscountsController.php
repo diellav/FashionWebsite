@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Discounts;
+use Illuminate\Support\Facades\Validator;
 
 class DiscountsController extends Controller
 {
      public function getDiscounts(){
-        return Discount::with('products')->get();
+        return Discounts::with('products')->get();
     }
     public function getDiscountID($id){
-        $discount=Discount::with('products')->findOrFail($id);
+        $discount=Discounts::with('products')->findOrFail($id);
         return response()->json($discount);
     }
 
@@ -30,7 +31,7 @@ class DiscountsController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $discount = Discount::create([
+        $discount = Discounts::create([
             'name' => $request->get('name'),
             'value' => $request->get('value'),
             'type' => $request->get('type'),
@@ -44,7 +45,7 @@ class DiscountsController extends Controller
     }
 
     public function updateDiscount(Request $request, $id) {
-        $discount = Discount::findOrFail($id);
+        $discount = Discounts::findOrFail($id);
 
         $discount->update($request->only([
             'name','value', 'type', 'conditions', 'productID','start_date','end_date'
@@ -53,7 +54,7 @@ class DiscountsController extends Controller
         return response()->json($discount);
     }
     public function deleteDiscount($id) {
-        $discount = Discount::findOrFail($id);
+        $discount = Discounts::findOrFail($id);
         $discount->delete();
         return response()->json(['message' => 'Discount deleted successfully']);
     }
