@@ -1,42 +1,75 @@
-import {useEffect,useState} from 'react';
-import {useNavigate,Link } from 'react-router-dom';
-import axiosInstance from '../axios';
-const Navbar=({onLogout})=>{
-    const navigate=useNavigate();
-    const[role,setRole]=useState(null);
-    const[user,setUser]=useState(null);
-    useEffect(()=>{
-        const token=localStorage.getItem('token');
-        const role=localStorage.getItem('role');
-        if(!token){
-            navigate('/login'); return;
-        }
-        setRole(role);
-        
-        axiosInstance.get('/me')
-      .then(res => {
-        setUser(res.data.user);
-      })
-      .catch(err => {
-        console.error('Error fetching user data', err);
-        localStorage.removeItem('token');
-        localStorage.removeItem('role');
-        navigate('/login');
-      });
-  }, [navigate]);
-  if (!user){
-    return null;
-  }
- return (
-    <nav>
-      <ul style={{display:'flex', listStyle:'none', gap:'15px'}}>
-        <li><Link to="/home">Home</Link></li>
-        {role === 'Admin' && <li><Link to="/dashboard">Dashboard</Link></li>}
-        <li>Hello, {user.username}</li>
-        <li>Role: {role}</li>
-        <li><button onClick={onLogout}>Logout</button></li>
-      </ul>
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import '../template/Navbar.css';
+import SearchToggle from './SearchBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart as faHeartRegular} from '@fortawesome/free-regular-svg-icons'
+import {faCartShopping} from '@fortawesome/free-solid-svg-icons'
+const Navbar = ({ onLogout }) => {
+  const role = localStorage.getItem('role');
+  const user = JSON.parse(localStorage.getItem('user'));
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  if (!user) return null;
+
+  const toggleMobileMenu = (e) => {
+    e.stopPropagation();
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
+
+  return (
+    <nav className="navbar" onClick={closeMobileMenu}>
+      <div className="navbar__list">
+        <p className="navbar__logo">UrbanGaze</p>
+        <button
+          className={`hamburger ${mobileMenuOpen ? 'open' : ''}`}
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
+          aria-expanded={mobileMenuOpen}
+          type="button"
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        <div className={`nav__list ${mobileMenuOpen ? 'open' : ''}`} onClick={e => e.stopPropagation()}>
+           {mobileMenuOpen? <><hr/></> : (<></>) }
+          <ul>
+            <li><Link to="/home">Home</Link></li>
+            <li><Link to="/products">Shop</Link></li>
+            <li><Link to="/aboutUs">About Us</Link></li>
+            <li><Link to="/contactUS">Contact</Link></li>
+            {role === 'Admin' && <li><Link to="/dashboard">Dashboard</Link></li>}
+           {mobileMenuOpen? (
+            <>
+            <hr></hr>
+            <li><Link to="/profile">Profile</Link></li>
+                <li><a href="/" onClick={onLogout}>Logout</a></li></>
+           ):(
+              <li className="navbar__dropdown">
+              <span className="navbar__user">Hello, {user.username}</span>
+              <ul className="navbar__dropdown-menu">
+                <li><Link to="/profile">Profile</Link></li>
+                <li><a href="/" onClick={onLogout}>Logout</a></li>
+              </ul>
+            </li> 
+           )}
+            <div className="icon-wrapper">
+              <FontAwesomeIcon icon={faCartShopping} className='icon' />
+              <p className='message'>Cart</p>
+            </div>
+            <div className="icon-wrapper">
+              <FontAwesomeIcon icon={faHeartRegular} className='icon' />
+              <p className='message'>Wishlist</p>
+            </div>
+           <div><SearchToggle/></div>
+          </ul>
+        </div>
+      </div>
     </nav>
   );
 };
+
 export default Navbar;

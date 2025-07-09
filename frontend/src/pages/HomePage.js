@@ -26,9 +26,6 @@ const HomePage=({onLogout})=>{
           <div>
             <p><strong>Name:</strong> {user.name}</p>
             <p><strong>Email:</strong> {user.email}</p>
-          
-       
-       <button onClick={onLogout}>Logout</button>
        </div>
        )}
 
