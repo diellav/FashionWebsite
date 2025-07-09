@@ -35,7 +35,7 @@ const Navbar = ({ onLogout }) => {
           <span />
         </button>
         <div className={`nav__list ${mobileMenuOpen ? 'open' : ''}`} onClick={e => e.stopPropagation()}>
-           {mobileMenuOpen? <><hr/></> : (<></>) }
+           {mobileMenuOpen? (<><SearchToggle/></>) : (<></>) }
           <ul>
             <li><Link to="/home">Home</Link></li>
             <li><Link to="/products">Shop</Link></li>
@@ -58,13 +58,13 @@ const Navbar = ({ onLogout }) => {
            )}
             <div className="icon-wrapper">
               <FontAwesomeIcon icon={faCartShopping} className='icon' />
-              <p className='message'>Cart</p>
+              {!mobileMenuOpen && <p className='message'>Cart</p>}
             </div>
             <div className="icon-wrapper">
               <FontAwesomeIcon icon={faHeartRegular} className='icon' />
-              <p className='message'>Wishlist</p>
+              {!mobileMenuOpen && <p className='message'>Wishlist</p>}
             </div>
-           <div><SearchToggle/></div>
+           {!mobileMenuOpen && <div><SearchToggle/></div>}
           </ul>
         </div>
       </div>

@@ -1,0 +1,128 @@
+.foot{
+    height:100%;
+    background-color:#3C1800;
+}
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    border-top: solid #3C1800;
+    align-items: center;
+    height:auto;
+   
+}
+  
+    .links{
+        display:flex;
+        flex-direction: column;
+        justify-content:center;
+        flex-wrap: wrap;
+        padding:1%;
+        line-height: 1.3;
+    }
+    .links a{
+        margin: 1% 4%;
+        text-decoration: none;
+        color: rgb(192, 192, 192);
+        font-size: medium;
+        font-family: 'Crimson Text'; 
+    }
+   .links p{ 
+        font-family: 'Crimson Text'; 
+        font-size: larger;
+        color: white;
+    }
+    .links a:hover{
+        color: rgb(185, 164, 150);
+    }
+    .tt p{
+        color:rgb(192, 192, 192);
+    }
+    .tt{
+        display: flex;
+        flex-direction: column;
+        width:40%;
+        height:10%;
+        padding:2%;
+        flex-wrap: wrap;
+        font-family: 'Crimson Text'; 
+    
+    }
+    #urban{
+        font-family: 'Allura', sans-serif;
+        font-weight: 400px;
+        font-style:normal;
+        font-size: xx-large;
+        color:rgb(255, 255, 255);
+    }
+    #trademarks{
+        display: flex;
+        flex-direction: column;
+        width:100%;
+        line-height: 1.6;
+        flex-wrap: wrap;
+    font-family: 'Crimson Text'; 
+    color: white;
+    }
+    
+    .line{
+         width: 100%;
+         border-top: 2px solid rgb(255, 255, 255);
+    }
+    
+    #liner{
+        background-color: #3C1800;
+        padding:1%;
+    }
+    .end{
+        font-family: 'Crimson Text';
+        color: #ffffff;
+    }
+    
+
+@media (max-width: 675px){
+   
+.footer{
+    background-color:#3C1800;
+    justify-content:start;
+    flex-direction: column;
+}
+.links{
+    flex-direction: row;
+    text-align: center;
+    width:100%;
+    justify-content: center;
+}
+.links a{
+     
+     font-size: medium;
+}
+h4{
+    font-size: medium;
+}
+
+.end{
+    flex-direction: row;
+    flex-wrap: wrap;
+    height:fit-content;
+}
+
+.tt{
+    flex-wrap: wrap;
+    flex-direction: row; 
+    margin-top: 5%;
+    width:90%;
+
+}
+#urban{
+    font-size: xx-large;
+    margin-left: 3%;
+}
+ .newLine{
+    width:100%;
+    align-self: center;
+   text-align: center;
+ }     
+ 
+}
+    
