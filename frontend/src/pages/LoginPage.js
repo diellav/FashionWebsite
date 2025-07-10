@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axiosInstance from '../axios';
 import {Link, useNavigate} from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
+import '../template/LoginPage.css';
 const Login = ({setIsAuthenticated,setUser}) => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
@@ -38,7 +39,9 @@ const Login = ({setIsAuthenticated,setUser}) => {
   };
 
   return (
-    <div>
+    <div className='login'>
+      <div className='loginForm'>
+        <div className='form'>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <input 
@@ -63,9 +66,16 @@ const Login = ({setIsAuthenticated,setUser}) => {
       </form>
       {error && <p style={{color: 'red'}}>{error}</p>}
       {success && <p style={{color: 'green'}}>Login successful!</p>}
+      <br/>
       <p>
-        Don't have account? <Link to="/register">Register</Link>
+        Don't have account? <Link to="/register" id="link">Register</Link>
       </p>
+      </div>
+      </div>
+      <div className='image'>
+      <div className='loginFoto'>
+        <img src="/images/CoverPhoto.jpg" alt='login'/>
+      </div> </div>
     </div>
   );
 };

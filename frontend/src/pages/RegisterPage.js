@@ -1,6 +1,7 @@
 import React,{useState} from "react";
 import {useNavigate} from 'react-router-dom';
 import axiosInstance from "../axios";
+import '../template/LoginPage.css';
 const RegisterPage=()=>{
     const[formData, setFormData]=useState({
         first_name:'',
@@ -39,7 +40,10 @@ const RegisterPage=()=>{
 }
     };
     return(
-    <div>
+       <div className='login'>
+      <div className='loginForm'>
+        <div className='register'>
+      <h2>Welcome to UrbanGaze !</h2>
         <form onSubmit={handleSubmit}>
         <input 
           type="text" 
@@ -121,6 +125,12 @@ const RegisterPage=()=>{
         <button type="submit">Register</button>
       </form>
       {error && <p style={{color: 'red'}}>{error}</p>}
+    </div>
+    </div>
+      <div className='image'>
+      <div className='loginFoto'>
+        <img src="/images/CoverPhoto.jpg" alt='login'/>
+      </div> </div>
     </div>
     );
 

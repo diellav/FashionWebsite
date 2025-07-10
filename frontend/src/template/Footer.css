@@ -31,12 +31,13 @@
         font-family: 'Crimson Text'; 
         font-size: larger;
         color: white;
+        line-height: 0.4;
     }
     .links a:hover{
-        color: rgb(185, 164, 150);
+        color: #c3a6a0;
     }
     .tt p{
-        color:rgb(192, 192, 192);
+        color:#c3a6a0;
     }
     .tt{
         display: flex;
@@ -62,7 +63,7 @@
         line-height: 1.6;
         flex-wrap: wrap;
     font-family: 'Crimson Text'; 
-    color: white;
+    color: #c3a6a0;
     }
     
     .line{
