@@ -3,7 +3,7 @@ body{
     padding: 0;
     height: 100vh;
     width: 100vw;
-    background-color: #c3a6a0;
+    background-color: #3C1800;
     align-items: center;   
 }
 .form h2 ,.register h2{
@@ -11,6 +11,7 @@ body{
     text-align: center;
     text-indent: -50px;
     font-weight: 600;
+    color: antiquewhite;
 }
 
 .login{
@@ -26,13 +27,13 @@ body{
     display: flex;
     flex-direction: column;
    height:100vh;
-   background-color:#c3a6a0;
+   background-color:#3C1800;
     justify-content: center;
     align-items: center;
     width:50%;
 }
 .form, .register{
-    background-color:#c3a6a0;
+    background-color:#3C1800;
     align-self: center;
     justify-self: center;
     padding: 20% 8%;
@@ -48,7 +49,7 @@ body{
     width: 90%;
     padding: 3%;
     border: 1px solid #6c6c6c; 
-    box-shadow: 2px 2px 3px 3px #83706c;
+    box-shadow: 2px 2px 3px 3px #130800;
     box-sizing: border-box;
     border-radius: 30px;
     font-size:larger;
@@ -61,7 +62,7 @@ body{
     width: 90%;
     padding: 1.5%;
     border: 1px solid #6c6c6c; 
-    box-shadow: 2px 2px 3px 3px #83706c;
+    box-shadow: 2px 2px 3px 3px #130800;
     box-sizing: border-box;
     border-radius: 30px;
     font-size:large;
@@ -77,11 +78,11 @@ body{
    border-radius: 30px;
     font-family: 'Crimson Text';
     border: 1px solid #343434;
-    box-shadow: 2px 2px 3px 3px rgb(118, 101, 98);
+    box-shadow: 2px 2px 3px 3px #130800;
     font-size:x-large;
     justify-content: center;
     color:#1a1a1a;
-    background-color: #857370;
+    background-color: #7d605b;
 }
 
 .register button{
@@ -91,10 +92,11 @@ p{
     font-family: 'Crimson Text';
     font-size:large;
     text-align: center;
+    color: rgb(247, 247, 247);
 }
 #link{
     text-decoration: none;
-    color: rgb(83, 83, 83);
+    color: rgb(175, 163, 148);
 }
 .image{
     width:50%;

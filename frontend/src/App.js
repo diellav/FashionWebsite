@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {BrowserRouter as Router, Routes, Route, Navigate, useNavigate} from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation} from 'react-router-dom';
 import axiosInstance from "./axios";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/LoginPage";
@@ -8,9 +8,23 @@ import CreateCategoryForm from "./pages/dashboard/categories/CategoryForm";
 import TokenCheck from "./pages/TokenCheck";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-
+import ResetPassword from "./pages/ResetPassword";
+import ForgotPassword from "./pages/ForgotPassword";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './template/Navbar.css';
+
+function ResetPasswordPage() {
+  const query = new URLSearchParams(useLocation().search);
+  const token = query.get('token');
+  const email = query.get('email');
+
+  if (!token || !email) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <ResetPassword token={token} email={email} />;
+}
+
 function AppContent() {
     TokenCheck();
     const[isAuthenticated,setIsAuthenticated]=useState(false);
@@ -58,7 +72,8 @@ function AppContent() {
       <p>Loading...</p>
     ) : (
       <>
-      <Navbar onLogout={handleLogout}/>
+     
+    {isAuthenticated && <Navbar onLogout={handleLogout}/>}
     <Routes>
       <Route path='/' element={role==='Admin'? <Navigate to='/dashboard' replace/> 
       : role==='Customer'? <Navigate to='/home' replace/> : <Navigate to='/login' replace/>}/>
@@ -66,8 +81,10 @@ function AppContent() {
       <Route path="/register" element={<RegisterPage/>}/>
       <Route path="/home" element={isAuthenticated? (<HomePage onLogout={handleLogout}/>):( <Navigate to="/login"/>)}/>
       <Route path="/categories" element={isAuthenticated? (<CreateCategoryForm/>):( <Navigate to="/login"/>)}/>
+       <Route path="/reset-password" element={<ResetPasswordPage />} />
+       <Route path="/password/forgot" element={<ForgotPassword />} />
     </Routes>
-    <Footer onLogout={handleLogout}/>
+    {isAuthenticated && <Footer onLogout={handleLogout}/>}
     </>
  )}
     </div>

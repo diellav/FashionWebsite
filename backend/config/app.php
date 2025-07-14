@@ -41,6 +41,8 @@ return [
     | application. If disabled, a simple generic error page is shown.
     |
     */
+    'frontend_url' => env('APP_FRONTEND_URL', 'http://localhost:3000'),
+
 
     'debug' => (bool) env('APP_DEBUG', false),
 

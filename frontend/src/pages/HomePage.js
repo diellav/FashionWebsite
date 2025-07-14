@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
-//import axiosInstance from '../axios';
+import axiosInstance from '../axios';
+import '../template/HomePage.css';
 const HomePage=({onLogout})=>{
     const[user,setUser]=useState(null);
   
@@ -19,9 +20,24 @@ const HomePage=({onLogout})=>{
 
   return (
     <div>
+      <div className="main">
+      <div className="mainFoto">
+        <img src='../../../../images/MainPhoto.jpg'></img>
+        <p>Welcome to Urban Gaze, where modern minimalism meets effortless sophistication.<br></br><p id='secondText'>Crafted for the city, tailored for distinction.</p></p>
+      </div>
+      </div>
+      <div className="insights">
+        <div className="box">
 
-      <div style={{ padding: "2rem" }}>
-        <h3>Home Page</h3>
+        </div>
+        <div className="box">
+
+        </div>
+        <div className="box">
+
+        </div>
+      </div>
+      <div>
         {user && (
           <div>
             <p><strong>Name:</strong> {user.name}</p>

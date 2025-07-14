@@ -43,7 +43,7 @@ const RegisterPage=()=>{
        <div className='login'>
       <div className='loginForm'>
         <div className='register'>
-      <h2>Welcome to UrbanGaze !</h2>
+      <h2>Sign in to UrbanGaze</h2>
         <form onSubmit={handleSubmit}>
         <input 
           type="text" 

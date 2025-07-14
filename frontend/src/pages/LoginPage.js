@@ -42,7 +42,7 @@ const Login = ({setIsAuthenticated,setUser}) => {
     <div className='login'>
       <div className='loginForm'>
         <div className='form'>
-      <h2>Login</h2>
+      <h2>Welcome back!</h2>
       <form onSubmit={handleSubmit}>
         <input 
           type="email" 
@@ -62,13 +62,16 @@ const Login = ({setIsAuthenticated,setUser}) => {
           required
         />
         <br />
-        <button type="submit">Login</button>
+        <button type="submit">Log In</button>
       </form>
       {error && <p style={{color: 'red'}}>{error}</p>}
       {success && <p style={{color: 'green'}}>Login successful!</p>}
       <br/>
       <p>
         Don't have account? <Link to="/register" id="link">Register</Link>
+      </p>
+       <p>
+        Forgot Password? <Link to="/password/forgot" id="link">Reset</Link>
       </p>
       </div>
       </div>

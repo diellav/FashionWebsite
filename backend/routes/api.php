@@ -13,11 +13,16 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Order_ItemsController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ResetPasswordController;
 
 
 Route::post('/login',[AuthController::class,'login']);
 Route::post('/register',[AuthController::class,'register']);
-
+    // routes/api.php
+    Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
+    Route::post('/password/reset', [ResetPasswordController::class, 'reset']);
+    
 
 Route::middleware('auth:api')->group(function(){
     Route::get('/me',[AuthController::class,'me']);
@@ -92,6 +97,7 @@ Route::middleware('auth:api')->group(function(){
     Route::post('/payments', [PaymentController::class, 'createPayment']);
     Route::put('/payments/{id}', [PaymentController::class, 'updatePayment']);
     Route::delete('/payments/{id}', [PaymentController::class, 'deletePayment']);
+
 });
  
 
