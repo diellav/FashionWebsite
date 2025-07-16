@@ -33,4 +33,7 @@ public function discounts() {
     public function variants(){
         return $this->hasMany(Product_Variants::class, 'productID');
     }
+    public function collections(){
+    return $this->belongsToMany(Collection::class, 'collection_product');
+}
 }

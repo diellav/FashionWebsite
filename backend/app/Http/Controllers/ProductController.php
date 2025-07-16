@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class ProductController extends Controller
@@ -67,6 +68,16 @@ class ProductController extends Controller
         $recent=Product::with(['category','discounts','variants'])
         ->where('created_at','>=', $week)->orderBy('created_at','desc')->get();
         return response()->json($recent);
+    }
+
+    public function getBestSellers(){
+        $products=DB::table('order_items')
+        ->select('products.*',DB::raw('SUM(order_items.quantity) as total_sold'))
+        ->join('product_variants', 'product_variants.id', '=', 'order_items.product_variantID')
+        ->join('products', 'product_variants.productID', '=', 'products.id')
+        ->groupBy('products.id')
+        ->orderByDesc('total_sold')->limit(12)->get();
+        return response()->json($products);
     }
 
 }

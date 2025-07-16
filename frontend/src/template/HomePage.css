@@ -42,7 +42,8 @@ body{
     font-size: 25px;
     font-family: 'Crimson Text'
 }
-.text button{
+.text button,
+.formNewsletter button{
    width: 30%;
    padding: 2%;
    border-radius: 30px;
@@ -158,7 +159,16 @@ hr{
   display: flex;
   justify-content: center;
 }
-
+.arrivals #allproducts{
+     width: fit-content;
+    font-family: 'Crimson Text';
+   color:#4b1802;
+   font-size: x-large;
+   font-style: italic;
+   font-weight: 500;
+  justify-self: end;
+    margin-right: 2%;
+}
 .product-slide {
   padding: 15px;
   text-align: center;
@@ -186,13 +196,13 @@ hr{
     height:auto;
     padding:2%;
 }
-.main_deals h3{
+.main_deals h3, .collections h3{
     text-align: center;
     color:#4b1802;
 }
 
 .deals .slick-slide > div {
-  padding:2% 10%;
+  padding:1% 10%;
   display: flex;
   justify-content: center;
 }
@@ -234,7 +244,7 @@ hr{
   text-align: left;
 }
 
-.discount-slide .text p {
+.discount-slide .text p{
   color: #4b1802;
   font-size: x-large;
   font-family: 'Crimson Text';
@@ -242,3 +252,142 @@ hr{
 .discount-slide .text h2{
     font-size: xxx-large;
 }
+
+.collections{
+    width:100vw;
+    height:auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column; 
+    padding: 2% 0%;  
+}
+.new_collection{
+    width:100vw;
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+}
+.collection img{
+    display: block;
+    object-fit:cover;
+     width:80vw;
+     height:70vh;
+     border-radius: 15px;
+     box-shadow: 8px 8px 8px rgba(5, 5, 5, 0.5);
+     margin: 4% 0%;
+}
+.collection{
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.collection p{
+    color:black;
+    font-size: 25px;
+    font-family: 'Crimson Text'
+}
+.collection h3{
+    color: #4b1802;
+  font-family: 'Crimson Text';
+  font-weight: 600;
+}
+
+.faq-section {
+  padding: 5% 2%;
+  background-color: #fdfcfa;
+  max-width: 60%;
+  margin: 0 auto;
+}
+
+.faq-section h3 {
+  text-align: center;
+  color: #4b1802;
+  margin-bottom: 3%;
+}
+
+.faq-item {
+  border-bottom: 1px solid #ccc;
+  padding: 2%;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #1a1a1a;
+}
+
+.faq-question h4 {
+  margin: 1%;
+  font-size: x-large;
+  font-weight: 500;
+}
+
+.faq-question span {
+  font-size: larger;
+  color: #463734;
+}
+
+.faq-answer p{
+  margin-top: 2%;
+  color: #202020;
+  animation: fadeIn 0.3s ease-in-out;
+  font-size: larger;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.newsletter{
+    width:100%;
+    height:auto;
+    display: flex;
+    flex-direction: column;
+    background-color:#f4eeed;
+}
+.letter{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3%;
+}
+.letter h2{
+    width:50%;
+    line-height: 1.5;
+    text-align: center;
+    color: #4b1802;
+    margin: 2%;
+}
+.formNewsletter{
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+    padding: 3%;
+}
+.formNewsletter input[type='email']{
+    border-radius: 20px;
+    padding: 3%;
+    border: 1px solid #343434;
+    box-shadow: 2px 2px 3px 3px #c9c8c7;
+    flex: 1;
+}
+.formNewsletter button{
+    width: fit-content;
+    padding: 3%;
+    border-radius: 20px;
+    box-shadow: 2px 2px 3px 3px #999796;
+}
+

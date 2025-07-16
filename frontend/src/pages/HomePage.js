@@ -7,16 +7,21 @@ import { faTruckFast, faCreditCard, faPhoneVolume} from '@fortawesome/free-solid
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import FAQ from '../components/FAQ';
 const HomePage=()=>{
     const[user,setUser]=useState(null);
   const navigate=useNavigate();
   const[recent,setRecent]=useState([]);
   const[deals,setDeals]=useState([]);
+  const[bestseller,setBestSeller]=useState([]);
+  const[collection,setCollection]=useState([]);
    
     useEffect(() => {
     fetchUser();
     fetchRecentProducts();
     fetchDeals();
+    fetchBestSellerProducts();
+    fecthCollection();
       }, []);
 
   const fetchRecentProducts=async()=>{
@@ -35,7 +40,24 @@ const HomePage=()=>{
       console.error('Failed to fetch deals', err);
     }
   };
+    const fetchBestSellerProducts=async()=>{
+    try{
+    const res=await axiosInstance.get('/best-products');
+    setBestSeller(res.data);
+    }catch(err){
+      console.error('Failed to fetch products', err);
+    }
+  };
   
+   const fecthCollection=async()=>{
+    try{
+    const res=await axiosInstance.get('/collections-home');
+    setCollection(res.data);
+    }catch(err){
+      console.error('Failed to fetch products', err);
+    }
+  };
+
   const fetchUser=async ()=> {
     const fakeUser = { name: "Test User", email: "test@example.com" };
   setUser(fakeUser);
@@ -109,6 +131,7 @@ const HomePage=()=>{
         <div className="main_arrivals">
          <h3>New Arrivals</h3>
           <div className="arrivals">
+             <p onClick={()=>navigate('/products')} id='allproducts'>See all products...</p>
           {recent.length>0 ? (
             <Slider
               dots={true}
@@ -135,7 +158,7 @@ const HomePage=()=>{
           {recent.map(product=>(
             <div key={product.id} className="product-slide">
               <img src={product.main_image} alt={product.name}
-              style={{ width: '100%', height: '250px', objectFit: 'cover' }}></img>
+              style={{ width: '100%', height: '270px', objectFit: 'cover' }}></img>
               <h5>{product.name}</h5>
               <p>${product.price}</p>
             </div>
@@ -172,22 +195,68 @@ const HomePage=()=>{
             </div>
           </div>
           <hr></hr>
-          <div>
+           <div className="main_arrivals">
+         <h3>Our best sellers</h3>
+          <div className="arrivals">
+          {bestseller.length>0 ? (
+            <Slider
+              dots={true}
+              infinite={true}
+              speed={500}
+              slidesToShow={4}
+              slidesToScroll={1}
+              responsive={[
+                {
+                breakpoint: 1024,
+                settings: {
+                  slidesToShow: 2,
+                  slidesToScroll: 1,
+            },
+          },
+              { 
+                breakpoint: 600,
+                settings: {
+                  slidesToShow: 1,
+                  slidesToScroll: 1,
+                },
+              },
+            ]}>
+          {bestseller.map(product=>(
+            <div key={product.id} className="product-slide">
+              <img src={product.main_image} alt={product.name}
+              style={{ width: '100%', height: '250px', objectFit: 'cover' }}></img>
+              <h5>{product.name}</h5>
+              <p>${product.price}</p>
+            </div>
+          ))}
+            </Slider>):(<p>No new products this week</p>)}
+          </div>
+          </div>
+          <hr></hr>
+          <div className="collections">
+            <h3>New Collections</h3>
+            <div className="new_collection">
+            <div key={collection.id} className="collection">
+              <img src={collection.image} alt={collection.name}></img>
+              <h3>{collection.name}</h3>
+              <p>{collection.description}</p>
+            </div>
+            </div>
+          </div>
 
+          <hr></hr>
+          <FAQ />
+          <div className="newsletter">
+            <div className="letter">
+              <h2>Subscribe to Our NewsLetter to Get The Latest Updates on Our Discounts and Be The First to Know About Our New Collections</h2>
+              <form className="formNewsletter" method='POST'>
+                <input type='email' name='email' placeholder="Please write your email address"></input>
+                <button type='submit'>Subscribe</button>
+              </form>
+            </div>
           </div>
         <div>
-
-        <br></br>
-        <br></br>
-        <br></br>
-        {user && (
-          <div>
-            <p><strong>Name:</strong> {user.name}</p>
-            <p><strong>Email:</strong> {user.email}</p>
-       </div>
-       )}
-
-        
+ 
       </div>
     </div>
   );

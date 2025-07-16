@@ -15,6 +15,7 @@ use App\Http\Controllers\Order_ItemsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\CollectionController;
 
 
 Route::post('/login',[AuthController::class,'login']);
@@ -49,7 +50,7 @@ Route::middleware('auth:api')->group(function(){
     Route::put('/products/{id}', [ProductController::class, 'updateProduct']);
     Route::delete('/products/{id}', [ProductController::class, 'deleteProduct']);
     Route::get('/recent-products', [ProductController::class, 'getRecentProducts']);
-
+    Route::get('/best-products', [ProductController::class, 'getBestSellers']);
     //product_variants
     Route::get('/product_variants', [Product_VariantsController::class, 'getProductVariants']);
     Route::get('/product_variants/{id}', [Product_VariantsController::class, 'getProductVariantID']);
@@ -99,6 +100,14 @@ Route::middleware('auth:api')->group(function(){
     Route::post('/payments', [PaymentController::class, 'createPayment']);
     Route::put('/payments/{id}', [PaymentController::class, 'updatePayment']);
     Route::delete('/payments/{id}', [PaymentController::class, 'deletePayment']);
+
+    //collections
+    Route::get('/collections', [CollectionController::class, 'getCollections']);
+    Route::get('/collections/{id}', [CollectionController::class, 'getCollectionID']);
+    Route::post('/collections', [CollectionController::class, 'createCollection']);
+    Route::put('/collections/{id}', [CollectionController::class, 'updateCollection']);
+    Route::delete('/collections/{id}', [CollectionController::class, 'deleteCollection']);
+    Route::get('/collections-home', [CollectionController::class, 'getCollectionHome']);
 
 });
  

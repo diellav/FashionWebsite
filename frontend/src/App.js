@@ -5,7 +5,7 @@ import HomePage from "./pages/HomePage";
 import Login from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import CreateCategoryForm from "./pages/dashboard/categories/CategoryForm";
-import TokenCheck from "./pages/TokenCheck";
+import TokenCheck from "./components/TokenCheck";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ResetPassword from "./pages/ResetPassword";
@@ -26,7 +26,6 @@ function ResetPasswordPage() {
 }
 
 function AppContent() {
-    TokenCheck();
     const[isAuthenticated,setIsAuthenticated]=useState(false);
     const [loading, setLoading] = useState(true);
     const[user,setUser]=useState(null);
@@ -66,6 +65,7 @@ function AppContent() {
     navigate('/login', { replace: true });
   };
 
+  TokenCheck(handleLogout);
   return (
     <div className="App">
       {loading ? (
