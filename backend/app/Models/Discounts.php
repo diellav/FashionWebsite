@@ -14,7 +14,6 @@ class Discounts extends Model
         'value',
         'type',
         'conditions',
-        'productID',
         'start_date',
         'end_date',
     ];
@@ -23,7 +22,14 @@ class Discounts extends Model
         'start_date'=>'date',
         'end_date'=>'date',
     ];
-    public function products(){
-        return $this->belongsTo(Product::class, 'productID');
-    }
+   public function products() {
+    return $this->belongsToMany(Product::class, 'discount_product', 'discount_id', 'product_id');
+}
+
+protected static function booted()
+{
+    static::deleting(function ($discount) {
+        $discount->products()->detach();
+    });
+}
 }

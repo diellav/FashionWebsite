@@ -79,7 +79,7 @@ function AppContent() {
       : role==='Customer'? <Navigate to='/home' replace/> : <Navigate to='/login' replace/>}/>
       <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} setUser={setUser}/>}/>
       <Route path="/register" element={<RegisterPage/>}/>
-      <Route path="/home" element={isAuthenticated? (<HomePage onLogout={handleLogout}/>):( <Navigate to="/login"/>)}/>
+      <Route path="/home" element={isAuthenticated? (<HomePage />):( <Navigate to="/login"/>)}/>
       <Route path="/categories" element={isAuthenticated? (<CreateCategoryForm/>):( <Navigate to="/login"/>)}/>
        <Route path="/reset-password" element={<ResetPasswordPage />} />
        <Route path="/password/forgot" element={<ForgotPassword />} />

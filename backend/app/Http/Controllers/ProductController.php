@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class ProductController extends Controller
 {
@@ -59,6 +60,13 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->delete();
         return response()->json(['message' => 'Product deleted successfully']);
+    }
+
+    public function getRecentProducts(){
+        $week=Carbon::now()->subDays(7);
+        $recent=Product::with(['category','discounts','variants'])
+        ->where('created_at','>=', $week)->orderBy('created_at','desc')->get();
+        return response()->json($recent);
     }
 
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Discounts;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class DiscountsController extends Controller
 {
@@ -19,12 +20,13 @@ class DiscountsController extends Controller
      public function createDiscount(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'value' => 'required|numeric',
-            'type' => 'required||string|in:fixed,percentage',
-            'conditions' => 'required|string|max:255',
-            'productID' => 'nullable|exists:products,id',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
+        'value' => 'required|numeric',
+        'type' => 'required|string|in:fixed,percentage',
+        'conditions' => 'required|string|max:255',
+        'productIDs' => 'nullable|array', 
+        'productIDs.*' => 'exists:products,id',
+        'start_date' => 'required|date',
+        'end_date' => 'required|date',
         ]);
 
         if ($validator->fails()) {
@@ -36,21 +38,24 @@ class DiscountsController extends Controller
             'value' => $request->get('value'),
             'type' => $request->get('type'),
             'conditions' => $request->get('conditions'),
-            'productID' => $request->get('productID'),
             'start_date' => $request->get('start_date'),
             'end_date' => $request->get('end_date'),
         ]);
-
-        return response()->json($discount, 201);
+if ($request->has('productIDs')) {
+        $discount->products()->attach($request->get('productIDs'));
+    }
+        return response()->json($discount->load('products'), 201);
     }
 
     public function updateDiscount(Request $request, $id) {
         $discount = Discounts::findOrFail($id);
 
         $discount->update($request->only([
-            'name','value', 'type', 'conditions', 'productID','start_date','end_date'
+            'name','value', 'type', 'conditions','start_date','end_date'
         ]));
-
+if ($request->has('productIDs')) {
+    $discount->products()->sync($request->get('productIDs'));
+}
         return response()->json($discount);
     }
     public function deleteDiscount($id) {
@@ -58,4 +63,16 @@ class DiscountsController extends Controller
         $discount->delete();
         return response()->json(['message' => 'Discount deleted successfully']);
     }
+
+public function getDealsOfTheWeek() {
+    $today = Carbon::today();
+    $discounts = Discounts::with('products')
+                  ->where('start_date', '<=', $today)
+                  ->where('end_date', '>=', $today)
+                  ->get();
+
+    return response()->json($discounts);
+
+}
+
 }

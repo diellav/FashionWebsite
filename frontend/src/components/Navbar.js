@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
 import '../template/Navbar.css';
 import SearchToggle from './SearchBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,7 +9,7 @@ const Navbar = ({ onLogout }) => {
   const role = localStorage.getItem('role');
   const user = JSON.parse(localStorage.getItem('user'));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const navigate=useNavigate();
   if (!user) return null;
 
   const toggleMobileMenu = (e) => {
@@ -22,7 +22,7 @@ const Navbar = ({ onLogout }) => {
   return (
     <nav className="navbar" onClick={closeMobileMenu}>
       <div className="navbar__list">
-        <p className="navbar__logo">UrbanGaze</p>
+        <p className="navbar__logo" onClick={()=>navigate('/home')}>UrbanGaze</p>
         <button
           className={`hamburger ${mobileMenuOpen ? 'open' : ''}`}
           onClick={toggleMobileMenu}

@@ -48,7 +48,8 @@ Route::middleware('auth:api')->group(function(){
     Route::post('/products', [ProductController::class, 'createProduct']);
     Route::put('/products/{id}', [ProductController::class, 'updateProduct']);
     Route::delete('/products/{id}', [ProductController::class, 'deleteProduct']);
-         
+    Route::get('/recent-products', [ProductController::class, 'getRecentProducts']);
+
     //product_variants
     Route::get('/product_variants', [Product_VariantsController::class, 'getProductVariants']);
     Route::get('/product_variants/{id}', [Product_VariantsController::class, 'getProductVariantID']);
@@ -62,6 +63,7 @@ Route::middleware('auth:api')->group(function(){
     Route::post('/discounts', [DiscountsController::class, 'createDiscount']);
     Route::put('/discounts/{id}', [DiscountsController::class, 'updateDiscount']);
     Route::delete('/discounts/{id}', [DiscountsController::class, 'deleteDiscount']);
+    Route::get('/deals-of-the-week', [DiscountsController::class, 'getDealsOfTheWeek']);
 
     //cart_items
     Route::get('/cart_items', [Cart_ItemsController::class, 'getCart_Items']);
