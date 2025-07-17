@@ -9,7 +9,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import FAQ from '../components/FAQ';
 const HomePage=()=>{
-    const[user,setUser]=useState(null);
   const navigate=useNavigate();
   const[recent,setRecent]=useState([]);
   const[deals,setDeals]=useState([]);
@@ -17,7 +16,6 @@ const HomePage=()=>{
   const[collection,setCollection]=useState([]);
    
     useEffect(() => {
-    fetchUser();
     fetchRecentProducts();
     fetchDeals();
     fetchBestSellerProducts();
@@ -57,15 +55,6 @@ const HomePage=()=>{
       console.error('Failed to fetch products', err);
     }
   };
-
-  const fetchUser=async ()=> {
-    const fakeUser = { name: "Test User", email: "test@example.com" };
-  setUser(fakeUser);
-  };
-
-  
-  
-
 
   return (
     <div>

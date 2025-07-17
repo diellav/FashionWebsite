@@ -88,7 +88,7 @@ body{
 .register button{
     font-size:large;
 }
-p{
+.register p, .form p{
     font-family: 'Crimson Text';
     font-size:large;
     text-align: center;

@@ -10,8 +10,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ResetPassword from "./pages/ResetPassword";
 import ForgotPassword from "./pages/ForgotPassword";
+import AboutUs from "./pages/AboutUs";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './template/Navbar.css';
 
 function ResetPasswordPage() {
   const query = new URLSearchParams(useLocation().search);
@@ -83,6 +83,7 @@ function AppContent() {
       <Route path="/categories" element={isAuthenticated? (<CreateCategoryForm/>):( <Navigate to="/login"/>)}/>
        <Route path="/reset-password" element={<ResetPasswordPage />} />
        <Route path="/password/forgot" element={<ForgotPassword />} />
+       <Route path="/aboutUs" element={<AboutUs />} />
     </Routes>
     {isAuthenticated && <Footer onLogout={handleLogout}/>}
     </>
