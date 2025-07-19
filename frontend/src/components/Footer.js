@@ -3,9 +3,6 @@ import { Link } from "react-router-dom";
 import '../template/Footer.css'
 const Footer = () => {
   const user = JSON.parse(localStorage.getItem("user"));
-  if (!user) {
-    return null;
-  }
 
   return (
     <>
@@ -33,17 +30,20 @@ const Footer = () => {
         </div>
     <br></br>
         <div className="links">
+          <p className="newLine">Information</p>
+          <Link to="/returns">Return Policy</Link>
+          <Link to="/privacy">Privacy</Link>
+        </div>
+        <br></br>
+    {user &&(
+        <div className="links">
           <p className="newLine">Your profile</p>
           <Link to="/profile">Profile</Link>
           <Link to="/orders">Orders</Link>
           <Link to="/questions">FAQ</Link>
         </div>
-<br></br>
-        <div className="links">
-          <p className="newLine">Information</p>
-          <Link to="/returns">Return Policy</Link>
-          <Link to="/privacy">Privacy</Link>
-        </div>
+    )}
+
       </div>
 
       <div id="liner">

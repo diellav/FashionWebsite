@@ -1,0 +1,73 @@
+import React, {useState} from "react";
+import axiosInstance from "../axios";
+import '../template/ContactUs.css';
+const ContactUs=()=>{
+    const[formData,setFormData]=useState({
+        first_name:'',
+        last_name:'',
+        email:'',
+        phone_number:'',
+        message:'',
+});
+
+    const[error, setError]=useState('');
+    const [success, setSuccess] = useState(false);
+    const handleChange=(e)=>{
+        setFormData({...formData, [e.target.name]: e.target.value});
+    };
+    const handleSubmit=async(e)=>{
+        e.preventDefault();
+        setError('');
+        try{
+            const res=await axiosInstance.post('/contacts',formData);
+            setSuccess(true);
+            setFormData({
+            first_name: '',
+            last_name: '',
+            email: '',
+            phone_number: '',
+            message: '',
+            }); 
+        }catch(err){
+            setError('Failed to send contact input', err);
+        }
+    };
+
+    return(
+        <div className='contact'>
+            <h1>Contact Us</h1>
+            <div className="contactForm">
+                <div className="contactsection">
+                    <form onSubmit={handleSubmit}>
+                    <input type='text' placeholder="First Name"
+                    value={formData.first_name} name='first_name'
+                    onChange={handleChange} required></input>
+                    <br></br>
+                    <input type='text' placeholder="Last Name"
+                    value={formData.last_name} name='last_name'
+                    onChange={handleChange} required></input>
+                    <br></br>
+                    <input type='email' placeholder="Email"
+                    value={formData.email} name='email'
+                    onChange={handleChange} required></input>
+                    <br></br>
+                    <input type='text' placeholder="Phone Number"
+                    value={formData.phone_number} name='phone_number'
+                    onChange={handleChange} required></input>
+                    <br></br>
+                    <textarea placeholder="Your Message..."
+                    value={formData.message} name='message'
+                    onChange={handleChange} required></textarea>
+                    <br></br>
+                    <button type='submit'>Send Message</button>
+                </form>
+                    {error && <p style={{color: 'red'}}>{error}</p>}
+                    {success && <p style={{color: 'green'}}>Message sent successfully!</p>}
+      <br/>
+                </div>
+            </div>
+            
+        </div>
+    );
+};
+export default ContactUs;

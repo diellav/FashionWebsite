@@ -10,8 +10,45 @@ use Carbon\Carbon;
 
 class ProductController extends Controller
 {
-    public function getProducts(){
+
+      public function getProducts(){
         return Product::with(['category', 'discounts', 'variants'])->get();
+      }
+
+    public function getProductsFilter(Request $request){
+        $query=Product::with(['category', 'discounts', 'variants']);
+
+        if($request->has('priceRange')){
+            $range=$request->get('priceRange');
+            if(is_array($range) && count($range)===2){
+                $query->whereBetween('price', [$range[0], $range[1]]);
+            }
+        }
+        if($request->has('categories')&& is_array($request->categories) && count($request->categories)>0){
+            $query->whereIn('categoryID',$request->categories );
+        }
+
+         if($request->has('sizes')&& is_array($request->sizes) && count($request->sizes)>0){
+            $query->whereHas('variants', function($sz)use($request){
+                $sz->whereIn('size', $request->sizes);
+            });
+        }
+
+        switch ($request->get('sortOption')) {
+        case 'price-asc':
+            $query->orderBy('price', 'asc');
+            break;
+        case 'price-desc':
+            $query->orderBy('price', 'desc');
+            break;
+        case 'newest':
+            $query->orderBy('created_at', 'desc');
+            break;
+        default:
+            $query->orderBy('created_at', 'desc');
+            break;
+        }
+        return response()->json($query->get());
     }
     public function getProductID($id){
         $product=Product::with(['category', 'discounts', 'variants'])->findOrFail($id);
@@ -66,7 +103,7 @@ class ProductController extends Controller
     public function getRecentProducts(){
         $week=Carbon::now()->subDays(7);
         $recent=Product::with(['category','discounts','variants'])
-        ->where('created_at','>=', $week)->orderBy('created_at','desc')->get();
+        ->where('created_at','>=', $week)->orderBy('created_at','desc')->limit(10)->get();
         return response()->json($recent);
     }
 

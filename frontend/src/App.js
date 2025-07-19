@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import {BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation} from 'react-router-dom';
 import axiosInstance from "./axios";
@@ -11,7 +12,9 @@ import Footer from "./components/Footer";
 import ResetPassword from "./pages/ResetPassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import AboutUs from "./pages/AboutUs";
+import ContactUs from "./pages/ContactUs";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ShopPage from "./pages/ShopPage";
 
 function ResetPasswordPage() {
   const query = new URLSearchParams(useLocation().search);
@@ -73,19 +76,20 @@ function AppContent() {
     ) : (
       <>
      
-    {isAuthenticated && <Navbar onLogout={handleLogout}/>}
+<Navbar user={user} onLogout={handleLogout}/>
     <Routes>
-      <Route path='/' element={role==='Admin'? <Navigate to='/dashboard' replace/> 
-      : role==='Customer'? <Navigate to='/home' replace/> : <Navigate to='/login' replace/>}/>
+      <Route path='/' element={<HomePage />}/>
       <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} setUser={setUser}/>}/>
       <Route path="/register" element={<RegisterPage/>}/>
-      <Route path="/home" element={isAuthenticated? (<HomePage />):( <Navigate to="/login"/>)}/>
+      <Route path="/home" element={<HomePage />}/>
       <Route path="/categories" element={isAuthenticated? (<CreateCategoryForm/>):( <Navigate to="/login"/>)}/>
        <Route path="/reset-password" element={<ResetPasswordPage />} />
        <Route path="/password/forgot" element={<ForgotPassword />} />
        <Route path="/aboutUs" element={<AboutUs />} />
+       <Route path="/contactUs" element={<ContactUs />} />
+       <Route path="/products/filter" element={<ShopPage />} />
     </Routes>
-    {isAuthenticated && <Footer onLogout={handleLogout}/>}
+<Footer user={user}/>
     </>
  )}
     </div>
@@ -99,3 +103,5 @@ export default function App(){
     </Router>
   );
 }
+
+ 

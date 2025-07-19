@@ -1,0 +1,81 @@
+body{
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    align-items: center;   
+}
+
+.contact{
+    display: flex;
+    flex-direction: column; 
+    height:100%;
+    width:100%;
+    align-items: center;
+    justify-content: center;
+    background-color:#e8e7e6;
+    padding: 6%;
+}
+.contactForm{
+    display: flex;
+    flex-direction: column;
+    height:auto;
+    background-color:#e8e7e6;
+    justify-content: center;
+    align-items: center;
+    width:70%;
+}
+.contact h1{
+    color: #3C1800;
+    text-align: center;
+}
+.contactsection{
+    background-color:#e8e7e6;
+    align-self: center;
+    justify-self: center;
+    padding:4%;
+    width:80%;
+    justify-content: center;
+}
+form{
+    justify-self: center;
+    width:100%;
+}
+.contactsection input[type="email"], .contactsection input[type="text"], .contactsection textarea{
+    margin:15px 10px;
+    width: 97%;
+    padding: 3%;
+    border: 1px solid #6c6c6c; 
+    box-shadow: 2px 2px 3px 3px #130800;
+    box-sizing: border-box;
+    border-radius: 30px;
+    font-size:larger;
+    font-family: 'Crimson Text';
+    text-align: start;
+    text-indent: 10px;
+}
+.contactsection button{
+   margin:10px;
+    width: 97%;
+   padding: 2%;
+   border-radius: 30px;
+    font-family: 'Crimson Text';
+    border: 1px solid #343434;
+    box-shadow: 2px 2px 3px 3px #130800;
+    font-size:x-large;
+    justify-content: center;
+    color:rgb(255, 255, 255);
+    background-color: #7d605b;
+}
+.contactsection p{
+    font-family: 'Crimson Text';
+    font-size:large;
+    text-align: center;
+    color: rgb(247, 247, 247);
+}
+
+@media (max-width: 750px){
+    .contactForm{
+        width:100%;
+    }
+}

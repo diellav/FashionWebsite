@@ -20,7 +20,6 @@ class CategoryController extends Controller
      public function createCategory(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'subcategory' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'required|string|max:255',
             'parentID' => 'nullable|exists:categories,id',
@@ -32,7 +31,6 @@ class CategoryController extends Controller
 
         $category = Category::create([
             'name' => $request->get('name'),
-            'subcategory' => $request->get('subcategory'),
             'description' => $request->get('description'),
             'image' => $request->get('image'),
             'parentID' => $request->get('parentID'),
@@ -45,7 +43,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
 
         $category->update($request->only([
-            'name','subcategory', 'description', 'image', 'parentID'
+            'name', 'description', 'image', 'parentID'
         ]));
 
         return response()->json($category);

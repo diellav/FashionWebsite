@@ -19,12 +19,13 @@ const HomePage=()=>{
     fetchRecentProducts();
     fetchDeals();
     fetchBestSellerProducts();
-    fecthCollection();
+    fetchCollection();
       }, []);
 
   const fetchRecentProducts=async()=>{
     try{
     const res=await axiosInstance.get('/recent-products');
+     console.log('recent products:', res.data);
     setRecent(res.data);
     }catch(err){
       console.error('Failed to fetch products', err);
@@ -47,7 +48,7 @@ const HomePage=()=>{
     }
   };
   
-   const fecthCollection=async()=>{
+   const fetchCollection=async()=>{
     try{
     const res=await axiosInstance.get('/collections-home');
     setCollection(res.data);

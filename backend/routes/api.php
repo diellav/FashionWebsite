@@ -16,14 +16,22 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\ContactController;
 
-
-Route::post('/login',[AuthController::class,'login']);
-Route::post('/register',[AuthController::class,'register']);
+    Route::post('/login',[AuthController::class,'login']);
+    Route::post('/register',[AuthController::class,'register']);
     // routes/api.php
     Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
     Route::post('/password/reset', [ResetPasswordController::class, 'reset']);
-    
+    //home
+    Route::get('/products', [ProductController::class, 'getProducts']);
+    Route::get('/products/filter', [ProductController::class, 'getProductsFilter']);
+    Route::post('/contacts', [ContactController::class, 'createContact']);
+    Route::get('/recent-products', [ProductController::class, 'getRecentProducts']);
+    Route::get('/best-products', [ProductController::class, 'getBestSellers']);
+    Route::get('/collections-home', [CollectionController::class, 'getCollectionHome']);
+    Route::get('/deals-of-the-week', [DiscountsController::class, 'getDealsOfTheWeek']);
+    Route::get('/categories', [CategoryController::class, 'getCategorys']);
 
 Route::middleware('auth:api')->group(function(){
     Route::get('/me',[AuthController::class,'me']);
@@ -37,20 +45,17 @@ Route::middleware('auth:api')->group(function(){
     Route::delete('/users/{id}', [UserController::class, 'deleteUser']);
 
     //categories
-    Route::get('/categories', [CategoryController::class, 'getCategorys']);
     Route::get('/categories/{id}', [CategoryController::class, 'getCategoryID']);
     Route::post('/categories', [CategoryController::class, 'createCategory']);
     Route::put('/categories/{id}', [CategoryController::class, 'updateCategory']);
     Route::delete('/categories/{id}', [CategoryController::class, 'deleteCategory']);
 
      //products
-    Route::get('/products', [ProductController::class, 'getProducts']);
     Route::get('/products/{id}', [ProductController::class, 'getProductID']);
     Route::post('/products', [ProductController::class, 'createProduct']);
     Route::put('/products/{id}', [ProductController::class, 'updateProduct']);
     Route::delete('/products/{id}', [ProductController::class, 'deleteProduct']);
-    Route::get('/recent-products', [ProductController::class, 'getRecentProducts']);
-    Route::get('/best-products', [ProductController::class, 'getBestSellers']);
+
     //product_variants
     Route::get('/product_variants', [Product_VariantsController::class, 'getProductVariants']);
     Route::get('/product_variants/{id}', [Product_VariantsController::class, 'getProductVariantID']);
@@ -64,7 +69,6 @@ Route::middleware('auth:api')->group(function(){
     Route::post('/discounts', [DiscountsController::class, 'createDiscount']);
     Route::put('/discounts/{id}', [DiscountsController::class, 'updateDiscount']);
     Route::delete('/discounts/{id}', [DiscountsController::class, 'deleteDiscount']);
-    Route::get('/deals-of-the-week', [DiscountsController::class, 'getDealsOfTheWeek']);
 
     //cart_items
     Route::get('/cart_items', [Cart_ItemsController::class, 'getCart_Items']);
@@ -107,8 +111,11 @@ Route::middleware('auth:api')->group(function(){
     Route::post('/collections', [CollectionController::class, 'createCollection']);
     Route::put('/collections/{id}', [CollectionController::class, 'updateCollection']);
     Route::delete('/collections/{id}', [CollectionController::class, 'deleteCollection']);
-    Route::get('/collections-home', [CollectionController::class, 'getCollectionHome']);
 
+    //contact
+    Route::get('/contacts', [ContactController::class, 'getContacts']);
+    Route::get('/contacts/{id}', [ContactController::class, 'getContactID']);
+    Route::put('/contacts/{id}', [ContactController::class, 'updateContact']);
+    Route::delete('/contacts/{id}', [ContactController::class, 'deleteContact']);
 });
  
-

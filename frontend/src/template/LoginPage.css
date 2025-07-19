@@ -3,7 +3,7 @@ body{
     padding: 0;
     height: 100vh;
     width: 100vw;
-    background-color: #3C1800;
+    background-color:#55321a;
     align-items: center;   
 }
 .form h2 ,.register h2{
@@ -27,13 +27,13 @@ body{
     display: flex;
     flex-direction: column;
    height:100vh;
-   background-color:#3C1800;
+   background-color:#55321a;
     justify-content: center;
     align-items: center;
     width:50%;
 }
 .form, .register{
-    background-color:#3C1800;
+    background-color:#55321a;
     align-self: center;
     justify-self: center;
     padding: 20% 8%;

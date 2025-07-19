@@ -57,40 +57,104 @@ nav ul li a:hover {
   cursor: pointer;
 }
 
-.navbar__dropdown:hover .navbar__dropdown-menu {
+.navbar__dropdown:hover .navbar__dropdown-menu{
   display: block;
 }
 
 .nav__list .navbar__dropdown-menu {
   display: none;
   position: absolute;
-  top: 30px;
+  top: 80%;
   left: 0;
   background-color: #f4eeed;
-  border: 1px solid #ddd;
   border-radius: 5px;
   list-style: none;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+ box-shadow: none;
   z-index: 10;
   min-width: 160px;
-  padding:4px 0px;
 }
 .navbar__dropdown-menu li a {
   text-decoration: none;
   color: #555555;
   display: block;
   transition: background 0.2s;
-
+  line-height: 1;
+  padding:13%;
+  font-size: large;
 }
 
 .navbar__dropdown-menu li a:hover {
   color:#3C1800;
 }
-.navbar__dropdown-menu li {
-  padding: 4px 12px;
-  line-height: 0.3;
+.navbar__item--products {
+  position: static;
 }
 
+.mega-menu-wrapper {
+  position: absolute;
+  top:65%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background-color: #f4eeed;
+  box-shadow: none;
+  display: none;
+  z-index: 1000;
+  padding: 20px 0;
+}
+
+.navbar__item--products:hover .mega-menu-wrapper {
+  display: block;
+}
+
+.mega-menu {
+  max-width: 100%;
+  margin: 0 auto;
+  padding:0% 10%;
+}
+.mega-menu-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.mega-menu-section {
+  width:15%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.mega-menu-section h4 {
+  font-size: large;
+  margin-bottom: 10px;
+  color: #3C1800;
+}
+
+.mega-menu-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width:100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.mega-menu-section ul li {
+  margin-bottom: 8px;
+}
+
+.mega-menu-section ul li a {
+  text-decoration: none;
+  color: #555555;
+  transition: color 0.3s;
+  font-size: 18px;
+}
+
+.mega-menu-section ul li a:hover {
+  color: #3C1800;
+}
 
 .search-container {
   position: relative;
@@ -144,7 +208,6 @@ nav ul li a:hover {
   margin: 0 10px;
 }
 
-
 .message {
   display: none;
   position: absolute;
@@ -163,6 +226,10 @@ nav ul li a:hover {
 .icon-wrapper:hover .message {
   display: block;
 }
+
+
+
+
 
 .hamburger {
   display: none;
