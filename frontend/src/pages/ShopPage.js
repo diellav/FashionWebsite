@@ -10,11 +10,18 @@ import { faHeart as faHeartRegular} from '@fortawesome/free-regular-svg-icons'
 
 const ShopPage = () => {
   const [products, setProducts] = useState([]);
+   const navigate=useNavigate();
+  const location=useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const initialCategory = searchParams.get("category") || null;
+  const initialSubcategory = searchParams.get("subcategory") || null;
   const [filters, setFilters] = useState({
     priceRange: [0, 1000],
     categories: [],
     sizes: [],
-    sortOption: 'featured'
+    sortOption: 'featured',
+    category: initialCategory,
+    subcategory: initialSubcategory
   });
   const [showFilters, setShowFilters] = useState(false);
   const [error, setError] = useState('');
@@ -23,31 +30,31 @@ const ShopPage = () => {
   const limit = 20;
   const[totalPages,setTotalPages]=useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const navigate=useNavigate();
-  const location=useLocation();
   const user=localStorage.getItem('user');
+  
 
-    useEffect(() => {
+useEffect(() => {
   localStorage.setItem('wishlist', JSON.stringify(wishlist));
 }, [wishlist]);
 
   useEffect(() => {
   const storedWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-  console.log("Loaded wishlist from localStorage:", storedWishlist);
   setWishlist(storedWishlist);
 }, []);
 
 
   useEffect(() => {
-  const searchParams = new URLSearchParams(location.search);
-  const category = searchParams.get("category");
-  const subcategory = searchParams.get("subcategory");
+    const searchParams = new URLSearchParams(location.search);
+    const category = searchParams.get("category") || null;
+    const subcategory = searchParams.get("subcategory") || null;
 
-  const newfilters={...filters,};
-  if(category) newfilters.category=category;
-  if(subcategory) newfilters.subcategory=subcategory;
-  setFilters(newfilters);
-}, [location.search, currentPage]);
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      category,
+      subcategory
+    }));
+    setCurrentPage(1);
+}, [location.search]);
 
   useEffect(() => {
     fetchCategories();
@@ -78,8 +85,15 @@ const ShopPage = () => {
   };
 
   const handleFilterApply = (appliedFilters) => {
-    setFilters(appliedFilters);
+     const updatedFilters = { ...filters, ...appliedFilters };
+    setFilters(updatedFilters);
     setShowFilters(false);
+    const params = new URLSearchParams();
+    if (updatedFilters.category) params.set("category", updatedFilters.category);
+    if (updatedFilters.subcategory) params.set("subcategory", updatedFilters.subcategory);
+
+    navigate({ search: params.toString() });
+    setCurrentPage(1);
   };
   const handlePageChange=(pageNumber)=>{
     setCurrentPage(pageNumber);
@@ -88,6 +102,7 @@ const ShopPage = () => {
     return wishlist.includes(productId);
   };
 
+  
   const fetchCategories=async()=>{
     try{
       const res=await axiosInstance.get('/categories');
@@ -98,17 +113,29 @@ const ShopPage = () => {
     }
   };
 
-   const getDescriptions=()=>{
-    if(filters.subcategory){
-      const sub=categories.find(cat=>cat.name===filters.subcategory);
-      if(sub) return sub.description;
+const getDescriptions = () => {
+  if (filters.subcategory && filters.category) {
+    const category = categories.find(cat => cat.name.toLowerCase() === filters.category.toLowerCase() );
+    if (category) {
+      const sub = categories.find(cat =>cat.name.toLowerCase() === filters.subcategory.toLowerCase() 
+      && cat.parentID === category.id);
+      if (sub) return sub.description;
     }
-    if(filters.category){
-      const cat=categories.find(cat=>cat.name===filters.category);
-      if(cat) return cat.description;
-    }
-    return 'Browse our latest products across all categories.';
-  };
+  }
+  if (filters.category) {
+    const cat = categories.find( cat => cat.name.toLowerCase() === filters.category.toLowerCase() 
+    && cat.parentID === null);
+    if (cat) return cat.description;
+  }
+  return 'Browse our latest products across all categories.';
+};
+  const selectedCategory = categories.find(
+    (cat) => cat.name.toLowerCase() === filters.category?.toLowerCase() && cat.parentID === null
+  );
+
+  const selectedSubcategory = categories.find(
+    (cat) => cat.name.toLowerCase() === filters.subcategory?.toLowerCase() && cat.parentID === selectedCategory?.id
+  );
 
   const toggleWishlist=async(product)=>{
     try{
@@ -170,11 +197,12 @@ const ShopPage = () => {
           Discover the latest arrivals in fashion, accessories, and tech. Use filters to find the perfect match based on your budget and preferences.
         </p>
       <div className="main_cart">
-          <h3>New Arrivals</h3>
+           <h3>{selectedSubcategory? selectedSubcategory.name.toUpperCase(): 
+           selectedCategory? selectedCategory.name.toUpperCase(): "ALL PRODUCTS"}</h3>
           <h5>{categories.length>0?
           getDescriptions(): 'Loading description...'}</h5>
-          <h5>{filters.subcategory? 
-          `${filters.category} > ${filters.subcategory}` : `${filters.category}`}</h5>
+          <h6>{filters.subcategory? 
+          `${filters.category} > ${filters.subcategory}` : ``}</h6>
           <div className="product-summary">
             <p>{products.length} items found</p>
           </div>
