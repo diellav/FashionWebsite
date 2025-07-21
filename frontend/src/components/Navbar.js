@@ -1,14 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link , useNavigate} from 'react-router-dom';
 import '../template/Navbar.css';
 import SearchToggle from './SearchBar';
+import axiosInstance from '../axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as faHeartRegular} from '@fortawesome/free-regular-svg-icons'
 import {faCartShopping} from '@fortawesome/free-solid-svg-icons'
 const Navbar = ({user, onLogout }) => {
   const role = localStorage.getItem('role');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
   const navigate=useNavigate();
+
+  useEffect(() => {
+  const fetchCategories = async () => {
+    try {
+      const res = await axiosInstance.get("/categories");
+      setCategories(res.data);
+    } catch (err) {
+      console.error("Error fetching categories", err);
+    }
+  };
+  fetchCategories();
+}, []);
+const parentCategories = categories.filter(cat => cat.parentID === null);
 
   const toggleMobileMenu = (e) => {
     e.stopPropagation();
@@ -40,61 +55,33 @@ const Navbar = ({user, onLogout }) => {
                <Link to="/products">Shop</Link>
              ) : (
           <li className="navbar__item navbar__item--products">
-          <Link to="/products/filter">Shop</Link>
+          <a href="/products/filter" id='link'>Shop</a>
           <div className='navbar__list'>
             <div className="mega-menu-wrapper">
               <div className="mega-menu">
                 <div className="mega-menu-content">
-                  <div className="mega-menu-section">
-                    <h4>Women</h4>
-                    <ul>
-                      <li><Link to="/products/women/dresses">Dresses</Link></li>
-                      <li><Link to="/products/women/tops">Tops & Blouses</Link></li>
-                      <li><Link to="/products/women/pants">Pants & Skirts</Link></li>
-                      <li><Link to="/products/women/jeans">Jeans</Link></li>
-                      <li><Link to="/products/women/jackets">Jackets & Coats</Link></li>
-                      <li><Link to="/products/women/shoes">Shoes</Link></li>
-                    </ul>
-                  </div>
-
-                  <div className="mega-menu-section">
-                    <h4>Men</h4>
-                    <ul>
-                       <li><Link to="/products/men/shirts">Shirts</Link></li>
-                        <li><Link to="/products/men/t-shirts">T-Shirts</Link></li>
-                        <li><Link to="/products/men/jackets">Jackets & Coats</Link></li>
-                        <li><Link to="/products/men/hoodies">Hoodies & Sweatshirts</Link></li>
-                        <li><Link to="/products/men/jeans">Jeans</Link></li>
-                        <li><Link to="/products/men/shoes">Shoes</Link></li>
-                    </ul>
-                  </div>
-
-                  <div className="mega-menu-section">
-                    <h4>Accessories</h4>
-                    <ul>
-                    <li><Link to="/products/accessories/watches">Watches</Link></li>
-                      <li><Link to="/products/accessories/bags">Bags</Link></li>
-                      <li><Link to="/products/accessories/jewelry">Jewelry</Link></li>
-                      <li><Link to="/products/accessories/hats">Hats</Link></li>
-                      <li><Link to="/products/accessories/sunglasses">Sunglasses</Link></li>
-                    </ul>
-                  </div>
-                  <div className="mega-menu-section">
-                    <h4>Shoes</h4>
-                    <ul>
-                      <li><Link to="/products/shoes/sneakers">Sneakers</Link></li>
-                      <li><Link to="/products/shoes/heels">Heels</Link></li>
-                      <li><Link to="/products/shoes/boots">Boots</Link></li>
-                      <li><Link to="/products/shoes/sandals">Sandals</Link></li>
-                    </ul>
-                  </div>
-                  <div className="mega-menu-section">
-                    <h4>Happening Now</h4>
-                    <ul>
-                      <li><Link to="/products/sale">Sale</Link></li>
-                      <li><Link to="/products">New Arrivals</Link></li>
-                    </ul>
-                  </div>
+            {parentCategories.map(parent => (
+            <div className="mega-menu-section" key={parent.id}>
+              <h4 onClick={() => navigate(`/products/filter?category=${encodeURIComponent(parent.name.toLowerCase())}`)}>
+                {parent.name}
+              </h4>
+              <ul>
+                {parent.children.map(child => (
+                  <li key={child.id}>
+                    <Link to={`/products/filter?category=${encodeURIComponent(parent.name.toLowerCase())}&subcategory=${encodeURIComponent(child.name.toLowerCase())}`}>
+                      {child.name}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+              <div className="mega-menu-section">
+                <h4>Happening Now</h4>
+                <ul>
+                  <li><Link to="/products/sale">Sale</Link></li>
+                  <li><Link to="/products">New Arrivals</Link></li>
+                </ul>
+              </div>
                 </div>
               </div>
               </div>

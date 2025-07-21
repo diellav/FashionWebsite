@@ -88,6 +88,7 @@ function AppContent() {
        <Route path="/aboutUs" element={<AboutUs />} />
        <Route path="/contactUs" element={<ContactUs />} />
        <Route path="/products/filter" element={<ShopPage />} />
+       <Route path="/wishlist" />
     </Routes>
 <Footer user={user}/>
     </>

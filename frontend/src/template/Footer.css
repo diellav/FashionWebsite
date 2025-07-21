@@ -1,6 +1,7 @@
 .foot{
     height:100%;
     background-color:#3C1800;
+    
 }
 .footer {
     display: flex;
@@ -9,7 +10,7 @@
     border-top: solid #3C1800;
     align-items: center;
     height:auto;
-   
+    font-family: 'Josefin Sans';
 }
   
     .links{
@@ -25,10 +26,8 @@
         text-decoration: none;
         color: rgb(192, 192, 192);
         font-size: medium;
-        font-family: 'Crimson Text'; 
     }
    .links p{ 
-        font-family: 'Crimson Text'; 
         font-size: larger;
         color: white;
         line-height: 0.4;
@@ -46,7 +45,6 @@
         height:10%;
         padding:2%;
         flex-wrap: wrap;
-        font-family: 'Crimson Text'; 
     
     }
     #urban{
@@ -62,8 +60,7 @@
         width:100%;
         line-height: 1.6;
         flex-wrap: wrap;
-    font-family: 'Crimson Text'; 
-    color: #c3a6a0;
+        color: #c3a6a0;
     }
     
     .line{
@@ -76,7 +73,6 @@
         padding:1%;
     }
     .end{
-        font-family: 'Crimson Text';
         color: #ffffff;
     }
     

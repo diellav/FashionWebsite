@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -30,7 +31,7 @@ class OrderController extends Controller
         }
 
         $order = Order::create([
-            'userID' => $request->get('userID'),
+            'userID' => Auth::id(),
             'total_price' => $request->get('total_price'),
             'shipping_address' => $request->get('shipping_address'),
             'payment_method' => $request->get('payment_method'),

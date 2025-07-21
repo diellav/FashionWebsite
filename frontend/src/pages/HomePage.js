@@ -65,7 +65,7 @@ const HomePage=()=>{
         <div className="text">
         <p>Welcome to Urban Gaze, where modern minimalism meets effortless sophistication.</p>
         <p id='secondText'>Crafted for the city, tailored for distinction.</p>
-        <button onClick={()=>navigate('/products')}>Shop Now!</button>
+        <button onClick={()=>navigate('/products/filter')}>Shop Now!</button>
         </div>
       </div>
       </div>
@@ -121,7 +121,7 @@ const HomePage=()=>{
         <div className="main_arrivals">
          <h3>New Arrivals</h3>
           <div className="arrivals">
-             <p onClick={()=>navigate('/products')} id='allproducts'>See all products...</p>
+             <p onClick={()=>navigate('/products/filter')} id='allproducts'>See all products...</p>
           {recent.length>0 ? (
             <Slider
               dots={true}

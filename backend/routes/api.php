@@ -17,6 +17,7 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\WishlistController;
 
     Route::post('/login',[AuthController::class,'login']);
     Route::post('/register',[AuthController::class,'register']);
@@ -117,5 +118,13 @@ Route::middleware('auth:api')->group(function(){
     Route::get('/contacts/{id}', [ContactController::class, 'getContactID']);
     Route::put('/contacts/{id}', [ContactController::class, 'updateContact']);
     Route::delete('/contacts/{id}', [ContactController::class, 'deleteContact']);
+
+    //wishlist
+    Route::get('/wishlists', [WishlistController::class, 'getWishlists']);           
+    Route::get('/wishlists/{id}', [WishlistController::class, 'getWishlistID']);    
+    Route::post('/wishlists', [WishlistController::class, 'createWishlist']);        
+    Route::put('/wishlists/{id}', [WishlistController::class, 'updateWishlist']);    
+    Route::delete('/wishlists/{id}', [WishlistController::class, 'deleteWishlist']); 
+
 });
  

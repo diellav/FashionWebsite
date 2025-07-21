@@ -18,6 +18,33 @@ class ProductController extends Controller
     public function getProductsFilter(Request $request){
         $query=Product::with(['category', 'discounts', 'variants']);
 
+
+        //per ndarjen ne navbar:
+        if($request->has('category')){
+            $categoryName=strtolower($request->get('category'));
+
+            $parent=DB::table('categories')->whereRaw('LOWER(name)=?', [$categoryName])->first();
+            if($parent){
+                if($request->has('subcategory')){
+                    $subcategoryName=strtolower($request->get('subcategory'));
+                    $subcategory=DB::table('categories')->whereRaw('LOWER(name)=?', [$subcategoryName])->where('parentID', $parent->id)->first();
+
+                    if($subcategory){
+                         $categoryIDs=collect([$subcategory->id]);
+                    }else{
+                        $categoryIDs = DB::table('categories')->where('parentID', $parent->id)->pluck('id');
+                    }
+                }else{
+                    $categoryIDs = DB::table('categories')->where('parentID', $parent->id)->pluck('id');
+                }
+                
+            if($categoryIDs->isEmpty()){
+                $categoryIDs=collect([$parent->id]);
+            }
+            $query->whereIn('categoryID', $categoryIDs);
+            }
+        }
+
         if($request->has('priceRange')){
             $range=$request->get('priceRange');
             if(is_array($range) && count($range)===2){
@@ -48,7 +75,17 @@ class ProductController extends Controller
             $query->orderBy('created_at', 'desc');
             break;
         }
-        return response()->json($query->get());
+
+        $limit = $request->get('limit', 20);
+        $page = $request->get('page', 1);
+        $paginated = $query->paginate($limit, ['*'], 'page', $page);
+
+        return response()->json([
+        'products' => $paginated->items(),
+        'totalPages' => $paginated->lastPage(),
+        'currentPage' => $paginated->currentPage(),
+        'totalItems' => $paginated->total(),
+]);
     }
     public function getProductID($id){
         $product=Product::with(['category', 'discounts', 'variants'])->findOrFail($id);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
@@ -30,7 +31,7 @@ class PaymentController extends Controller
         }
 
         $payment = Payment::create([
-            'userID' => $request->get('userID'),
+            'userID' => Auth::id(),
             'orderID' => $request->get('orderID'),
             'total_price' => $request->get('total_price'),
             'payment_status' => $request->get('payment_status'),

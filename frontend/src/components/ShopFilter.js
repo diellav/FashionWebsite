@@ -50,10 +50,17 @@ const ShopFilter=({onFilterApply})=>{
     };
     
     const handleResetFilters=()=>{
+      const defaultFilters={
+        priceRange:[0,1000],
+        categories:[],
+        sizes:[],
+        sortOption:'featured'
+      };
         setSelectedCategories([]);
         setSelectedSizes([]);
         setPriceRange([0,1000]);
         setSortOption('featured');
+        onFilterApply(defaultFilters);
     };
   
      if (loading) return <div className="filters-loading">Loading filters...</div>;

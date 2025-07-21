@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -26,7 +27,7 @@ class CartController extends Controller
         }
 
         $cart = Cart::create([
-            'userID' => $request->get('userID'),
+            'userID' => Auth::id()
         ]);
 
         return response()->json($cart, 201);

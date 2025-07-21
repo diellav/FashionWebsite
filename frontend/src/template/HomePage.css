@@ -5,6 +5,7 @@ body {
     width: 100vw;
     background-color: #fff4f2;
     align-items: center;  
+    font-family: 'Josefin Sans';
 }
 
 .main{
@@ -40,14 +41,12 @@ body {
 .text p{
     color:black;
     font-size: 25px;
-    font-family: 'Crimson Text'
 }
 .text button,
 .formNewsletter button{
    width: 30%;
    padding: 2%;
    border-radius: 30px;
-    font-family: 'Crimson Text';
     border: 1px solid #343434;
     box-shadow: 2px 2px 3px 3px #695546;
     font-size:medium;
@@ -114,7 +113,6 @@ body {
 .products .box p{
      margin-top:2%;
     font-size: larger;
-    font-family: 'Crimson Text';
     width:60%;
     color: #311001;
 }
@@ -161,7 +159,6 @@ hr{
 }
 .arrivals #allproducts{
      width: fit-content;
-    font-family: 'Crimson Text';
    color:#4b1802;
    font-size: x-large;
    font-style: italic;
@@ -170,24 +167,26 @@ hr{
     margin-right: 2%;
 }
 .product-slide {
-  padding: 15px;
   text-align: center;
   background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 5px;
   margin: 10px;
   width: 200px; 
-  height: 350px;
+  height: 400px;
+  text-align: start;
+  padding:1%;
 }
-.product-slide img {
+.product-slide img{
   width: 100%;
-  height: 220px;
+  height: 280px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 5px;
   margin-bottom:1%;
 }
 .product-slide p{
     color:black;
+    text-align: start;
+    padding:1%;
 }
 
 
@@ -214,7 +213,7 @@ hr{
   padding: 2%;
   text-align: center;
   background-color: #fff;
-  border-radius: 12px;
+  border-radius: 5px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   margin: 10px;
   width: 200px; 
@@ -227,7 +226,7 @@ hr{
 .discount-slide img {
   width: 100%;
   height: 550px;
-  border-radius: 8px;
+  border-radius: 5px;
   margin-bottom:1%;
   display: block;
   object-fit:cover;
@@ -274,7 +273,7 @@ hr{
     object-fit:cover;
      width:80vw;
      height:70vh;
-     border-radius: 15px;
+     border-radius: 5px;
      box-shadow: 8px 8px 8px rgba(5, 5, 5, 0.5);
      margin: 4% 0%;
 }
@@ -287,11 +286,9 @@ hr{
 .collection p{
     color:black;
     font-size: 25px;
-    font-family: 'Crimson Text'
 }
 .collection h3{
     color: #4b1802;
-  font-family: 'Crimson Text';
   font-weight: 600;
 }
 

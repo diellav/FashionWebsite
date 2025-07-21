@@ -4,6 +4,7 @@ body{
     height: 100vh;
     width: 100vw;
     align-items: center;   
+    
 }
 
 .contact{
@@ -15,6 +16,7 @@ body{
     justify-content: center;
     background-color:#e8e7e6;
     padding: 6%;
+     font-family: 'Josefin Sans';
 }
 .contactForm{
     display: flex;
@@ -24,6 +26,7 @@ body{
     justify-content: center;
     align-items: center;
     width:70%;
+    
 }
 .contact h1{
     color: #3C1800;
@@ -40,6 +43,7 @@ body{
 form{
     justify-self: center;
     width:100%;
+    
 }
 .contactsection input[type="email"], .contactsection input[type="text"], .contactsection textarea{
     margin:15px 10px;
@@ -50,7 +54,6 @@ form{
     box-sizing: border-box;
     border-radius: 30px;
     font-size:larger;
-    font-family: 'Crimson Text';
     text-align: start;
     text-indent: 10px;
 }
@@ -59,7 +62,6 @@ form{
     width: 97%;
    padding: 2%;
    border-radius: 30px;
-    font-family: 'Crimson Text';
     border: 1px solid #343434;
     box-shadow: 2px 2px 3px 3px #130800;
     font-size:x-large;
@@ -68,7 +70,6 @@ form{
     background-color: #7d605b;
 }
 .contactsection p{
-    font-family: 'Crimson Text';
     font-size:large;
     text-align: center;
     color: rgb(247, 247, 247);
