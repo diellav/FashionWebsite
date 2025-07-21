@@ -52,10 +52,10 @@ const parentCategories = categories.filter(cat => cat.parentID === null);
           <ul>
             <li><Link to="/home">Home</Link></li>
              {mobileMenuOpen? (
-               <Link to="/products">Shop</Link>
+               <li><Link to="/products/filter">Shop</Link></li>
              ) : (
           <li className="navbar__item navbar__item--products">
-          <a href="/products/filter" id='link'>Shop</a>
+          <li><Link to="/products/filter">Shop</Link></li>
           <div className='navbar__list'>
             <div className="mega-menu-wrapper">
               <div className="mega-menu">

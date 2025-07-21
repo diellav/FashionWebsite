@@ -68,10 +68,10 @@ const Login = ({setIsAuthenticated,setUser}) => {
       {success && <p style={{color: 'green'}}>Login successful!</p>}
       <br/>
       <p>
-        Don't have account? <Link to="/register" id="link">Register</Link>
+        Don't have account? <Link to="/register" id="links">Register</Link>
       </p>
        <p>
-        Forgot Password? <Link to="/password/forgot" id="link">Reset</Link>
+        Forgot Password? <Link to="/password/forgot" id="links">Reset</Link>
       </p>
       </div>
       </div>

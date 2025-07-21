@@ -18,6 +18,7 @@ const ShopPage = () => {
   });
   const [showFilters, setShowFilters] = useState(false);
   const [error, setError] = useState('');
+  const [categories, setCategories] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const limit = 20;
   const[totalPages,setTotalPages]=useState(null);
@@ -36,10 +37,7 @@ const ShopPage = () => {
   setWishlist(storedWishlist);
 }, []);
 
-  useEffect(() => {
-    fetchFilteredProducts(filters,currentPage);
-  }, [filters,currentPage]);
-  
+
   useEffect(() => {
   const searchParams = new URLSearchParams(location.search);
   const category = searchParams.get("category");
@@ -49,9 +47,15 @@ const ShopPage = () => {
   if(category) newfilters.category=category;
   if(subcategory) newfilters.subcategory=subcategory;
   setFilters(newfilters);
-  fetchFilteredProducts(newfilters,currentPage);
 }, [location.search, currentPage]);
 
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    fetchFilteredProducts(filters, currentPage);
+  }, [filters, currentPage]);
 
   const fetchFilteredProducts = async (filterData, page=1) => {
     try {
@@ -83,6 +87,29 @@ const ShopPage = () => {
   const isInWishlist=(productId)=>{
     return wishlist.includes(productId);
   };
+
+  const fetchCategories=async()=>{
+    try{
+      const res=await axiosInstance.get('/categories');
+      setCategories(res.data);
+      console.log('Categories',res.data)
+    }catch(err){
+      setError('Failed to fetch categories',err);
+    }
+  };
+
+   const getDescriptions=()=>{
+    if(filters.subcategory){
+      const sub=categories.find(cat=>cat.name===filters.subcategory);
+      if(sub) return sub.description;
+    }
+    if(filters.category){
+      const cat=categories.find(cat=>cat.name===filters.category);
+      if(cat) return cat.description;
+    }
+    return 'Browse our latest products across all categories.';
+  };
+
   const toggleWishlist=async(product)=>{
     try{
         if(!user){
@@ -144,6 +171,10 @@ const ShopPage = () => {
         </p>
       <div className="main_cart">
           <h3>New Arrivals</h3>
+          <h5>{categories.length>0?
+          getDescriptions(): 'Loading description...'}</h5>
+          <h5>{filters.subcategory? 
+          `${filters.category} > ${filters.subcategory}` : `${filters.category}`}</h5>
           <div className="product-summary">
             <p>{products.length} items found</p>
           </div>

@@ -16,6 +16,9 @@ body{
     text-align: center;
     color: #4b1802;
 }
+.main_cart h5{
+  padding:0% 2%;
+}
 .main_cart .carts {
   display: flex;
   flex-wrap: wrap;
