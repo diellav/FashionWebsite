@@ -218,6 +218,7 @@ const getDescriptions = () => {
             className='icon' onClick={(e)=>{ e.stopPropagation(); 
             toggleWishlist(product)}}
             /></p>
+            <p className={product.stock>0? "stock":"notstock"}>{product.stock>0? `In stock` : `Out of stock`}</p>
           </div>
         </div>
     ))}
