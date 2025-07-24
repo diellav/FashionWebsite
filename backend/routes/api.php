@@ -33,7 +33,7 @@ use App\Http\Controllers\WishlistController;
     Route::get('/collections-home', [CollectionController::class, 'getCollectionHome']);
     Route::get('/deals-of-the-week', [DiscountsController::class, 'getDealsOfTheWeek']);
     Route::get('/categories', [CategoryController::class, 'getCategorys']);
-
+    Route::get('/products/{id}', [ProductController::class, 'getProductID']);
 Route::middleware('auth:api')->group(function(){
     Route::get('/me',[AuthController::class,'me']);
     Route::get('/logout',[AuthController::class,'logout']);
@@ -52,7 +52,6 @@ Route::middleware('auth:api')->group(function(){
     Route::delete('/categories/{id}', [CategoryController::class, 'deleteCategory']);
 
      //products
-    Route::get('/products/{id}', [ProductController::class, 'getProductID']);
     Route::post('/products', [ProductController::class, 'createProduct']);
     Route::put('/products/{id}', [ProductController::class, 'updateProduct']);
     Route::delete('/products/{id}', [ProductController::class, 'deleteProduct']);

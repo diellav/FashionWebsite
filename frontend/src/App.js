@@ -15,6 +15,7 @@ import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ShopPage from "./pages/ShopPage";
+import ProductDetail from "./pages/ProductDetail";
 
 function ResetPasswordPage() {
   const query = new URLSearchParams(useLocation().search);
@@ -88,6 +89,7 @@ function AppContent() {
        <Route path="/aboutUs" element={<AboutUs />} />
        <Route path="/contactUs" element={<ContactUs />} />
        <Route path="/products/filter" element={<ShopPage />} />
+       <Route path="/products/:id" element={<ProductDetail />} />
        <Route path="/wishlist" />
     </Routes>
 <Footer user={user}/>

@@ -79,7 +79,7 @@ const parentCategories = categories.filter(cat => cat.parentID === null);
                 <h4>Happening Now</h4>
                 <ul>
                   <li><Link to="/products/sale">Sale</Link></li>
-                  <li><Link to="/products">New Arrivals</Link></li>
+                  <li><Link to="/products/filter">New Arrivals</Link></li>
                 </ul>
               </div>
                 </div>
