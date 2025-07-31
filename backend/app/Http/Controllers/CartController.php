@@ -25,9 +25,14 @@ class CartController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-
+        $userId = $request->input('userID');
+        $existing = Cart::where('userID', $userId)->first();
+            if ($existing) {
+                return response()->json($existing, 200);
+            }
+        
         $cart = Cart::create([
-            'userID' => Auth::id()
+            'userID' => $userId
         ]);
 
         return response()->json($cart, 201);

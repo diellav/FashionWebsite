@@ -9,7 +9,11 @@ use Illuminate\Support\Facades\Validator;
 class Cart_ItemsController extends Controller
 {
       public function getCart_Items(){
-        return Cart_Items::with(['cart','products'])->get();
+         $userId = auth()->id();
+        return Cart_Items::with(['cart','products'])
+             ->whereHas('cart', function ($query) use ($userId) {
+            $query->where('userID', $userId);
+        })->get();
     }
     public function getCart_ItemID($id){
         $cart_Item=Cart_Items::with(['cart','products'])->findOrFail($id);

@@ -6,7 +6,7 @@ import { faFilter, faHeart } from '@fortawesome/free-solid-svg-icons';
 import "../template/ShopPage.css";
 import ShopFilter from "../components/ShopFilter";
 import { faHeart as faHeartRegular} from '@fortawesome/free-regular-svg-icons'
-
+import useWishlist from "../components/WishlistHook";
 
 const ShopPage = () => {
   const [products, setProducts] = useState([]);
@@ -26,22 +26,10 @@ const ShopPage = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [error, setError] = useState('');
   const [categories, setCategories] = useState([]);
-  const [wishlist, setWishlist] = useState([]);
   const limit = 20;
   const[totalPages,setTotalPages]=useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const user=localStorage.getItem('user');
-  
-
-useEffect(() => {
-  localStorage.setItem('wishlist', JSON.stringify(wishlist));
-}, [wishlist]);
-
-  useEffect(() => {
-  const storedWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-  setWishlist(storedWishlist);
-}, []);
-
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -98,9 +86,6 @@ useEffect(() => {
   const handlePageChange=(pageNumber)=>{
     setCurrentPage(pageNumber);
   };
-  const isInWishlist=(productId)=>{
-    return wishlist.includes(productId);
-  };
 
   
   const fetchCategories=async()=>{
@@ -137,38 +122,7 @@ const getDescriptions = () => {
     (cat) => cat.name.toLowerCase() === filters.subcategory?.toLowerCase() && cat.parentID === selectedCategory?.id
   );
 
-  const toggleWishlist=async(product)=>{
-    try{
-        if(!user){
-          alert('You need to be logged in before adding an item to the wishlist');
-          navigate('/login',{replace:true}); return;
-        }
-        let updated;
-    if(isInWishlist(product.id)){
-       const res = await axiosInstance.get('/wishlists');
-      const userId = JSON.parse(user).id;
-       const itemToDelete = res.data.find(
-        item => item.productID === product.id && item.userID === userId
-      );
-      if(itemToDelete){
-      await axiosInstance.delete(`/wishlists/${itemToDelete.id}`);
-      updated=wishlist.filter(id=>id!==product.id);
-      alert('Removed from wishlist');
-    }
-  }else {
-      await axiosInstance.post('/wishlists', {
-        productID: product.id,
-        variantID: null
-       });
-      updated=[...wishlist, product.id];
-      alert('Added to wishlist');
-    }
-    setWishlist(updated);
-    localStorage.setItem('wishlist',JSON.stringify(updated));
-  }catch(err){
-    setError('Failed to add or remove item from wishlist', err);
-  }
-  };
+  const { wishlist, isInWishlist, toggleWishlist, error:wishlistError } = useWishlist();
 
   return (
     <div className="shop-page">
