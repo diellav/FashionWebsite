@@ -16,6 +16,8 @@ import ContactUs from "./pages/ContactUs";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ShopPage from "./pages/ShopPage";
 import ProductDetail from "./pages/ProductDetail";
+import Cart from "./pages/Cart";
+import Wishlist from "./pages/Wishlist";
 
 function ResetPasswordPage() {
   const query = new URLSearchParams(useLocation().search);
@@ -90,7 +92,8 @@ function AppContent() {
        <Route path="/contactUs" element={<ContactUs />} />
        <Route path="/products/filter" element={<ShopPage />} />
        <Route path="/products/:id" element={<ProductDetail />} />
-       <Route path="/wishlist" />
+       <Route path="/cart" element={<Cart />} />
+       <Route path="/wishlists" element={<Wishlist />} />
     </Routes>
 <Footer user={user}/>
     </>

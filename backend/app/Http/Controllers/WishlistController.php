@@ -10,8 +10,10 @@ use Illuminate\Support\Facades\Auth;
 class WishlistController extends Controller
 {
      public function getWishlists(){
-        return Wishlist::with(['user', 'product','variant'])->get();
+         $userId = auth()->id();
+        return Wishlist::with(['user', 'product','variant'])->where('userID', $userId)->get();
     }
+
     public function getWishlistID($id){
         $wishlist=Wishlist::with(['user', 'product','variant'])->findOrFail($id);
         return response()->json($wishlist);

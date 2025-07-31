@@ -18,7 +18,7 @@ body {
 .phototext{
   display: flex;
   flex-direction: column;  
-  width:40%; 
+  width:25%; 
 }
 .description{
   display: flex;

@@ -118,11 +118,11 @@ const parentCategories = categories.filter(cat => cat.parentID === null);
               )
             )}
             <div className="icon-wrapper">
-              <FontAwesomeIcon icon={faCartShopping} className='icon' />
+              <FontAwesomeIcon icon={faCartShopping} className='icon' onClick={()=>navigate('/cart')}/>
               {!mobileMenuOpen && <p className='message'>Cart</p>}
             </div>
             <div className="icon-wrapper">
-              <FontAwesomeIcon icon={faHeartRegular} className='icon' />
+              <FontAwesomeIcon icon={faHeartRegular} className='icon' onClick={()=>navigate('/wishlists')}/>
               {!mobileMenuOpen && <p className='message'>Wishlist</p>}
             </div>
            {!mobileMenuOpen && <div><SearchToggle/></div>}
