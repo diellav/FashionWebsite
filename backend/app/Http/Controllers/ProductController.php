@@ -12,11 +12,11 @@ class ProductController extends Controller
 {
 
       public function getProducts(){
-        return Product::with(['category', 'discounts', 'variants'])->get();
+        return Product::with(['category', 'discounts', 'variants', 'images'])->get();
       }
 
     public function getProductsFilter(Request $request){
-        $query=Product::with(['category', 'discounts', 'variants']);
+        $query=Product::with(['category', 'discounts', 'variants', 'images']);
 
 
         //per ndarjen ne navbar:
@@ -88,7 +88,12 @@ class ProductController extends Controller
 ]);
     }
     public function getProductID($id){
-        $product=Product::with(['category', 'discounts', 'variants'])->findOrFail($id);
+        $product=Product::with([ 'category',
+    'discounts',
+    'variants.images',
+    'images',
+    'sizestocks',
+    'variants.sizeStocks' ])->findOrFail($id);
         return response()->json($product);
     }
 
@@ -139,7 +144,7 @@ class ProductController extends Controller
 
     public function getRecentProducts(){
         $week=Carbon::now()->subDays(7);
-        $recent=Product::with(['category','discounts','variants'])
+        $recent=Product::with(['category','discounts','variants', 'images'])
         ->where('created_at','>=', $week)->orderBy('created_at','desc')->limit(10)->get();
         return response()->json($recent);
     }

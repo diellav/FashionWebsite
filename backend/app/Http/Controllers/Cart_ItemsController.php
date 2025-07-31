@@ -10,13 +10,13 @@ class Cart_ItemsController extends Controller
 {
       public function getCart_Items(){
          $userId = auth()->id();
-        return Cart_Items::with(['cart','products'])
+        return Cart_Items::with(['cart','products','variants'])
              ->whereHas('cart', function ($query) use ($userId) {
             $query->where('userID', $userId);
         })->get();
     }
     public function getCart_ItemID($id){
-        $cart_Item=Cart_Items::with(['cart','products'])->findOrFail($id);
+        $cart_Item=Cart_Items::with(['cart','products','variants'])->findOrFail($id);
         return response()->json($cart_Item);
     }
 
@@ -24,6 +24,7 @@ class Cart_ItemsController extends Controller
         $validator = Validator::make($request->all(), [
             'cartID' => 'required|exists:cart,id',
             'productID' => 'required|exists:products,id',
+            'variantID' => 'nullable|exists:product_variants,id',
             'quantity' => 'required|numeric',
         ]);
 
@@ -34,6 +35,7 @@ class Cart_ItemsController extends Controller
         $cart_Item = Cart_Items::create([
             'cartID' => $request->get('cartID'),
             'productID' => $request->get('productID'),
+            'variantID' => $request->get('variantID'),
             'quantity' => $request->get('quantity'),
         ]);
 
@@ -44,7 +46,7 @@ class Cart_ItemsController extends Controller
         $cart_Item = Cart_Items::findOrFail($id);
 
         $cart_Item->update($request->only([
-            'cartID','productID', 'quantity'
+            'cartID','productID','variantID', 'quantity'
         ]));
 
         return response()->json($cart_Item);

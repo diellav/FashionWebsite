@@ -61,7 +61,9 @@ const useCart=()=>{ //hooks gjith duhen me pas use...
     try{
          const userId=JSON.parse(user).id;
          const cartId = await getOrCreateCartId(userId);
-         const existing=cart.find(item=>item.productID===product.id);
+         const existing=cart.find(item=>item.productID===product.id
+          && item.variantID===(product.variant? product.variant.id:null)
+         );
          if(existing){
             await axiosInstance.put(`cart_items/${existing.id}`, {
                 quantity:existing.quantity+quantity,
@@ -75,6 +77,7 @@ const useCart=()=>{ //hooks gjith duhen me pas use...
             const res=await axiosInstance.post('/cart_items',{
                 cartID:cartId,
                 productID:product.id,
+                variantID:product.variant? product.variant.id:null,
                 quantity,
             });
             setCart([...cart, res.data]);
@@ -87,9 +90,11 @@ const useCart=()=>{ //hooks gjith duhen me pas use...
     }
   };
 
-   const removeFromCart = async (productId) => {
+   const removeFromCart = async (productId,variantID) => {
     try {
-      const item = cart.find(item => item.productID === productId);
+      const item = cart.find(item => item.productID === productId 
+        && item.variantID === variantID 
+      );
       if (item) {
         await axiosInstance.delete(`/cart_items/${item.id}`);
         setCart(cart.filter(i => i.id !== item.id));
@@ -100,8 +105,9 @@ const useCart=()=>{ //hooks gjith duhen me pas use...
     }
   };
 
-const isInCart = (productId) => {
-  return cart.some(item => String(item.productID) === String(productId));
+const isInCart = (productId,variantID) => {
+  return cart.some(item => String(item.productID) === String(productId)
+&& String(item.variantID) === String(variantID));
 };
 
   return {cart, addToCart, removeFromCart,isInCart, error};

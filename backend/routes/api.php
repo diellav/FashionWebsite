@@ -18,6 +18,9 @@ use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\ProductImagesController;
+use App\Http\Controllers\SizesController;
+use App\Http\Controllers\VariantSizeStockController;
 
     Route::post('/login',[AuthController::class,'login']);
     Route::post('/register',[AuthController::class,'register']);
@@ -34,6 +37,9 @@ use App\Http\Controllers\WishlistController;
     Route::get('/deals-of-the-week', [DiscountsController::class, 'getDealsOfTheWeek']);
     Route::get('/categories', [CategoryController::class, 'getCategorys']);
     Route::get('/products/{id}', [ProductController::class, 'getProductID']);
+    Route::get('/product_images', [ProductImagesController::class, 'getAllImages']);
+    Route::get('/variant_size_stock', [VariantSizeStockController::class, 'getVariantSizeStocks']);
+    Route::get('/sizes', [SizesController::class, 'getSizes']);
 Route::middleware('auth:api')->group(function(){
     Route::get('/me',[AuthController::class,'me']);
     Route::get('/logout',[AuthController::class,'logout']);
@@ -124,6 +130,18 @@ Route::middleware('auth:api')->group(function(){
     Route::post('/wishlists', [WishlistController::class, 'createWishlist']);        
     Route::put('/wishlists/{id}', [WishlistController::class, 'updateWishlist']);    
     Route::delete('/wishlists/{id}', [WishlistController::class, 'deleteWishlist']); 
+
+    //ProductImage
+    Route::get('/product_images/{id}', [ProductImagesController::class, 'getImageById']);
+    Route::put('/product_images/{id}', [ProductImagesController::class, 'updateProductImages']);
+    Route::put('/product_images', [ProductImagesController::class, 'createProductImages']);
+    Route::delete('/product_images/{id}', [ProductImagesController::class, 'deleteProductImages']);
+
+    //sizes
+    Route::get('/sizes_stock/{id}', [SizesController::class, 'getSizeID']);
+    Route::post('/sizes_stock', [SizesController::class, 'createSize']);
+    Route::put('/sizes_stock/{id}', [SizesController::class, 'updateSize']);
+    Route::delete('/sizes_stock/{id}', [SizesController::class, 'deleteSize']);
 
 });
  

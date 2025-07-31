@@ -36,4 +36,11 @@ public function discounts() {
     public function collections(){
     return $this->belongsToMany(Collection::class, 'collection_product');
 }
+public function images() {
+    return $this->hasMany(ProductImages::class, 'productID');
+}
+public function sizeStocks()
+{
+    return $this->hasMany(Sizes::class, 'productID');
+}
 }
