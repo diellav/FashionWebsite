@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from "react";
 import axiosInstance from "../axios";
 import '../template/Cart.css';
+import useCart from "../components/CartHook";
 const Wishlist=()=>{
     const[error,setError]=useState('');
     const user=JSON.parse(localStorage.getItem('user'));
     const[wishlistItems, setWishlistItems]=useState([]);
+      const [selectedVariant, setSelectedVariant] = useState(null);
 
     useEffect(()=>{
         fetchWishlist();
@@ -25,23 +27,41 @@ const Wishlist=()=>{
         setError('Could not remove item fro wishlist');
       }
     };
+      const { cart, addToCart, isInCart} = useCart();
+    const handleAddToCart = (product, variant) => {
+    addToCart(
+        {
+        ...product,
+        variant: variant,
+        },
+        1
+    );
+    };
+
     return(
-        <div className="mainWishlist">
+        <div className="mainCart">
             <h3>My Wishlist</h3>
             {
             wishlistItems.length>0? (
             <ul>
                 <ul>
                 {wishlistItems.map(item => (
-                    <li key={item.id}>
+                    <li key={item.id} className="cartItem" style={{gap:"20%"}}>
+                        <div className="photoCart">
+                        <img src={item.variants && item.variants.image? `${item.variants.image}` : `${item.product.main_image}`}></img></div>
+                    <div className="textCart">
                     <h4>{item.product?.name || 'No product'}</h4>
                     <p>Price: ${item.product?.price || 0}</p>
                     {item.variant && (
                         <p>Variant: {item.variant.name}</p>
-                    )}
+                    )} <button
+                onClick={() => handleAddToCart(item.product, item.variant)}
+                className="add-to-cart-button"
+                >{isInCart(item.product.id, item.variant?.id) ? "Added to Cart" : "Add to Cart"}
+                    </button></div>
                      <button className="remove-btn" onClick={() => handleRemoveFromWishlist(item.id)}>
-                                    Remove
-                                </button>
+                    X
+                     </button><p className='Cartmessage'>Remove From Wishlist</p>
                     </li>
                 ))}
                 </ul>

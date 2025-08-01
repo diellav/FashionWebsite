@@ -13,6 +13,7 @@ const Cart=()=>{
         try{
             const res=await axiosInstance.get('/cart_items');
             setCartItems(res.data);
+            console.log('Items:',res.data);
         }catch(err){
             setError('Failed to fetch cart');
         }
@@ -33,16 +34,20 @@ const Cart=()=>{
                 cartItems.length>0? (
                     <ul>
                         {cartItems.map(item=>(
-                            <li key={item.id}>
+                            <li key={item.id} className="cartItem">
+                                <div className="photoCart">
+                                <img src={item.variants && item.variants.image? `${item.variants.image}` : `${item.products.main_image}`}></img></div>
+                                <div className="textCart">
                                 <h4>{item.products.name}</h4>
                                 <p>Quantity: {item.quantity}</p>
-                                <p>Price: ${item.products.price}</p>
+                                <p>Price: ${item.products.price}</p></div>
+                                <div className="variant">
                                 {item.variants && (
-                                <p>Variant: {item.variants.name}</p>
-                            )}
+                                <p>Color: {item.variants.color}</p>
+                            )}</div>
                               <button className="remove-btn" onClick={() => handleRemoveFromCart(item.id)}>
-                                    Remove
-                                </button>
+                                    X
+                                </button><p className='Cartmessage'>Remove From Cart</p>
                             </li>
                         ))}
                     </ul>

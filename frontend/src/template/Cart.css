@@ -1,0 +1,74 @@
+body{
+      margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    align-items: center;  
+     font-family: 'Josefin Sans';
+}
+
+.mainCart{
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    height:auto;
+    justify-items: center;
+    text-align: center;
+    padding:4%;
+}
+.cartItem{
+    width:80%;
+    display: flex;
+    margin:7%;
+    flex-direction: row;
+    text-align: start;
+    align-items: center;
+    gap:15%;
+    position: relative;
+    padding-bottom: 5%;
+    border-bottom: 1px solid rgb(90, 89, 89);
+}
+
+.photoCart{
+    display: flex;
+    width:30%;
+}
+.photoCart img{
+    width:100%;
+    height:45vh;
+    border-radius: 5px;
+    justify-self: center;
+}
+.cartItem .remove-btn{
+    font-size: larger;
+    height:fit-content;
+    align-self: center;
+    border:none;
+    background-color: white;
+    margin-left:100px;
+}
+
+.textCart, .variant{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: larger;
+    width:20;
+}
+.textCart h4{
+    margin-bottom:10%;
+}
+
+.Cartmessage {
+  display: none;
+  position: absolute;
+  top: 60%;
+  left:100%;
+  transform: translateX(-50%);
+  color: #3C1800;
+  font-size: small;
+  white-space: nowrap;
+}
+.remove-btn:hover + .Cartmessage {
+  display: block;
+}
