@@ -56,7 +56,7 @@ const Wishlist=()=>{
                         <p>Variant: {item.variant.name}</p>
                     )} <button
                 onClick={() => handleAddToCart(item.product, item.variant)}
-                className="add-to-cart-button"
+                className="add-btn"
                 >{isInCart(item.product.id, item.variant?.id) ? "Added to Cart" : "Add to Cart"}
                     </button></div>
                      <button className="remove-btn" onClick={() => handleRemoveFromWishlist(item.id)}>

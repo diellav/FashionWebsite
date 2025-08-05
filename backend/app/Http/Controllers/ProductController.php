@@ -55,11 +55,11 @@ class ProductController extends Controller
             $query->whereIn('categoryID',$request->categories );
         }
 
-         if($request->has('sizes')&& is_array($request->sizes) && count($request->sizes)>0){
-            $query->whereHas('variants', function($sz)use($request){
-                $sz->whereIn('size', $request->sizes);
-            });
-        }
+        if ($request->has('sizes')) {
+    $query->whereHas('sizeStocks', function ($q) use ($request) {
+    $q->whereIn('size', $request->sizes);
+});
+}
 
         switch ($request->get('sortOption')) {
         case 'price-asc':

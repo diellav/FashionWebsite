@@ -134,22 +134,22 @@ const getDescriptions = () => {
           </div>
         </div>
       </div>
-
-      <button 
+        <p className="shop-description">
+          Discover the latest arrivals in fashion, accessories, and tech. Use filters to find the perfect match based on your budget and preferences.
+        </p>
+         <button 
         className={`filter-toggle-btn ${showFilters? 'shifted':''}`}
         onClick={() => setShowFilters(!showFilters)}
       >
-        <FontAwesomeIcon icon={faFilter} />
-        <span>{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
+        <span>{showFilters ? 'X' : 'Filter'}</span>
       </button>
+        <div className="cartFilter">
       <div className={`filters-overlay ${showFilters ? 'visible' : ''}`}>
         <div className="filters-content">
           <ShopFilter onFilterApply={handleFilterApply} />
         </div>
       </div>
-        <p className="shop-description">
-          Discover the latest arrivals in fashion, accessories, and tech. Use filters to find the perfect match based on your budget and preferences.
-        </p>
+
       <div className="main_cart">
            <h3>{selectedSubcategory? selectedSubcategory.name.toUpperCase(): 
            selectedCategory? selectedCategory.name.toUpperCase(): "ALL PRODUCTS"}</h3>
@@ -175,6 +175,7 @@ const getDescriptions = () => {
           </div>
         </div>
     ))}
+  </div>
   </div>
 
   </div>

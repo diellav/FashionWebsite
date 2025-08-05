@@ -16,7 +16,7 @@ body{
     justify-content: center;
     background-color:#e8e7e6;
     padding: 6%;
-     font-family: 'Josefin Sans';
+    font-family: 'Josefin Sans';
 }
 .contactForm{
     display: flex;
@@ -26,14 +26,14 @@ body{
     justify-content: center;
     align-items: center;
     width:70%;
-    
 }
 .contact h1{
-    color: #3C1800;
     text-align: center;
+    color:white;
 }
 .contactsection{
-    background-color:#e8e7e6;
+    background-color:#55321a;
+    border-radius:10px;
     align-self: center;
     justify-self: center;
     padding:4%;
@@ -45,14 +45,31 @@ form{
     width:100%;
     
 }
-.contactsection input[type="email"], .contactsection input[type="text"], .contactsection textarea{
-    margin:15px 10px;
+.sector{
+    width:100%;
+    display:flex;
+    flex-direction: row; 
+}
+.sector input[type="email"],.sector input[type="text"]{
+    margin:5px 10px;
+    width: 50%;
+    padding: 3%;
+    border: 1px solid #6c6c6c; 
+    box-shadow: 2px 2px 3px 3px #130800;
+    box-sizing: border-box;
+    border-radius: 20px;
+    font-size:larger;
+    text-align: start;
+    text-indent: 10px;
+}
+.contactsection textarea{
+    margin:5px 10px;
     width: 97%;
     padding: 3%;
     border: 1px solid #6c6c6c; 
     box-shadow: 2px 2px 3px 3px #130800;
     box-sizing: border-box;
-    border-radius: 30px;
+    border-radius: 20px;
     font-size:larger;
     text-align: start;
     text-indent: 10px;

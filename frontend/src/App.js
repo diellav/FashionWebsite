@@ -18,6 +18,8 @@ import ShopPage from "./pages/ShopPage";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
+import ReturnPolicy from "./pages/ReturnPolicy";
+import PrivacyPolicy from "./pages/Privacy";
 
 function ResetPasswordPage() {
   const query = new URLSearchParams(useLocation().search);
@@ -94,6 +96,8 @@ function AppContent() {
        <Route path="/products/:id" element={<ProductDetail />} />
        <Route path="/cart" element={<Cart />} />
        <Route path="/wishlists" element={<Wishlist />} />
+       <Route path="/returns" element={<ReturnPolicy />} />
+       <Route path="/privacy" element={<PrivacyPolicy />} />
     </Routes>
 <Footer user={user}/>
     </>

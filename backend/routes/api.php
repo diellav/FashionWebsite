@@ -21,6 +21,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ProductImagesController;
 use App\Http\Controllers\SizesController;
 use App\Http\Controllers\VariantSizeStockController;
+use App\Http\Controllers\ReviewController;
 
     Route::post('/login',[AuthController::class,'login']);
     Route::post('/register',[AuthController::class,'register']);
@@ -40,6 +41,7 @@ use App\Http\Controllers\VariantSizeStockController;
     Route::get('/product_images', [ProductImagesController::class, 'getAllImages']);
     Route::get('/variant_size_stock', [VariantSizeStockController::class, 'getVariantSizeStocks']);
     Route::get('/sizes', [SizesController::class, 'getSizes']);
+    Route::get('/products/{id}/reviews', [ReviewController::class, 'getReviewsForProduct']);
 Route::middleware('auth:api')->group(function(){
     Route::get('/me',[AuthController::class,'me']);
     Route::get('/logout',[AuthController::class,'logout']);
@@ -143,5 +145,7 @@ Route::middleware('auth:api')->group(function(){
     Route::put('/sizes_stock/{id}', [SizesController::class, 'updateSize']);
     Route::delete('/sizes_stock/{id}', [SizesController::class, 'deleteSize']);
 
+    //review
+    Route::post('/products/{id}/reviews', [ReviewController::class, 'createReview']);
 });
  

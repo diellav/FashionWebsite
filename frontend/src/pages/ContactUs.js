@@ -35,25 +35,27 @@ const ContactUs=()=>{
 
     return(
         <div className='contact'>
-            <h1>Contact Us</h1>
             <div className="contactForm">
                 <div className="contactsection">
+                    <h1>Contact Us</h1>
                     <form onSubmit={handleSubmit}>
+                    <div className="sector">
                     <input type='text' placeholder="First Name"
                     value={formData.first_name} name='first_name'
                     onChange={handleChange} required></input>
                     <br></br>
                     <input type='text' placeholder="Last Name"
                     value={formData.last_name} name='last_name'
-                    onChange={handleChange} required></input>
+                    onChange={handleChange} required></input></div>
                     <br></br>
+                    <div className="sector">
                     <input type='email' placeholder="Email"
                     value={formData.email} name='email'
                     onChange={handleChange} required></input>
                     <br></br>
                     <input type='text' placeholder="Phone Number"
                     value={formData.phone_number} name='phone_number'
-                    onChange={handleChange} required></input>
+                    onChange={handleChange} required></input></div>
                     <br></br>
                     <textarea placeholder="Your Message..."
                     value={formData.message} name='message'

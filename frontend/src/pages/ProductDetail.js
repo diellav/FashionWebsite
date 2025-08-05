@@ -5,7 +5,7 @@ import "../template/ProductDetails.css";
 import useWishlist from "../components/WishlistHook";
 import useCart from "../components/CartHook";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faQuran } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 
 const ProductDetail = () => {
@@ -15,12 +15,20 @@ const ProductDetail = () => {
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [error, setError] = useState("");
-
+  const [quantity, setQuantity] = useState(1);
+  const [reviews, setReviews] = useState([]);
+  const [newReview, setNewReview] = useState('');
+  const [rating, setRating] = useState(5);
+  const user = JSON.parse(localStorage.getItem('user'));
   const { wishlist, isInWishlist, toggleWishlist } = useWishlist();
   const { cart, addToCart, isInCart } = useCart();
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    fetchProduct();
+    fetchReviews();
+  }, [id]);
+
+   const fetchProduct = async () => {
       try {
         const res = await axiosInstance.get(`/products/${id}`);
         setProduct(res.data);
@@ -33,8 +41,29 @@ const ProductDetail = () => {
         console.error(err);
       }
     };
-    fetchProduct();
-  }, [id]);
+   const fetchReviews = async () => {
+    try {
+      const res = await axiosInstance.get(`/products/${id}/reviews`);
+      setReviews(res.data);
+    } catch (err) {
+      console.error("Failed to load reviews", err);
+    }
+  };
+
+const submitReview = async () => {
+  try {
+    await axiosInstance.post(`/products/${id}/reviews`, {
+      review_text: newReview,
+      rating: rating
+    });
+    setNewReview('');
+    setRating(5);
+    const res = await axiosInstance.get(`/products/${id}/reviews`);
+    setReviews(res.data);
+  } catch (err) {
+    console.error("Review submission failed", err);
+  }
+};
 
   const hasVariants = product?.variants?.length > 0;
 
@@ -53,7 +82,7 @@ const getStockForSelected = () => {
           variant: selectedVariant,
           sizeID: selectedSize.id,
         },
-        1
+        quantity
       );
     } else {
       alert("Please select a size first.");
@@ -80,6 +109,7 @@ const getAllImages = () => {
   if (!product) return <p>Loading...</p>;
 
   return (
+    <>
     <div className="product-detail-page">
      <div className="thumbnail-container">
   {getAllImages().map((img) => (
@@ -99,8 +129,8 @@ const getAllImages = () => {
         <p>Price: ${product.price}</p>
 
 {hasVariants && (
-  <div>
-    <label htmlFor="variant-select"><h4>Variants:</h4></label>
+  <div className="sizes-container">
+    <label htmlFor="variant-select"><h5>Variants:</h5></label>
     <select
       id="variant-select"
       value={selectedVariant?.id || ""}
@@ -153,6 +183,10 @@ const getAllImages = () => {
   </select>
 </div>
 
+      <div className="sizes-container">
+        <h5>Quantity:</h5><input type="number" min="1" value={quantity}
+        onChange={(e)=>setQuantity(parseInt(e.target.value)||1)}></input>
+      </div>
       <p id="wishlist" onClick={() => toggleWishlist(product)} >
         Add to Wishlist{" "}
         <FontAwesomeIcon icon={isInWishlist(product.id ,selectedVariant?.id) ? faHeart : faHeartRegular} />
@@ -163,10 +197,42 @@ const getAllImages = () => {
           disabled={!selectedSize || getStockForSelected() === 0}
           className="add-to-cart-button"
         >
-          {isInCart(product.id, selectedVariant?.id) ? "Added to Cart" : "Add to Cart"}
+        Add to Cart
         </button>
       </div>
     </div>
+
+    <div className="reviewSection">
+      <h3>Reviews</h3>
+      {reviews.length === 0 && <p>No reviews yet.</p>}
+      {reviews.map((r) => (
+        <div key={r.id} className="review-item">
+          <p><strong>{r.user.first_name} {r.user.last_name}</strong> rated {r.rating}/5</p>
+          <p>{r.review_text}</p>
+        </div>
+      ))}
+
+      {user? user && (
+        <div className="review-form">
+          <h5>Leave a Review:</h5>
+          <label>
+            Rating:
+            <select value={rating} onChange={(e) => setRating(parseInt(e.target.value))}>
+              {[5, 4, 3, 2, 1].map(num => <option key={num} value={num}>{num}</option>)}
+            </select>
+          </label>
+          <br />
+          <textarea
+            value={newReview}
+            onChange={(e) => setNewReview(e.target.value)}
+            placeholder="Write your review here..."
+          ></textarea>
+          <br />
+          <button onClick={submitReview} className="add-btn">Submit Review</button>
+        </div>
+      ):(<p>You need to log in before leaving a review</p>)}
+</div>
+</>
   );
 };
 
