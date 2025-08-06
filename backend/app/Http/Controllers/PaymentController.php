@@ -18,28 +18,44 @@ class PaymentController extends Controller
     }
 
      public function createPayment(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'userID' => 'nullable|exists:users,id',
-            'orderID' => 'nullable|exists:orders,id',
-            'total_price' => 'required|numeric',
-            'payment_status' => 'required|string|max:255',
-            'transaction_reference' => 'nullable|string|max:255',
-        ]);
+    $validator = Validator::make($request->all(), [
+        'orderID' => 'nullable|exists:orders,id',
+        'total_price' => 'required|numeric',
+        'stripeToken' => 'required|string',
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 400);
+    }
+
+    try {
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        $charge = \Stripe\Charge::create([
+            'amount' => intval($request->total_price * 100),
+            'currency' => 'eur',
+            'source' => $request->stripeToken,
+            'description' => 'Payment for Order ID: ' . $request->orderID,
+        ]);
 
         $payment = Payment::create([
             'userID' => Auth::id(),
             'orderID' => $request->get('orderID'),
             'total_price' => $request->get('total_price'),
-            'payment_status' => $request->get('payment_status'),
-            'transaction_reference' => $request->get('transaction_reference'),
+            'payment_status' => 'paid',
+            'transaction_reference' => $charge->id,
         ]);
 
-        return response()->json($payment, 201);
+        return response()->json([
+            'message' => 'Payment successful',
+            'payment' => $payment
+        ], 201);
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => 'Payment failed: ' . $e->getMessage()
+        ], 500);
     }
+}
 
     public function updatePayment(Request $request, $id) {
         $payment = Payment::findOrFail($id);

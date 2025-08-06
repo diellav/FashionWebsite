@@ -20,6 +20,8 @@ import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
 import ReturnPolicy from "./pages/ReturnPolicy";
 import PrivacyPolicy from "./pages/Privacy";
+import PaymentPage from "./pages/PaymentPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function ResetPasswordPage() {
   const query = new URLSearchParams(useLocation().search);
@@ -44,11 +46,15 @@ function AppContent() {
     const token=localStorage.getItem('token');
     const roleStored=localStorage.getItem('role');
     setRole(roleStored);
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
     if(token){
       axiosInstance.get('/me')
       .then(res=>{
         setIsAuthenticated(true);
-        setUser(res.data.user);
+        setUser(res.data);
       })
       .catch(()=>{
         setIsAuthenticated(false);
@@ -80,7 +86,7 @@ function AppContent() {
       <p>Loading...</p>
     ) : (
       <>
-     
+      
 <Navbar user={user} onLogout={handleLogout}/>
     <Routes>
       <Route path='/' element={<HomePage />}/>
@@ -88,6 +94,8 @@ function AppContent() {
       <Route path="/register" element={<RegisterPage/>}/>
       <Route path="/home" element={<HomePage />}/>
       <Route path="/categories" element={isAuthenticated? (<CreateCategoryForm/>):( <Navigate to="/login"/>)}/>
+      <Route path="/checkout" element={isAuthenticated? (<PaymentPage/>):( <Navigate to="/login"/>)}/>
+      <Route path="/profile/*" element={isAuthenticated ? (<ProfilePage onLogout={handleLogout}/>) : (<Navigate to="/login" />)} />
        <Route path="/reset-password" element={<ResetPasswordPage />} />
        <Route path="/password/forgot" element={<ForgotPassword />} />
        <Route path="/aboutUs" element={<AboutUs />} />

@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { Link , useNavigate} from 'react-router-dom';
+import { Link , useNavigate, useLocation, NavLink} from 'react-router-dom';
 import '../template/Navbar.css';
 import SearchToggle from './SearchBar';
 import axiosInstance from '../axios';
@@ -11,6 +11,7 @@ const Navbar = ({user, onLogout }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [categories, setCategories] = useState([]);
   const navigate=useNavigate();
+  const location=useLocation();
 
   useEffect(() => {
   const fetchCategories = async () => {
@@ -50,12 +51,12 @@ const parentCategories = categories.filter(cat => cat.parentID === null);
         <div className={`nav__list ${mobileMenuOpen ? 'open' : ''}`} onClick={e => e.stopPropagation()}>
            {mobileMenuOpen? (<><SearchToggle/></>) : (<></>) }
           <ul>
-            <li><Link to="/home">Home</Link></li>
+            <li><NavLink to="/home" activeclassname="active" >Home</NavLink></li>
              {mobileMenuOpen? (
-               <li><Link to="/products/filter">Shop</Link></li>
+               <li><NavLink to="/products/filter">Shop</NavLink></li>
              ) : (
           <li className="navbar__item navbar__item--products">
-          <li><Link to="/products/filter">Shop</Link></li>
+          <li><NavLink to="/products/filter">Shop</NavLink></li>
           <div className='navbar__list'>
             <div className="mega-menu-wrapper">
               <div className="mega-menu">
@@ -78,8 +79,8 @@ const parentCategories = categories.filter(cat => cat.parentID === null);
               <div className="mega-menu-section">
                 <h4>Happening Now</h4>
                 <ul>
-                  <li><Link to="/products/sale">Sale</Link></li>
-                  <li><Link to="/products/filter">New Arrivals</Link></li>
+                  <li><Link to="/products/sale" activeclassname="active" >Sale</Link></li>
+                  <li><Link to="/products/filter" activeclassname="active" >New Arrivals</Link></li>
                 </ul>
               </div>
                 </div>
@@ -89,32 +90,31 @@ const parentCategories = categories.filter(cat => cat.parentID === null);
           </li>) }
 
 
-            <li><Link to="/aboutUs">About Us</Link></li>
-            <li><Link to="/contactUs">Contact</Link></li>
-            {role === 'Admin' && <li><Link to="/dashboard">Dashboard</Link></li>}
+            <li><NavLink to="/aboutUs" activeclassname="active">About Us</NavLink></li>
+            <li><NavLink to="/contactUs" activeclassname="active">Contact</NavLink></li>
+            {role === 'Admin' && <li><NavLink to="/dashboard">Dashboard</NavLink></li>}
            {mobileMenuOpen? (
             <>
             <hr></hr>
-            {user ? (
+            {user && location.pathname.startsWith("/profile")? (
                   <>
-                    <li><Link to="/profile">Profile</Link></li>
-                    <li><a href="/" onClick={onLogout}>Logout</a></li>
+                    <li><NavLink to="/profile" activeclassname="active" >Profile</NavLink></li>
                   </>
                 ) : (
-                  <li><Link to="/login">Login</Link></li>
+                  !user &&<li><NavLink to="/login">Login</NavLink></li>
                 )}
               </>
             ) : (
-              user ? (
+              user && !location.pathname.startsWith("/profile") ? (
                 <li className="navbar__dropdown">
                   <span className="navbar__user">Hello, {user.username}</span>
                   <ul className="navbar__dropdown-menu">
-                    <li><Link to="/profile">Profile</Link></li>
+                    <li><NavLink to="/profile" activeclassname="active" >Profile</NavLink></li>
                     <li><a href="/" onClick={onLogout}>Logout</a></li>
                   </ul>
                 </li>
               ) : (
-                <li><Link to="/login">Login</Link></li>
+                !user && <li><NavLink to="/login" activeclassname="active" >Login</NavLink></li>
               )
             )}
             <div className="icon-wrapper">

@@ -22,6 +22,7 @@ use App\Http\Controllers\ProductImagesController;
 use App\Http\Controllers\SizesController;
 use App\Http\Controllers\VariantSizeStockController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\AddressController;
 
     Route::post('/login',[AuthController::class,'login']);
     Route::post('/register',[AuthController::class,'register']);
@@ -45,7 +46,7 @@ use App\Http\Controllers\ReviewController;
 Route::middleware('auth:api')->group(function(){
     Route::get('/me',[AuthController::class,'me']);
     Route::get('/logout',[AuthController::class,'logout']);
-
+    Route::get('/orders/my', [OrderController::class, 'myOrders']);
     //users:
     Route::get('/users', [UserController::class, 'getUsers']);
     Route::get('/users/{id}', [UserController::class, 'getUserID']);
@@ -95,7 +96,7 @@ Route::middleware('auth:api')->group(function(){
     //order
     Route::get('/orders', [OrderController::class, 'getOrders']);
     Route::get('/orders/{id}', [OrderController::class, 'getOrderID']);
-    Route::post('/orders', [OrderController::class, 'createOrder']);
+    Route::post('/checkout', [OrderController::class, 'checkout']);
     Route::put('/orders/{id}', [OrderController::class, 'updateOrder']);
     Route::delete('/orders/{id}', [OrderController::class, 'deleteOrder']);
 
@@ -147,5 +148,14 @@ Route::middleware('auth:api')->group(function(){
 
     //review
     Route::post('/products/{id}/reviews', [ReviewController::class, 'createReview']);
+
+    //addresses
+    Route::get('/addresses', [AddressController::class, 'getAddresses']);
+    Route::get('/addresses/{id}', [AddressController::class, 'getAddressID']);
+    Route::post('/addresses', [AddressController::class, 'createAddress']);
+    Route::put('/addresses/{id}', [AddressController::class, 'updateAddress']);
+    Route::delete('/addresses/{id}', [AddressController::class, 'deleteAddress']);
+    Route::get('/my-addresses', [AddressController::class, 'myAddresses']);
+
 });
  

@@ -95,11 +95,8 @@ class AuthController extends Controller
 
 
     public function me(){
-        $user=auth('api')->user();
-        return response()->json([
-            'user'=>$user,
-            'role'=>$user->role->roleName
-        ]);
+    $user = auth()->user();
+    return response()->json($user);
     }
 
     public function logout(){

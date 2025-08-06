@@ -54,4 +54,7 @@ public function sendPasswordResetNotification($token)
 {
     $this->notify(new ResetPasswordNotification($token));
 }
+public function addresses() {
+    return $this->hasMany(Address::class, 'user_id');
+}
 }

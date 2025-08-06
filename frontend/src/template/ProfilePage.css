@@ -1,0 +1,111 @@
+.profile-page-container {
+  display: flex;
+  min-height: 80vh;
+  width:80%;
+  padding:4%;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: #f7f7f7;
+  padding: 20px;
+  border-right: 1px solid #ccc;
+}
+
+.sidebar h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin-bottom: 10px;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #333;
+}
+
+.sidebar a.active {
+  font-weight: bold;
+  color:#361101;
+}
+
+.profile-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+  padding: 20px;
+}
+
+.profile-info-container {
+  padding: 20px;
+  background-color: #fdfdfd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.profile-info-container p {
+  margin: 10px 0;
+  font-size: large;
+}
+
+.delete-account-section {
+  margin-top: 40px;
+}
+
+.delete-button, .edit-button {
+  background-color: #d8d7d7;
+  color:black;
+  border: solid 2px rgb(88, 88, 88);
+  padding: 2%;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: small;
+  transition: background-color 0.3s ease;
+  margin:0% 1%;
+}
+
+.delete-button:hover {
+  background-color: #c92c3d;
+}
+.edit-button:hover {
+  background-color: #91c5c5;
+}
+.editProfile{
+    display: flex;
+    flex-direction: column;
+    padding:2%;
+    width:100%;
+}
+.subsection{
+    display: flex;
+    flex-direction: row;
+    width:50%;
+    gap:20%;
+    margin:2% 0%;
+}
+label{
+    font-size: large;
+}
+.subsection input{
+    border:1px solid #333;
+    border-radius: 10px;
+    padding: 2%;
+}
+.editProfile button{
+    width:30%;
+    align-self: flex-start;
+      border-radius:10px;
+     background-color: #ffffff;
+ border:2px solid #857c7a;
+ margin:2% 0%;
+}

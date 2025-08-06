@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axios";
 import '../template/Cart.css';
 const Cart=()=>{
     const[error,setError]=useState('');
     const user=JSON.parse(localStorage.getItem('user'));
     const[cartItems, setCartItems]=useState([]);
-
+    const navigate=useNavigate();
     useEffect(()=>{
         fetchCart();
     },[]);
@@ -28,7 +29,7 @@ const Cart=()=>{
     };
     const calculateTotal=()=>{
         return cartItems.reduce((total,item)=>{
-            const price=item.products?.price || 0;
+            const price=item.product?.price || 0;
             const quantity=item.quantity || 1;
             return total+(price*quantity);
         }, 0).toFixed(2);
@@ -59,14 +60,14 @@ const Cart=()=>{
             {cartItems.map(item=>(
                 <li key={item.id} className="cartItem">
                     <div className="photoCart">
-                    <img src={item.variants && item.variants.image? `${item.variants.image}` : `${item.products.main_image}`}></img></div>
+                    <img src={item.variants && item.variants.image? `${item.variants.image}` : `${item.product.main_image}`}></img></div>
                     <div className="textCart">
-                    <h4>{item.products.name}</h4>
+                    <h4>{item.product.name}</h4>
                     <div className="quantity">
                     <h5>Quantity:</h5><input type="number" min="1" value={item.quantity}
                     onChange={(e)=>handleQuantityChange(item.id, parseInt(e.target.value))}></input>
                 </div>
-                    <p>Price: ${item.products.price}</p></div>
+                    <p>Price: ${item.product.price}</p></div>
                     <div className="variant">
                     {item.variants && (
                     <p>Color: {item.variants.color}</p>
@@ -77,7 +78,7 @@ const Cart=()=>{
                 </li>
             ))}
             <h4>Total: ${calculateTotal()}</h4>
-            <button>Proceed to Payment</button>
+            <button onClick={()=>navigate('/checkout')}>Proceed to Checkout</button>
         </ul>
     ):(<p>Your Cart is Empty!</p>)
 }
