@@ -21,7 +21,9 @@ const ShopPage = () => {
     sizes: [],
     sortOption: 'featured',
     category: initialCategory,
-    subcategory: initialSubcategory
+    subcategory: initialSubcategory,
+    recent: false,
+    sale: false
   });
   const [showFilters, setShowFilters] = useState(false);
   const [error, setError] = useState('');
@@ -29,28 +31,42 @@ const ShopPage = () => {
   const limit = 20;
   const[totalPages,setTotalPages]=useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [initialized, setInitialized] = useState(false);
+
   const user=localStorage.getItem('user');
+useEffect(() => {
+  const searchParams = new URLSearchParams(location.search);
+  const path = location.pathname;
 
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const category = searchParams.get("category") || null;
-    const subcategory = searchParams.get("subcategory") || null;
+  const category = searchParams.get("category") || null;
+  const subcategory = searchParams.get("subcategory") || null;
+  const isRecent = path === "/recent-products";
+  const isSale = path === "/sale";
+  const sortOption = isRecent ? "newest" : "featured";
 
-    setFilters(prevFilters => ({
-      ...prevFilters,
-      category,
-      subcategory
-    }));
-    setCurrentPage(1);
-}, [location.search]);
+  setFilters(prev => ({
+    ...prev,
+    category,
+    subcategory,
+    recent: isRecent,
+    sale: isSale,
+    sortOption
+  }));
 
+  setCurrentPage(1);
+  setInitialized(true); 
+}, [location]);
+
+  
   useEffect(() => {
     fetchCategories();
   }, []);
-
-  useEffect(() => {
+ useEffect(() => {
+  if (initialized) {
     fetchFilteredProducts(filters, currentPage);
-  }, [filters, currentPage]);
+  }
+}, [filters, currentPage, initialized]);
+ 
 
   const fetchFilteredProducts = async (filterData, page=1) => {
     try {
@@ -62,10 +78,13 @@ const ShopPage = () => {
         if (filterData.subcategory) {
       params.subcategory = filterData.subcategory;
     }
+      if (!filterData.recent) delete params.recent;
+    if (!filterData.sale) delete params.sale;
       const res = await axiosInstance.get('/products/filter', {params});
       setProducts(res.data.products);
       setTotalPages(res.data.totalPages);
       setCurrentPage(res.data.currentPage);
+      console.log('pr', res.data.products);
     } catch (err) {
       setError('Failed to fetch products');
       console.error(err);
@@ -73,16 +92,26 @@ const ShopPage = () => {
   };
 
   const handleFilterApply = (appliedFilters) => {
-     const updatedFilters = { ...filters, ...appliedFilters };
-    setFilters(updatedFilters);
-    setShowFilters(false);
-    const params = new URLSearchParams();
-    if (updatedFilters.category) params.set("category", updatedFilters.category);
-    if (updatedFilters.subcategory) params.set("subcategory", updatedFilters.subcategory);
-
-    navigate({ search: params.toString() });
-    setCurrentPage(1);
+  const updatedFilters = {
+    ...filters,
+    ...appliedFilters,
+    recent: filters.recent,
+    sale: filters.sale
   };
+
+  setFilters(updatedFilters);
+  setShowFilters(false);
+  setCurrentPage(1);
+
+  const params = new URLSearchParams();
+  if (updatedFilters.category) params.set("category", updatedFilters.category);
+  if (updatedFilters.subcategory) params.set("subcategory", updatedFilters.subcategory);
+  if (updatedFilters.recent) params.set("recent", "true");
+  if (updatedFilters.sale) params.set("sale", "true");
+
+  navigate({ search: params.toString() });
+};
+
   const handlePageChange=(pageNumber)=>{
     setCurrentPage(pageNumber);
   };
@@ -151,8 +180,15 @@ const getDescriptions = () => {
       </div>
 
       <div className="main_cart">
-           <h3>{selectedSubcategory? selectedSubcategory.name.toUpperCase(): 
-           selectedCategory? selectedCategory.name.toUpperCase(): "ALL PRODUCTS"}</h3>
+           <h3> {filters.recent
+    ? "NEW ARRIVALS"
+    : filters.sale
+    ? "SALE PRODUCTS"
+    : selectedSubcategory
+    ? selectedSubcategory.name.toUpperCase()
+    : selectedCategory
+    ? selectedCategory.name.toUpperCase()
+    : "ALL PRODUCTS"}</h3>
           <h5>{categories.length>0?
           getDescriptions(): 'Loading description...'}</h5>
           <h6>{filters.subcategory? 
@@ -168,7 +204,19 @@ const getDescriptions = () => {
           <div className="single_cart_info">
             <h5>{product.name}</h5>
             <p>{product.description}</p>
-            <p id='wishlist'>${product.price}<FontAwesomeIcon icon={isInWishlist(product.id)? faHeart: faHeartRegular} 
+            <p id='wishlist'>
+              {product.discounted_price ? (
+              <>
+                <span style={{ textDecoration: 'line-through', color: 'gray', marginRight: '8px' }}>
+                  ${product.price}
+                </span>
+                <span style={{ color: 'red', fontWeight: 'bold' }}>
+                  ${product.discounted_price}
+                </span>
+              </>
+            ) : (
+              <>${product.price}</>
+            )}<FontAwesomeIcon icon={isInWishlist(product.id)? faHeart: faHeartRegular} 
             className='icon' onClick={(e)=>{ e.stopPropagation(); 
             toggleWishlist(product)}}
             /></p>

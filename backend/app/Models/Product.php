@@ -43,4 +43,22 @@ public function sizeStocks()
 {
     return $this->hasMany(Sizes::class, 'productID');
 }
+public function getDiscountedPriceAttribute()
+{
+    $discount = $this->discounts
+        ->where('start_date', '<=', now())
+        ->where('end_date', '>=', now())
+        ->first();
+
+    if (!$discount) return null;
+
+    if ($discount->type === 'percentage') {
+        return round($this->price - ($this->price * ($discount->value / 100)), 2);
+    } elseif ($discount->type === 'fixed') {
+        return max(0, round($this->price - $discount->value, 2));
+    }
+
+    return null;
+}
+
 }

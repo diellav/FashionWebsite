@@ -71,7 +71,6 @@ nav ul li a:hover {
   box-shadow: none;
   z-index: 10;
   min-width: 160px;
-  text-align: start;
 }
 .navbar a, .navbar__item a, .nav__list a, .navbar__dropdown-menu a , #link{
   text-decoration: none !important;
@@ -80,7 +79,6 @@ nav ul li a:hover {
   border-radius: 6px;
   transition: background-color 0.3s ease, color 0.3s ease;
   font-weight: 500;
-  text-align: start;
 }
 .navbar a.active ,.navbar__item a.active,  .navbar__dropdown-menu a.active , #link.active{
   color:#361101;
@@ -133,6 +131,7 @@ nav ul li a:hover {
   font-size: large;
   margin-bottom: 10px;
   color: #3C1800;
+  text-indent: -80px;
 }
 
 .mega-menu-section ul {
@@ -142,6 +141,7 @@ nav ul li a:hover {
   width:100%;
   display: flex;
   flex-direction: column;
+   align-items: flex-start
 }
 
 .mega-menu-section ul li {
@@ -153,6 +153,7 @@ nav ul li a:hover {
   color: #555555;
   transition: color 0.3s;
   font-size: 18px;
+  text-align: left;
 }
 
 .mega-menu-section ul li a:hover {

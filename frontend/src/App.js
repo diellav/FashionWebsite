@@ -101,6 +101,9 @@ function AppContent() {
        <Route path="/aboutUs" element={<AboutUs />} />
        <Route path="/contactUs" element={<ContactUs />} />
        <Route path="/products/filter" element={<ShopPage />} />
+       <Route path="/products/filter" element={<ShopPage />} />
+        <Route path="/sale" element={<ShopPage />} />
+        <Route path="/recent-products" element={<ShopPage />} />
        <Route path="/products/:id" element={<ProductDetail />} />
        <Route path="/cart" element={<Cart />} />
        <Route path="/wishlists" element={<Wishlist />} />

@@ -69,4 +69,21 @@ class UserController extends Controller
         return response()->json(['message' => 'User deleted successfully']);
     }
 
+    public function changePassword(Request $request){
+        $user=auth()->user();
+        $validator=Validator::make($request->all(),[
+            'current_password'=>['required'],
+            'new_password'=>['required', 'min:6', 'confirmed'],
+        ]);
+        if($validator->fails()){
+            return response()->json(['errors'=>$validator->errors()], 422);
+        }
+        if(!Hash::check($request->current_password, $user->password)){
+            return response()->json(['message'=>'current password is incorrect'], 403);
+        }
+        $user->password=Hash::make($request->new_password);
+        $user->save();
+        return response()->json(['message' => 'Password changed successfully.']);
+    }
+
 }

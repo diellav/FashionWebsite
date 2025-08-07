@@ -7,6 +7,9 @@ import useCart from "../components/CartHook";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faQuran } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -19,6 +22,7 @@ const ProductDetail = () => {
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState('');
   const [rating, setRating] = useState(5);
+  const [similar, setSimilar] = useState(5);
   const user = JSON.parse(localStorage.getItem('user'));
   const { wishlist, isInWishlist, toggleWishlist } = useWishlist();
   const { cart, addToCart, isInCart } = useCart();
@@ -26,6 +30,7 @@ const ProductDetail = () => {
   useEffect(() => {
     fetchProduct();
     fetchReviews();
+    fetchSimilar();
   }, [id]);
 
    const fetchProduct = async () => {
@@ -45,6 +50,15 @@ const ProductDetail = () => {
     try {
       const res = await axiosInstance.get(`/products/${id}/reviews`);
       setReviews(res.data);
+    } catch (err) {
+      console.error("Failed to load reviews", err);
+    }
+  }; 
+  const fetchSimilar = async () => {
+    try {
+      const res = await axiosInstance.get(`/similar-products/${id}'`);
+      setSimilar(res.data);
+      console.log('similar',res.data)
     } catch (err) {
       console.error("Failed to load reviews", err);
     }
@@ -126,7 +140,21 @@ const getAllImages = () => {
       <div className="description">
         <h3>{product.name}</h3>
         <p>{product.description}</p>
-        <p>Price: ${product.price}</p>
+        <div className="product-price">
+          {product.discounted_price ? (
+            <>
+              <span className="original-price" style={{ textDecoration: 'line-through', color: 'gray', marginRight: '10px' }}>
+                ${product.price}
+              </span>
+              <span className="discounted-price" style={{ color: 'red', fontWeight: 'bold' }}>
+                ${product.discounted_price}
+              </span>
+            </>
+          ) : (
+            <span className="normal-price">${product.price}</span>
+          )}
+</div>
+
 
 {hasVariants && (
   <div className="sizes-container">
@@ -232,6 +260,44 @@ const getAllImages = () => {
         </div>
       ):(<p>You need to log in before leaving a review</p>)}
 </div>
+
+       <div className="main_arrivals">
+         <h3>Similar Products:</h3>
+          <div className="arrivals">
+          {similar.length>0 ? (
+            <Slider
+              dots={true}
+              infinite={true}
+              speed={500}
+              slidesToShow={4}
+              slidesToScroll={1}
+              responsive={[
+                {
+                breakpoint: 1024,
+                settings: {
+                  slidesToShow: 2,
+                  slidesToScroll: 1,
+            },
+          },
+              { 
+                breakpoint: 600,
+                settings: {
+                  slidesToShow: 1,
+                  slidesToScroll: 1,
+                },
+              },
+            ]}>
+          {similar.map(product=>(
+            <div key={product.id} className="product-slide">
+              <img src={product.main_image} alt={product.name}
+              style={{ width: '100%', height: '270px', objectFit: 'cover' }}></img>
+              <h5>{product.name}</h5>
+              <p>${product.price}</p>
+            </div>
+          ))}
+            </Slider>):(<p>No new products this week</p>)}
+          </div>
+          </div>
 </>
   );
 };

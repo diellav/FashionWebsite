@@ -35,6 +35,7 @@ use App\Http\Controllers\AddressController;
     Route::post('/contacts', [ContactController::class, 'createContact']);
     Route::get('/recent-products', [ProductController::class, 'getRecentProducts']);
     Route::get('/best-products', [ProductController::class, 'getBestSellers']);
+    Route::get('/sale', [ProductController::class, 'getSaleProducts']); 
     Route::get('/collections-home', [CollectionController::class, 'getCollectionHome']);
     Route::get('/deals-of-the-week', [DiscountsController::class, 'getDealsOfTheWeek']);
     Route::get('/categories', [CategoryController::class, 'getCategorys']);
@@ -43,6 +44,8 @@ use App\Http\Controllers\AddressController;
     Route::get('/variant_size_stock', [VariantSizeStockController::class, 'getVariantSizeStocks']);
     Route::get('/sizes', [SizesController::class, 'getSizes']);
     Route::get('/products/{id}/reviews', [ReviewController::class, 'getReviewsForProduct']);
+    Route::get('/similar-products/{id}', [ProductController::class, 'getSimilarProducts']);
+
 Route::middleware('auth:api')->group(function(){
     Route::get('/me',[AuthController::class,'me']);
     Route::get('/logout',[AuthController::class,'logout']);
@@ -53,7 +56,7 @@ Route::middleware('auth:api')->group(function(){
     Route::post('/users', [UserController::class, 'createUser']);
     Route::put('/users/{id}', [UserController::class, 'updateUser']);
     Route::delete('/users/{id}', [UserController::class, 'deleteUser']);
-
+    Route::post('/change-password', [UserController::class, 'changePassword']);
     //categories
     Route::get('/categories/{id}', [CategoryController::class, 'getCategoryID']);
     Route::post('/categories', [CategoryController::class, 'createCategory']);

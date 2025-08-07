@@ -36,7 +36,6 @@ body {
     width:38%;
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 .text p{
     color:black;
@@ -52,7 +51,8 @@ body {
     font-size:medium;
     justify-content: center;
     color:#1a1a1a;
-    background-color: #7d605b;
+    font-weight: 600;
+    background-color: #e4e4e4;
 }
 .insights{
     display: flex;

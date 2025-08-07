@@ -12,56 +12,21 @@ class ProductController extends Controller
 {
 
       public function getProducts(){
-        return Product::with(['category', 'discounts', 'variants', 'images'])->get();
+        $products=Product::with(['category', 'discounts', 'variants', 'images'])->get();
+        $products->each(function($product){
+            $product->discounted_price=$product->discounted_price;
+        });
+        return $products;
       }
+private function createPaginatedFilteredProducts(Request $request, ?callable $extraQuery = null)
+{
+    $query = $this->filterProductsBaseQuery($request);
 
-    public function getProductsFilter(Request $request){
-        $query=Product::with(['category', 'discounts', 'variants', 'images']);
+    if ($extraQuery) {
+        $extraQuery($query);
+    }
 
-
-        //per ndarjen ne navbar:
-        if($request->has('category')){
-            $categoryName=strtolower($request->get('category'));
-
-            $parent=DB::table('categories')->whereRaw('LOWER(name)=?', [$categoryName])->first();
-            if($parent){
-                if($request->has('subcategory')){
-                    $subcategoryName=strtolower($request->get('subcategory'));
-                    $subcategory=DB::table('categories')->whereRaw('LOWER(name)=?', [$subcategoryName])->where('parentID', $parent->id)->first();
-
-                    if($subcategory){
-                         $categoryIDs=collect([$subcategory->id]);
-                    }else{
-                        $categoryIDs = DB::table('categories')->where('parentID', $parent->id)->pluck('id');
-                    }
-                }else{
-                    $categoryIDs = DB::table('categories')->where('parentID', $parent->id)->pluck('id');
-                }
-                
-            if($categoryIDs->isEmpty()){
-                $categoryIDs=collect([$parent->id]);
-            }
-            $query->whereIn('categoryID', $categoryIDs);
-            }
-        }
-
-        if($request->has('priceRange')){
-            $range=$request->get('priceRange');
-            if(is_array($range) && count($range)===2){
-                $query->whereBetween('price', [$range[0], $range[1]]);
-            }
-        }
-        if($request->has('categories')&& is_array($request->categories) && count($request->categories)>0){
-            $query->whereIn('categoryID',$request->categories );
-        }
-
-        if ($request->has('sizes')) {
-    $query->whereHas('sizeStocks', function ($q) use ($request) {
-    $q->whereIn('size', $request->sizes);
-});
-}
-
-        switch ($request->get('sortOption')) {
+    switch ($request->get('sortOption')) {
         case 'price-asc':
             $query->orderBy('price', 'asc');
             break;
@@ -69,24 +34,99 @@ class ProductController extends Controller
             $query->orderBy('price', 'desc');
             break;
         case 'newest':
-            $query->orderBy('created_at', 'desc');
-            break;
         default:
             $query->orderBy('created_at', 'desc');
             break;
-        }
+    }
 
-        $limit = $request->get('limit', 20);
-        $page = $request->get('page', 1);
-        $paginated = $query->paginate($limit, ['*'], 'page', $page);
+    $limit = $request->get('limit', 20);
+    $page = $request->get('page', 1);
 
-        return response()->json([
-        'products' => $paginated->items(),
+    $paginated = $query->paginate($limit, ['*'], 'page', $page);
+
+    $productsWithPrices = $paginated->getCollection()->map(function ($product) {
+        $product->discounted_price = $product->discounted_price;
+        return $product;
+    });
+
+    return response()->json([
+        'products' => $productsWithPrices,
         'totalPages' => $paginated->lastPage(),
         'currentPage' => $paginated->currentPage(),
         'totalItems' => $paginated->total(),
-]);
+    ]);
+}
+private function filterProductsBaseQuery(Request $request)
+{
+    $query = Product::with(['category', 'discounts', 'variants', 'images']);
+
+    if ($request->has('category')) {
+        $categoryName = strtolower($request->get('category'));
+
+        $parent = DB::table('categories')->whereRaw('LOWER(name)=?', [$categoryName])->first();
+
+        if ($parent) {
+            if ($request->has('subcategory')) {
+                $subcategoryName = strtolower($request->get('subcategory'));
+                $subcategory = DB::table('categories')
+                    ->whereRaw('LOWER(name)=?', [$subcategoryName])
+                    ->where('parentID', $parent->id)
+                    ->first();
+
+                if ($subcategory) {
+                    $categoryIDs = collect([$subcategory->id]);
+                } else {
+                    $categoryIDs = DB::table('categories')->where('parentID', $parent->id)->pluck('id');
+                }
+            } else {
+                $categoryIDs = DB::table('categories')->where('parentID', $parent->id)->pluck('id');
+            }
+
+            if ($categoryIDs->isEmpty()) {
+                $categoryIDs = collect([$parent->id]);
+            }
+
+            $query->whereIn('categoryID', $categoryIDs);
+        }
     }
+
+    if ($request->has('priceRange')) {
+        $range = $request->get('priceRange');
+        if (is_array($range) && count($range) === 2) {
+            $query->whereBetween('price', [$range[0], $range[1]]);
+        }
+    }
+
+    if ($request->has('categories') && is_array($request->categories) && count($request->categories) > 0) {
+        $query->whereIn('categoryID', $request->categories);
+    }
+
+    if ($request->has('sizes')) {
+        $query->whereHas('sizeStocks', function ($q) use ($request) {
+            $q->whereIn('size', $request->sizes);
+        });
+    }
+
+    return $query;
+}
+
+
+   public function getProductsFilter(Request $request)
+{
+    return $this->createPaginatedFilteredProducts($request, function ($query) use ($request) {
+        if ($request->has('recent') && $request->boolean('recent')) {
+            $query->where('created_at', '>=', now()->subDays(40));
+        }
+
+        if ($request->has('sale') && $request->boolean('sale')) {
+            $now = now();
+            $query->whereHas('discounts', function ($q) use ($now) {
+                $q->where('start_date', '<=', $now)->where('end_date', '>=', $now);
+            });
+        }
+    });
+}
+
     public function getProductID($id){
         $product=Product::with([ 'category',
     'discounts',
@@ -94,6 +134,7 @@ class ProductController extends Controller
     'images',
     'sizestocks',
     'variants.sizeStocks' ])->findOrFail($id);
+    $product->discounted_price=$product->discounted_price;
         return response()->json($product);
     }
 
@@ -142,21 +183,60 @@ class ProductController extends Controller
         return response()->json(['message' => 'Product deleted successfully']);
     }
 
-    public function getRecentProducts(){
-        $week=Carbon::now()->subDays(7);
-        $recent=Product::with(['category','discounts','variants', 'images'])
-        ->where('created_at','>=', $week)->orderBy('created_at','desc')->limit(10)->get();
-        return response()->json($recent);
-    }
+    public function getRecentProducts(Request $request)
+{
+    return $this->createPaginatedFilteredProducts($request, function ($query) {
+        $query->where('created_at', '>=', now()->subDays(40));
+    });
+}
+public function getSaleProducts(Request $request)
+{
+    return $this->createPaginatedFilteredProducts($request, function ($query) {
+        $now = now();
+        $query->whereHas('discounts', function ($q) use ($now) {
+            $q->where('start_date', '<=', $now)->where('end_date', '>=', $now);
+        });
+    });
+}
 
-    public function getBestSellers(){
-        $products=DB::table('order_items')
-        ->select('products.*',DB::raw('SUM(order_items.quantity) as total_sold'))
-        ->join('product_variants', 'product_variants.id', '=', 'order_items.product_variantID')
-        ->join('products', 'product_variants.productID', '=', 'products.id')
+
+   public function getBestSellers() {
+    $products = DB::table('order_items')
+        ->select('products.*', DB::raw('SUM(order_items.quantity) as total_sold'))
+        ->leftJoin('product_variants', 'product_variants.id', '=', 'order_items.product_variantID')
+        ->join('products', function ($join) {
+            $join->on('products.id', '=', DB::raw('COALESCE(product_variants.productID, order_items.productID)'));
+        })
         ->groupBy('products.id')
-        ->orderByDesc('total_sold')->limit(12)->get();
-        return response()->json($products);
-    }
+        ->orderByDesc('total_sold')
+        ->limit(12)
+        ->get();
+
+    return response()->json($products);
+}
+
+   public function getSimilarProducts($id){
+    $product = Product::with('images')->findOrFail($id);
+
+    $keywords = collect(explode(' ', $product->name . ' ' . $product->description))
+        ->filter(function ($word) {
+            return strlen($word) > 3;
+        })->unique();
+
+    $query = Product::with('images')
+        ->where('id', '!=', $id)
+        ->where(function ($q) use ($keywords) {
+            foreach ($keywords as $word) {
+                $q->orWhere('name', 'like', '%' . $word . '%')
+                  ->orWhere('description', 'like', '%' . $word . '%');
+            }
+        });
+
+    $similarProducts = $query->limit(10)->get();
+
+    return response()->json($similarProducts);
+}
+
+
 
 }

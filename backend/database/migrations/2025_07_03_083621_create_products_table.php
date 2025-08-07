@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('categoryID')->nullable();
             $table->integer('stock')->default(0);
             $table->string('main_image')->nullable();
-            $table->boolean('hasdiscount')->default(false);
             $table->timestamps();
             $table->foreign('categoryID')->references('id')->on('categories')->onDelete('set null')->onUpdate('cascade');
         });

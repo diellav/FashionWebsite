@@ -79,8 +79,8 @@ const parentCategories = categories.filter(cat => cat.parentID === null);
               <div className="mega-menu-section">
                 <h4>Happening Now</h4>
                 <ul>
-                  <li><Link to="/products/sale" activeclassname="active" >Sale</Link></li>
-                  <li><Link to="/products/filter" activeclassname="active" >New Arrivals</Link></li>
+                  <li><Link to="/sale" activeclassname="active" >Sale</Link></li>
+                  <li><Link to="/recent-products" activeclassname="active" >New Arrivals</Link></li>
                 </ul>
               </div>
                 </div>

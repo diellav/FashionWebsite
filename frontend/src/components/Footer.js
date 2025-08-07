@@ -24,7 +24,7 @@ const Footer = () => {
         <div className="links">
           <p className="newLine">Our store</p>
           <Link to="/home">Home</Link>
-          <Link to="/products">Shop</Link>
+          <Link to="/products/filter">Shop</Link>
           <Link to="/aboutUs">About Us</Link>
           <Link to="/contactUs">Contact</Link>
         </div>
@@ -39,8 +39,8 @@ const Footer = () => {
         <div className="links">
           <p className="newLine">Your profile</p>
           <Link to="/profile">Profile</Link>
-          <Link to="/orders">Orders</Link>
-          <Link to="/questions">FAQ</Link>
+          <Link to="/profile/orders">Orders</Link>
+          <Link to="/home#faq">FAQ</Link>
         </div>
     )}
 

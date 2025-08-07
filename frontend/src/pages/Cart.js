@@ -19,6 +19,7 @@ const Cart=()=>{
             setError('Failed to fetch cart');
         }
     };
+    
     const handleRemoveFromCart=async(id)=>{
         try{
         await axiosInstance.delete(`/cart_items/${id}`);
@@ -29,9 +30,9 @@ const Cart=()=>{
     };
     const calculateTotal=()=>{
         return cartItems.reduce((total,item)=>{
-            const price=item.product?.price || 0;
+            const discounted=item.product.discounted_price? item.product.discounted_price : item.product.price;
             const quantity=item.quantity || 1;
-            return total+(price*quantity);
+            return total+(discounted*quantity);
         }, 0).toFixed(2);
     };
     const handleQuantityChange = async (id, newQuantity) => {
@@ -67,7 +68,15 @@ const Cart=()=>{
                     <h5>Quantity:</h5><input type="number" min="1" value={item.quantity}
                     onChange={(e)=>handleQuantityChange(item.id, parseInt(e.target.value))}></input>
                 </div>
-                    <p>Price: ${item.product.price}</p></div>
+                     {item.product.discounted_price ? (
+                        <>
+                        <span className="discounted-price">
+                            Price: ${item.product.discounted_price}
+                        </span>
+                        </>
+                    ) : (
+                       <span className="normal-price">Price: ${item.product.price}</span>
+                    )}</div>
                     <div className="variant">
                     {item.variants && (
                     <p>Color: {item.variants.color}</p>
@@ -77,8 +86,9 @@ const Cart=()=>{
                     </button><p className='Cartmessage'>Remove From Cart</p>
                 </li>
             ))}
+            <div className="check">
             <h4>Total: ${calculateTotal()}</h4>
-            <button onClick={()=>navigate('/checkout')}>Proceed to Checkout</button>
+            <button onClick={()=>navigate('/checkout')} className="add-btn">Proceed to Checkout</button></div>
         </ul>
     ):(<p>Your Cart is Empty!</p>)
 }

@@ -11,7 +11,11 @@ class WishlistController extends Controller
 {
      public function getWishlists(){
          $userId = auth()->id();
-        return Wishlist::with(['user', 'product','variant'])->where('userID', $userId)->get();
+        $wishlists= Wishlist::with(['user', 'product','variant'])->where('userID', $userId)->get();
+        $wishlists->each(function ($item) {
+        $item->product->discounted_price = $item->product->discounted_price;
+    });
+    return $wishlists;
     }
 
     public function getWishlistID($id){

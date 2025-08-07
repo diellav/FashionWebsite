@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import axiosInstance from "../axios";
+import '../template/CheckOut.css'; 
 
 const Checkout = () => {
   const stripe = useStripe();
@@ -46,50 +47,34 @@ const Checkout = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: '500px', margin: '0 auto' }}>
+      <form onSubmit={handleSubmit} className="checkout-form">
       <h2>Shipping Information</h2>
-
-      <label>Country</label>
-      <input
-        type="text"
-        value={country}
-        onChange={(e) => setCountry(e.target.value)}
-        required
-      />
-
-      <label>City</label>
-      <input
-        type="text"
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-        required
-      />
-
-      <label>Postal Code</label>
-      <input
-        type="text"
-        value={postalCode}
-        onChange={(e) => setPostalCode(e.target.value)}
-        required
-      />
-
-      <label>Address</label>
-      <input
-        type="text"
-        value={shippingAddress}
-        onChange={(e) => setShippingAddress(e.target.value)}
-        required
-      />
-
-      <h2>Card Details</h2>
-      <div style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}>
+      <div className="form-section">
+        <label>Country
+          <input type="text" value={country} onChange={(e) => setCountry(e.target.value)} required />
+        </label>
+        <label>City
+          <input type="text" value={city} onChange={(e) => setCity(e.target.value)} required />
+        </label>
+      </div>
+      <div className="form-section">
+        <label>Postal Code
+          <input type="text" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} required />
+        </label>
+        <label>Address
+          <input type="text" value={shippingAddress} onChange={(e) => setShippingAddress(e.target.value)} required />
+        </label>
+      </div>
+       <h2>Card Details</h2>
+      <div className="card-element-wrapper">
         <CardElement />
       </div>
-
-      <button type="submit" disabled={!stripe} style={{ marginTop: '15px' }}>Pay</button>
-
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}
+      <button type="submit" disabled={!stripe}>Pay</button>
+      <p onClick={()=>{const confirm=window.confirm('Are you sure you want to cancel this checkout payment?');
+        if(confirm)navigate('/cart')}}>
+        Cancel Payment</p>
+      {error && <p className="error-message">{error}</p>}
+      {success && <p className="success-message">{success}</p>}
     </form>
   );
 };

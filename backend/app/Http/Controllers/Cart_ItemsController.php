@@ -10,10 +10,14 @@ class Cart_ItemsController extends Controller
 {
       public function getCart_Items(){
          $userId = auth()->id();
-        return Cart_Items::with(['cart','product','variants'])
+        $cartItems= Cart_Items::with(['cart','product','variants'])
              ->whereHas('cart', function ($query) use ($userId) {
             $query->where('userID', $userId);
         })->get();
+        $cartItems->each(function ($item) {
+        $item->product->discounted_price = $item->product->discounted_price;
+    });
+    return $cartItems;
     }
     public function getCart_ItemID($id){
         $cart_Item=Cart_Items::with(['cart','product','variants'])->findOrFail($id);

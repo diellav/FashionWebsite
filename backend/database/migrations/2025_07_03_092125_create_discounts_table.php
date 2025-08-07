@@ -14,7 +14,6 @@ return new class extends Migration
             $table->decimal('value',10,2)->nullable();
             $table->enum('type',['fixed','percentage'])->default('percentage');
             $table->string('conditions')->nullable();
-            $table->unsignedBigInteger('productID')->nullable();
             $table->timestamp('start_date')->nullable();
             $table->timestamp('end_date')->nullable();
             $table->timestamps();
@@ -24,10 +23,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::table('discounts', function (Blueprint $table) {
-            $table->dropForeign(['productID']);
-        });
-
         Schema::dropIfExists('discounts');
     }
 };

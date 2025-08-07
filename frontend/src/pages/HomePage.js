@@ -26,7 +26,7 @@ const HomePage=()=>{
     try{
     const res=await axiosInstance.get('/recent-products');
      console.log('recent products:', res.data);
-    setRecent(res.data);
+    setRecent(res.data.products);
     }catch(err){
       console.error('Failed to fetch products', err);
     }
@@ -42,6 +42,7 @@ const HomePage=()=>{
     const fetchBestSellerProducts=async()=>{
     try{
     const res=await axiosInstance.get('/best-products');
+    console.log('best products:', res.data);
     setBestSeller(res.data);
     }catch(err){
       console.error('Failed to fetch products', err);
@@ -121,7 +122,7 @@ const HomePage=()=>{
         <div className="main_arrivals">
          <h3>New Arrivals</h3>
           <div className="arrivals">
-             <p onClick={()=>navigate('/products/filter')} id='allproducts'>See all products...</p>
+             <p onClick={()=>navigate('/recent-products')} id='allproducts'>See all products...</p>
           {recent.length>0 ? (
             <Slider
               dots={true}
@@ -146,11 +147,22 @@ const HomePage=()=>{
               },
             ]}>
           {recent.map(product=>(
-            <div key={product.id} className="product-slide">
+            <div key={product.id} className="product-slide" onClick={()=>navigate(`/products/${product.id}`)}>
               <img src={product.main_image} alt={product.name}
               style={{ width: '100%', height: '270px', objectFit: 'cover' }}></img>
               <h5>{product.name}</h5>
-              <p>${product.price}</p>
+              {product.discounted_price ? (
+              <>
+                <span style={{ textDecoration: 'line-through', color: 'gray', marginRight: '8px' }}>
+                  ${product.price}
+                </span>
+                <span style={{ color: 'red', fontWeight: 'bold' }}>
+                  ${product.discounted_price}
+                </span>
+              </>
+            ) : (
+              <>${product.price}</>
+            )}
             </div>
           ))}
             </Slider>):(<p>No new products this week</p>)}
@@ -171,7 +183,7 @@ const HomePage=()=>{
                 autoplaySpeed={5000}
               >
                 {deals.map(deals=>(
-                   <div key={deals.id} className="discount-slide">
+                   <div key={deals.id} className="discount-slide" onClick={()=>navigate('/sale')}>
                     <img src={deals.image} alt={deals.name}/>
                      <div className="text">
                   <h2>{deals.name}</h2>
@@ -212,7 +224,7 @@ const HomePage=()=>{
               },
             ]}>
           {bestseller.map(product=>(
-            <div key={product.id} className="product-slide">
+            <div key={product.id} className="product-slide" onClick={()=>navigate(`/products/${product.id}`)}>
               <img src={product.main_image} alt={product.name}
               style={{ width: '100%', height: '250px', objectFit: 'cover' }}></img>
               <h5>{product.name}</h5>
@@ -235,7 +247,8 @@ const HomePage=()=>{
           </div>
 
           <hr></hr>
-          <FAQ />
+          <div id='faq'>
+          <FAQ /></div>
           <div className="newsletter">
             <div className="letter">
               <h2>Subscribe to Our NewsLetter to Get The Latest Updates on Our Discounts and Be The First to Know About Our New Collections</h2>
