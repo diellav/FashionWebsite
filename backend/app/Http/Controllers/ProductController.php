@@ -115,7 +115,7 @@ private function filterProductsBaseQuery(Request $request)
 {
     return $this->createPaginatedFilteredProducts($request, function ($query) use ($request) {
         if ($request->has('recent') && $request->boolean('recent')) {
-            $query->where('created_at', '>=', now()->subDays(40));
+            $query->where('created_at', '>=', now()->subDays(14));
         }
 
         if ($request->has('sale') && $request->boolean('sale')) {
@@ -135,6 +135,11 @@ private function filterProductsBaseQuery(Request $request)
     'sizestocks',
     'variants.sizeStocks' ])->findOrFail($id);
     $product->discounted_price=$product->discounted_price;
+        $averageRating = DB::table('reviews')
+            ->where('productID', $product->id)
+            ->avg('rating');
+        
+        $product->average_rating = round($averageRating, 1) ?? 0;
         return response()->json($product);
     }
 
@@ -186,7 +191,7 @@ private function filterProductsBaseQuery(Request $request)
     public function getRecentProducts(Request $request)
 {
     return $this->createPaginatedFilteredProducts($request, function ($query) {
-        $query->where('created_at', '>=', now()->subDays(40));
+        $query->where('created_at', '>=', now()->subDays(14));
     });
 }
 public function getSaleProducts(Request $request)
@@ -211,7 +216,7 @@ public function getSaleProducts(Request $request)
         ->orderByDesc('total_sold')
         ->limit(12)
         ->get();
-
+        
     return response()->json($products);
 }
 

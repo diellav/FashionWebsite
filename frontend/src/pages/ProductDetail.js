@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams ,useNavigate} from "react-router-dom";
 import axiosInstance from "../axios";
 import "../template/ProductDetails.css";
+import "../template/ShopPage.css";
 import useWishlist from "../components/WishlistHook";
 import useCart from "../components/CartHook";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -23,14 +24,17 @@ const ProductDetail = () => {
   const [newReview, setNewReview] = useState('');
   const [rating, setRating] = useState(5);
   const [similar, setSimilar] = useState(5);
+  const[bestseller,setBestSeller]=useState([]);
   const user = JSON.parse(localStorage.getItem('user'));
   const { wishlist, isInWishlist, toggleWishlist } = useWishlist();
   const { cart, addToCart, isInCart } = useCart();
+  const navigate=useNavigate();
 
   useEffect(() => {
     fetchProduct();
     fetchReviews();
     fetchSimilar();
+    fetchBestSellerProducts();
   }, [id]);
 
    const fetchProduct = async () => {
@@ -119,6 +123,16 @@ const getAllImages = () => {
   });
 };
 
+ const fetchBestSellerProducts=async()=>{
+    try{
+    const res=await axiosInstance.get('/best-products');
+    console.log('best products:', res.data);
+    setBestSeller(res.data);
+    }catch(err){
+      console.error('Failed to fetch products', err);
+    }
+  };
+
   if (error) return <p>{error}</p>;
   if (!product) return <p>Loading...</p>;
 
@@ -140,25 +154,28 @@ const getAllImages = () => {
       <div className="description">
         <h3>{product.name}</h3>
         <p>{product.description}</p>
+        {bestseller.some(item=>item.id===product.id) && (
+        <h5><i style={{color:'darkred'}}>BestSeller</i></h5>
+      )}
         <div className="product-price">
           {product.discounted_price ? (
             <>
               <span className="original-price" style={{ textDecoration: 'line-through', color: 'gray', marginRight: '10px' }}>
-                ${product.price}
+                Price: ${product.price}
               </span>
-              <span className="discounted-price" style={{ color: 'red', fontWeight: 'bold' }}>
-                ${product.discounted_price}
+              <span className="discounted-price" style={{ color: 'red', fontWeight: 'bold' , fontSize:"large"}}>
+                Discounted Price: ${product.discounted_price}
               </span>
             </>
           ) : (
-            <span className="normal-price">${product.price}</span>
+            <span className="normal-price" style={{ fontSize:"x-large"}}>Price: ${product.price}</span>
           )}
 </div>
 
 
 {hasVariants && (
   <div className="sizes-container">
-    <label htmlFor="variant-select"><h5>Variants:</h5></label>
+    <label htmlFor="variant-select"><h5>Options:</h5></label>
     <select
       id="variant-select"
       value={selectedVariant?.id || ""}
@@ -175,7 +192,7 @@ const getAllImages = () => {
         }
       }}
     >
-      <option value="" disabled>Select a variant</option>
+      <option value="" disabled>Choose</option>
       {product.variants.map((variant) => (
         <option key={variant.id} value={variant.id}>
           Color: {variant.color}, Material: {variant.material}
@@ -187,7 +204,7 @@ const getAllImages = () => {
 
 
 <div className="sizes-container">
-  <label htmlFor="size-select">Sizes:</label>
+  <label htmlFor="size-select"><h5>Sizes:</h5></label>
   <select
     id="size-select"
     value={selectedSize?.id || ""}
@@ -199,7 +216,7 @@ const getAllImages = () => {
       setSelectedSize(selected);
     }}
   >
-    <option value="" disabled>Select a size</option>
+    <option value="" disabled>Choose</option>
     {(selectedVariant
       ? product.sizestocks.filter(s => s.variantID === selectedVariant.id)
       : product.sizestocks.filter(s => s.variantID === null)
@@ -232,6 +249,9 @@ const getAllImages = () => {
 
     <div className="reviewSection">
       <h3>Reviews</h3>
+      {product.average_rating && (
+  <h5 id='avg'><i>Average Rating: {product.average_rating} / 5</i></h5>
+)}
       {reviews.length === 0 && <p>No reviews yet.</p>}
       {reviews.map((r) => (
         <div key={r.id} className="review-item">
@@ -262,7 +282,7 @@ const getAllImages = () => {
 </div>
 
        <div className="main_arrivals">
-         <h3>Similar Products:</h3>
+         <h3>Customers Also Viewed:</h3>
           <div className="arrivals">
           {similar.length>0 ? (
             <Slider
@@ -288,7 +308,7 @@ const getAllImages = () => {
               },
             ]}>
           {similar.map(product=>(
-            <div key={product.id} className="product-slide">
+            <div key={product.id} className="product-slide" onClick={()=>navigate(`/products/${product.id}`)}>
               <img src={product.main_image} alt={product.name}
               style={{ width: '100%', height: '270px', objectFit: 'cover' }}></img>
               <h5>{product.name}</h5>

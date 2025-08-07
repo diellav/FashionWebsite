@@ -26,7 +26,6 @@ class OrderController extends Controller
 
      public function checkout(Request $request){
          $user = Auth::user();
-        $shipping_address = $request->input('shipping_address');
         $stripeToken = $request->input('stripeToken');
 
     
@@ -48,7 +47,10 @@ class OrderController extends Controller
         DB::beginTransaction();
 
         try {
-                    
+                    if ($request->has('address_id')) {
+            $address = Address::where('userID', $user->id)
+                ->findOrFail($request->address_id);
+        } else { 
             $address = Address::create([
                 'userID' => $user->id,
                 'country' => $request->input('country'),
@@ -57,11 +59,11 @@ class OrderController extends Controller
                 'address' => $request->input('shipping_address'),
             ]);
                     
-
+}
             $order = Order::create([
                 'userID' => $user->id,
                 'total_price' => $totalPrice,
-                'shipping_address' => $request->input('shipping_address'),
+                'shipping_address' => $address->address,
                 'country' => $request->input('country'),
                 'city' => $request->input('city'),
                 'postal_code' => $request->input('postal_code'),

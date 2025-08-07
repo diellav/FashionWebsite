@@ -55,6 +55,8 @@ const Cart=()=>{
     return(
         <div className="mainCart">
             <h3>My Cart</h3>
+<p id='helper-text'>Your selected items are listed below. You can adjust quantities or remove products before checking out.</p>
+
             {
     cartItems.length>0? (
         <ul>
@@ -88,9 +90,10 @@ const Cart=()=>{
             ))}
             <div className="check">
             <h4>Total: ${calculateTotal()}</h4>
-            <button onClick={()=>navigate('/checkout')} className="add-btn">Proceed to Checkout</button></div>
+            <p className="checkout-hint">Review your cart and proceed to checkout to complete your purchase.</p>
+            <button onClick={()=>navigate('/checkout')} className="add-btn">Continue to Checkout</button></div>
         </ul>
-    ):(<p>Your Cart is Empty!</p>)
+    ):(<p>Your Cart is Empty! Start shopping and add some great items.</p>)
 }
         </div>
     );

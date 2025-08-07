@@ -95,3 +95,8 @@ body{
     align-items: baseline;
     padding: 2%;
 }
+#helper-text, .checkout-hint, .wishlist-hint, .page-subtext {
+  font-size: larger;
+  color: #666;
+  margin-top: 4px;
+}

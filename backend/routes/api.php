@@ -23,6 +23,7 @@ use App\Http\Controllers\SizesController;
 use App\Http\Controllers\VariantSizeStockController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\SearchController;
 
     Route::post('/login',[AuthController::class,'login']);
     Route::post('/register',[AuthController::class,'register']);
@@ -45,7 +46,7 @@ use App\Http\Controllers\AddressController;
     Route::get('/sizes', [SizesController::class, 'getSizes']);
     Route::get('/products/{id}/reviews', [ReviewController::class, 'getReviewsForProduct']);
     Route::get('/similar-products/{id}', [ProductController::class, 'getSimilarProducts']);
-
+    Route::get('/search', [SearchController::class, 'search']);
 Route::middleware('auth:api')->group(function(){
     Route::get('/me',[AuthController::class,'me']);
     Route::get('/logout',[AuthController::class,'logout']);

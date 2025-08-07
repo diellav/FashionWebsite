@@ -175,6 +175,8 @@ hr{
   height: 400px;
   text-align: start;
   padding:1%;
+   transition: transform 0.2s ease-in-out;
+  cursor: pointer;
 }
 .product-slide img{
   width: 100%;
@@ -189,6 +191,9 @@ hr{
     padding:1%;
 }
 
+.main_arrivals .product-slide:hover {
+  transform: scale(1.02);
+}
 
 .main_deals{
     width:100%;

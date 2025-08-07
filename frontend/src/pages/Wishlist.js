@@ -41,6 +41,8 @@ const Wishlist=()=>{
     return(
         <div className="mainCart">
             <h3>My Wishlist</h3>
+            <p id='helper-text'>Here are your saved items. Add them to your cart when you're ready to buy.</p>
+
             {
             wishlistItems.length>0? (
             <ul>
@@ -67,7 +69,7 @@ const Wishlist=()=>{
                 </ul>
 
                     </ul>
-                ):(<p>Your Wishlist is Empty!</p>)
+                ):(<p>Your Wishlist is Empty! Browse products and click the heart icon to save items for later.</p>)
             }
         </div>
     );

@@ -14,15 +14,14 @@ body{
     width:100%;
     align-items: center;
     justify-content: center;
-    background-color:#e8e7e6;
-    padding: 6%;
+    background-color: #f4eeed;
+    padding: 3%;
     font-family: 'Josefin Sans';
 }
 .contactForm{
     display: flex;
     flex-direction: column;
     height:auto;
-    background-color:#e8e7e6;
     justify-content: center;
     align-items: center;
     width:70%;
@@ -32,18 +31,17 @@ body{
     color:white;
 }
 .contactsection{
-    background-color:#55321a;
     border-radius:10px;
     align-self: center;
     justify-self: center;
     padding:4%;
     width:80%;
     justify-content: center;
+    /*box-shadow: 2px 4px 8px rgba(0,0,0,0.7);*/
 }
 form{
     justify-self: center;
     width:100%;
-    
 }
 .sector{
     width:100%;
@@ -60,7 +58,7 @@ form{
     border-radius: 20px;
     font-size:larger;
     text-align: start;
-    text-indent: 10px;
+    text-indent: 5px;
 }
 .contactsection textarea{
     margin:5px 10px;
@@ -86,10 +84,10 @@ form{
     color:rgb(255, 255, 255);
     background-color: #7d605b;
 }
-.contactsection p{
+.contactsection p, .helper-text{
     font-size:large;
     text-align: center;
-    color: rgb(247, 247, 247);
+    color: rgb(0, 0, 0);
 }
 
 @media (max-width: 750px){
