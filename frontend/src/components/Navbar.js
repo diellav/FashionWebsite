@@ -81,6 +81,7 @@ const parentCategories = categories.filter(cat => cat.parentID === null);
                 <ul>
                   <li><Link to="/sale" activeclassname="active" >Sale</Link></li>
                   <li><Link to="/recent-products" activeclassname="active" >New Arrivals</Link></li>
+                  <li><Link to="/collection-products" activeclassname="active" >New Collection</Link></li>
                 </ul>
               </div>
                 </div>

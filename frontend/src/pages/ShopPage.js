@@ -23,7 +23,8 @@ const ShopPage = () => {
     category: initialCategory,
     subcategory: initialSubcategory,
     recent: false,
-    sale: false
+    sale: false,
+    collection:false
   });
   const [showFilters, setShowFilters] = useState(false);
   const [error, setError] = useState('');
@@ -42,6 +43,7 @@ useEffect(() => {
   const subcategory = searchParams.get("subcategory") || null;
   const isRecent = path === "/recent-products";
   const isSale = path === "/sale";
+  const isCollection=path==="/collection-products";
   const sortOption = isRecent ? "newest" : "featured";
 
   setFilters(prev => ({
@@ -50,6 +52,7 @@ useEffect(() => {
     subcategory,
     recent: isRecent,
     sale: isSale,
+    collection:isCollection,
     sortOption
   }));
 
@@ -96,7 +99,8 @@ useEffect(() => {
     ...filters,
     ...appliedFilters,
     recent: filters.recent,
-    sale: filters.sale
+    sale: filters.sale,
+    collection:filters.collection,
   };
 
   setFilters(updatedFilters);
@@ -108,6 +112,7 @@ useEffect(() => {
   if (updatedFilters.subcategory) params.set("subcategory", updatedFilters.subcategory);
   if (updatedFilters.recent) params.set("recent", "true");
   if (updatedFilters.sale) params.set("sale", "true");
+  if (updatedFilters.collection) params.set("collection", "true");
 
   navigate({ search: params.toString() });
 };
@@ -180,14 +185,8 @@ const getDescriptions = () => {
       </div>
 
       <div className="main_cart">
-           <h3> {filters.recent
-    ? "NEW ARRIVALS"
-    : filters.sale
-    ? "SALE PRODUCTS"
-    : selectedSubcategory
-    ? selectedSubcategory.name.toUpperCase()
-    : selectedCategory
-    ? selectedCategory.name.toUpperCase()
+           <h3> {filters.recent? "NEW ARRIVALS": filters.sale? "SALE PRODUCTS" :  filters.collection? "NEW COLLECTION" : 
+           selectedSubcategory? selectedSubcategory.name.toUpperCase(): selectedCategory? selectedCategory.name.toUpperCase()
     : "ALL PRODUCTS"}</h3>
           <h5>{categories.length>0?
           getDescriptions(): 'Loading description...'}</h5>

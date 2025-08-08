@@ -24,6 +24,8 @@ class CollectionController extends Controller
             'image' => 'nullable|string|max:255',
             'productIDs' => 'nullable|array',
             'productIDs.*' => 'exists:products,id',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
         ]);
 
         if ($validator->fails()) {
@@ -34,6 +36,8 @@ class CollectionController extends Controller
             'name' => $request->get('name'),
             'description' => $request->get('description'),
             'image' => $request->get('image'),
+            'start_date' => $request->get('start_date'),
+            'end_date' => $request->get('end_date'),
         ]);
 
         if ($request->has('productIDs')) {
@@ -47,7 +51,7 @@ class CollectionController extends Controller
         $collection = Collection::findOrFail($id);
 
         $collection->update($request->only([
-            'name', 'description', 'image'
+            'name', 'description', 'image', 'start_date','end_date'
         ]));
 
         if ($request->has('productIDs')) {

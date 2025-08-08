@@ -37,6 +37,7 @@ use App\Http\Controllers\SearchController;
     Route::get('/recent-products', [ProductController::class, 'getRecentProducts']);
     Route::get('/best-products', [ProductController::class, 'getBestSellers']);
     Route::get('/sale', [ProductController::class, 'getSaleProducts']); 
+    Route::get('/collection-products', [ProductController::class, 'getCollectionProducts']); 
     Route::get('/collections-home', [CollectionController::class, 'getCollectionHome']);
     Route::get('/deals-of-the-week', [DiscountsController::class, 'getDealsOfTheWeek']);
     Route::get('/categories', [CategoryController::class, 'getCategorys']);

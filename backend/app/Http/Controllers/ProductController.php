@@ -12,7 +12,7 @@ class ProductController extends Controller
 {
 
       public function getProducts(){
-        $products=Product::with(['category', 'discounts', 'variants', 'images'])->get();
+        $products=Product::with(['category', 'discounts', 'variants', 'images', 'collections'])->get();
         $products->each(function($product){
             $product->discounted_price=$product->discounted_price;
         });
@@ -58,7 +58,7 @@ private function createPaginatedFilteredProducts(Request $request, ?callable $ex
 }
 private function filterProductsBaseQuery(Request $request)
 {
-    $query = Product::with(['category', 'discounts', 'variants', 'images']);
+    $query = Product::with(['category', 'discounts', 'variants', 'images', 'collections']);
 
     if ($request->has('category')) {
         $categoryName = strtolower($request->get('category'));
@@ -124,6 +124,12 @@ private function filterProductsBaseQuery(Request $request)
                 $q->where('start_date', '<=', $now)->where('end_date', '>=', $now);
             });
         }
+        if ($request->has('collection') && $request->boolean('collection')) {
+            $now = now();
+            $query->whereHas('collections', function ($q) use ($now) {
+             $q->where('collections.start_date', '<=', $now)->where('collections.end_date', '>=', $now);
+            });
+        }
     });
 }
 
@@ -133,7 +139,7 @@ private function filterProductsBaseQuery(Request $request)
     'variants.images',
     'images',
     'sizestocks',
-    'variants.sizeStocks' ])->findOrFail($id);
+    'variants.sizeStocks', 'collections' ])->findOrFail($id);
     $product->discounted_price=$product->discounted_price;
         $averageRating = DB::table('reviews')
             ->where('productID', $product->id)
@@ -203,7 +209,15 @@ public function getSaleProducts(Request $request)
         });
     });
 }
-
+public function getCollectionProducts(Request $request)
+{
+    return $this->createPaginatedFilteredProducts($request, function ($query) {
+        $now = now();
+        $query->whereHas('collections', function ($q) use ($now) {
+             $q->where('collections.start_date', '<=', $now)->where('collections.end_date', '>=', $now);
+        });
+    });
+}
 
    public function getBestSellers() {
     $products = DB::table('order_items')
@@ -219,7 +233,6 @@ public function getSaleProducts(Request $request)
         
     return response()->json($products);
 }
-
    public function getSimilarProducts($id){
     $product = Product::with('images')->findOrFail($id);
 

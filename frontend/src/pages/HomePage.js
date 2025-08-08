@@ -238,7 +238,7 @@ const HomePage=()=>{
           <div className="collections">
             <h3>New Collections</h3>
             <div className="new_collection">
-            <div key={collection.id} className="collection">
+            <div key={collection.id} className="collection" onClick={()=>navigate('/collection-products')}>
               <img src={collection.image} alt={collection.name}></img>
               <h3>{collection.name}</h3>
               <p>{collection.description}</p>
