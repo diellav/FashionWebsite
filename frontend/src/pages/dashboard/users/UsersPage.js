@@ -97,6 +97,7 @@ const UsersPage = () => {
               onChange={handleSearchChange}
             />
             <select value={sort} onChange={e => setSort(e.target.value)}>
+              <option value="id">ID</option>
               <option value="first_name">First Name</option>
               <option value="last_name">Last Name</option>
               <option value="gender">Gender</option>
@@ -134,6 +135,7 @@ const UsersPage = () => {
           <table className="table">
             <thead>
               <tr>
+                <th>ID</th>
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Gender</th>
@@ -151,6 +153,7 @@ const UsersPage = () => {
                 const userRole = roles.find(r => r.id === user.roleID);
                 return (
                   <tr key={user.id}>
+                    <td>{user.id}</td>
                     <td>{user.first_name}</td>
                     <td>{user.last_name}</td>
                     <td>{user.gender}</td>

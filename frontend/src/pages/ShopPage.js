@@ -124,7 +124,7 @@ useEffect(() => {
   
   const fetchCategories=async()=>{
     try{
-      const res=await axiosInstance.get('/categories');
+      const res=await axiosInstance.get('/categories-navbar');
       setCategories(res.data);
       console.log('Categories',res.data)
     }catch(err){
@@ -158,6 +158,9 @@ const getDescriptions = () => {
 
   const { wishlist, isInWishlist, toggleWishlist, error:wishlistError } = useWishlist();
 
+    if (!Array.isArray(categories)) {
+    return <div>Loading categories...</div>;
+  }
   return (
     <div className="shop-page">
       <div className="main">

@@ -98,9 +98,9 @@ const CategoryPage = () => {
               onChange={handleSearchChange}
             />
             <select value={sort} onChange={e => setSort(e.target.value)}>
+              <option value="id">ID</option>
               <option value="name">Name</option>
               <option value="description">Description</option>
-              <option value="image">Image</option>
               <option value="parentID">Parent Category</option>
             </select>
             <select value={order} onChange={e => setOrder(e.target.value)}>
@@ -110,7 +110,7 @@ const CategoryPage = () => {
           </div>
 
 
-          <button onClick={handleAddClick} className="addButton">Add Categorie</button>
+          <button onClick={handleAddClick} className="addButton">Add Category</button>
           <div style={{ position: 'relative' }}>
           {loading && (
             <div style={{
@@ -130,9 +130,9 @@ const CategoryPage = () => {
           <table className="table">
             <thead>
               <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Image</th>
                 <th>Parent Category</th>
                 <th>Actions</th>
               </tr>
@@ -142,9 +142,9 @@ const CategoryPage = () => {
                 const categorieRole = cats.find(r => r.id === categorie.parentID);
                 return (
                   <tr key={categorie.id}>
+                    <td>{categorie.id}</td>
                     <td>{categorie.name}</td>
                     <td>{categorie.description}</td>
-                    <td>{categorie.image}</td>
                     <td>{categorieRole ? categorieRole.name : '-'}</td>
                     <td>
                       <button onClick={() => handleEditClick(categorie)}>Edit</button>

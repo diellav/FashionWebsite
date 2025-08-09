@@ -7,16 +7,39 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProductController extends Controller
 {
 
-      public function getProducts(){
-        $products=Product::with(['category', 'discounts', 'variants', 'images', 'collections'])->get();
-        $products->each(function($product){
-            $product->discounted_price=$product->discounted_price;
-        });
-        return $products;
+      public function getProducts(Request $request){
+         $limit = $request->query('limit', 10);
+            $page = $request->query('page', 1);
+            $sort = $request->query('sort', 'id');
+            $order = $request->query('order', 'asc');
+            $search = $request->query('search', '');
+
+            $query = Product::with(['category', 'discounts', 'variants', 'images', 'collections']);
+            if (!empty($search)) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('id', 'like', "%$search%")
+                    ->orWhere('name', 'like', "%$search%")
+                    ->orWhere('description', 'like', "%$search%")
+                    ->orWhereHas('category', function ($q) use ($search) {
+                        $q->where('name', 'like', "%$search%");
+                    });
+                });
+            }
+            $query->orderBy($sort, $order);
+            $products = $query->paginate($limit, ['*'], 'page', $page);
+
+        $products->getCollection()->transform(function ($product) {
+        $product->discounted_price = $product->discounted_price;
+        return $product;
+    });
+       
+          return response()->json($products);
       }
 private function createPaginatedFilteredProducts(Request $request, ?callable $extraQuery = null)
 {
@@ -149,45 +172,142 @@ private function filterProductsBaseQuery(Request $request)
         return response()->json($product);
     }
 
-     public function createProduct(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric',
-            'categoryID' => 'nullable|exists:categories,id',
-            'stock' => 'required|numeric',
-            'main_image' => 'required|string|max:255',
+  public function createProduct(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|string|max:255',
+        'description' => 'required|string',
+        'price' => 'required|numeric',
+        'categoryID' => 'nullable|exists:categories,id',
+        'main_image' => 'nullable|image',
+        'images.*' => 'image',
+        'variants' => 'sometimes|array',
+        'variants.*.color' => 'nullable|string|max:255',
+        'variants.*.material' => 'nullable|string|max:255',
+        'variants.*.images.*' => 'image',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 400);
+    }
+
+    DB::beginTransaction();
+    try {
+        $mainImageName = $request->file('main_image')->getClientOriginalName();
+        $mainImagePath = '/images/Shop/' . $mainImageName;
+        $request->file('main_image')->storeAs('images/Shop', $mainImageName, 'public');
+        $product = Product::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'categoryID' => $request->categoryID,
+            'main_image' => $mainImagePath,
         ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $imageFile) {
+                 $imageName = $imageFile->getClientOriginalName();
+                 $imagePath = '/images/Shop/' . $imageName;
+                  $imageFile->storeAs('images/Shop', $imageName, 'public');
+                $product->images()->create(['images' => $imagePath]);
+            }
+        }
+        if ($request->has('variants')) {
+            foreach ($request->variants as $i => $variantData) {
+                $variant = $product->variants()->create([
+                    'color' => $variantData['color'] ?? null,
+                    'material' => $variantData['material'] ?? null,
+                ]);
+
+                if ($request->hasFile("variants.$i.images")) {
+                    foreach ($request->file("variants.$i.images") as $variantImage) {
+                         $variantImageName = $variantImage->getClientOriginalName();
+                        $variantImagePath = '/images/Shop/variants/' . $variantImageName;
+                        $variantImage->storeAs('images/Shop/variants', $variantImageName, 'public');
+                        $variant->images()->create(['images' => $variantImagePath]);
+                    }
+                }
+            }
         }
 
-        $product = Product::create([
-            'name' => $request->get('name'),
-            'description' => $request->get('description'),
-            'price' => $request->get('price'),
-            'categoryID' => $request->get('categoryID'),
-            'stock' => $request->get('stock'),
-            'main_image' => $request->get('main_image'),
-        ]);
+        DB::commit();
+        return response()->json($product->load('variants.images', 'images'), 201);
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json(['error' => 'Failed to create product', 'message' => $e->getMessage()], 500);
+    }
+}
 
-        $product->hasdiscount = $product->discounts()->exists() ? 1 : 0;
-        $product->has_variants = $product->variants()->exists() ? 1 : 0;
-        $product->save();
-        return response()->json($product, 201);
+   public function updateProduct(Request $request, $id)
+{
+    $product = Product::with('variants.images', 'images')->findOrFail($id);
+
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|string|max:255',
+        'description' => 'required|string',
+        'price' => 'required|numeric',
+        'categoryID' => 'nullable|exists:categories,id',
+        'main_image' => 'nullable|image',
+        'images.*' => 'image',
+        'variants' => 'sometimes|array',
+        'variants.*.color' => 'nullable|string|max:255',
+        'variants.*.material' => 'nullable|string|max:255',
+        'variants.*.images.*' => 'image',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 400);
     }
 
-    public function updateProduct(Request $request, $id) {
-        $product = Product::findOrFail($id);
+    DB::beginTransaction();
+    try {
+        $product->update($request->only(['name', 'description', 'price', 'categoryID']));
+        if ($request->hasFile('main_image')) {
+            $mainImageName = $request->file('main_image')->getClientOriginalName();
+            $mainImagePath = '/images/Shop/' . $mainImageName;
+            $request->file('main_image')->storeAs('images/Shop', $mainImageName, 'public');
+            $product->update(['main_image' => $mainImagePath]);
+        }
+        if ($request->hasFile('images')) {
+        
+            foreach ($request->file('images') as $imageFile) {
+                $imageName = $imageFile->getClientOriginalName();
+                $imagePath = '/images/Shop/' . $imageName;
+                $imageFile->storeAs('images/Shop', $imageName, 'public');
+                $product->images()->create(['images' => $imagePath]);
+            }
+        }
 
-        $product->update($request->only([
-            'name', 'description', 'price', 'categoryID', 'stock',
-            'main_image'
-        ]));
+        if ($request->has('variants')) {
+            foreach ($request->variants as $i => $variantData) {
+                $variant = $product->variants()->create([
+                    'color' => $variantData['color'] ?? null,
+                    'material' => $variantData['material'] ?? null,
+                ]);
 
-        return response()->json($product);
+                if ($request->hasFile("variants.$i.images")) {
+                    foreach ($request->file("variants.$i.images") as $variantImage) {
+                        $variantImageName = $variantImage->getClientOriginalName();
+                        $variantImagePath = '/images/Shop/variants/' . $variantImageName;
+                        $variantImage->storeAs('images/Shop/variants', $variantImageName, 'public');
+                        $variant->images()->create(['images' => $variantImagePath]);
+                    }
+                }
+            }
+        }
+
+        DB::commit();
+        return response()->json($product->load('variants.images', 'images'), 200);
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json([
+            'error' => 'Failed to update product',
+            'message' => $e->getMessage()
+        ], 500);
     }
+}
+
     public function deleteProduct($id) {
         $product = Product::findOrFail($id);
         $product->delete();

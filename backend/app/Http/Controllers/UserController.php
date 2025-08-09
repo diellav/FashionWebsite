@@ -20,7 +20,8 @@ class UserController extends Controller
         $query = User::with('role');
         if (!empty($search)) {
         $query->where(function($q) use ($search) {
-            $q->where('first_name', 'like', "%$search%")
+            $q->where('id', 'like', "%$search%")
+              ->orWhere('first_name', 'like', "%$search%")
               ->orWhere('last_name', 'like', "%$search%")
               ->orWhere('gender', 'like', "%$search%")
               ->orWhere('date_of_birth', 'like', "%$search%")

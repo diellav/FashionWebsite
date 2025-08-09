@@ -6,6 +6,7 @@ import EditProfile from '../profile/EditProfile';
 import ChangePassword from '../profile/ChangePassword';
 import UsersPage from './users/UsersPage';
 import CategoryPage from './category/CategoryPage';
+import CreateProductPage from './products/ProductPage';
 const Dashboard = ({onLogout}) => {
   return (
     <div className="profile-page-container">
@@ -30,6 +31,7 @@ const Dashboard = ({onLogout}) => {
           <Route path="info" element={<ProfileInfo />} />
           <Route path="users" element={<UsersPage/>} />
           <Route path="/categories" element={<CategoryPage/>} />
+          <Route path="/products" element={<CreateProductPage/>} />
           <Route path="edit" element={<EditProfile />} />
           <Route path="change-password" element={<ChangePassword />} />
         </Routes>

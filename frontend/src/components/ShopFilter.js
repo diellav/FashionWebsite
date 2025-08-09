@@ -18,7 +18,7 @@ const ShopFilter=({onFilterApply})=>{
   }, []);
   const fetchCategories=async()=>{
     try{
-        const res=await axiosInstance.get('/categories');
+        const res=await axiosInstance.get('/categories-navbar');
         setCategories(res.data);
         setLoading(false);
     }catch(err){

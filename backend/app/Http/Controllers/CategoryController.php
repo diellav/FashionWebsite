@@ -18,15 +18,15 @@ class CategoryController extends Controller
     public function getCategorys(Request $request){
          $limit = $request->query('limit', 10);
         $page = $request->query('page', 1);
-        $sort = $request->query('sort', 'name');
+        $sort = $request->query('sort', 'id');
         $order = $request->query('order', 'asc'); 
         $search = $request->query('search', '');
         $query =  Category::with(['parent','children']);
         if (!empty($search)) {
         $query->where(function($q) use ($search) {
-            $q->where('name', 'like', "%$search%")
+            $q->where('id', 'like', "%$search%")
+              ->orWhere('name', 'like', "%$search%")
               ->orWhere('description', 'like', "%$search%")
-              ->orWhere('image', 'like', "%$search%")
               ->orWhere('parentID', 'like', "%$search%");
         });
     }
@@ -44,7 +44,6 @@ class CategoryController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'nullable|string|max:255',
             'parentID' => 'nullable|exists:categories,id',
         ]);
 
@@ -55,7 +54,6 @@ class CategoryController extends Controller
         $category = Category::create([
             'name' => $request->get('name'),
             'description' => $request->get('description'),
-            'image' => $request->get('image'),
             'parentID' => $request->get('parentID'),
         ]);
 
@@ -66,7 +64,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
 
         $category->update($request->only([
-            'name', 'description', 'image', 'parentID'
+            'name', 'description', 'parentID'
         ]));
 
         return response()->json($category);

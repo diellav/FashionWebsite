@@ -92,6 +92,7 @@ width:100%;
     width:100%;
     gap:2%;
     margin:1% 0%;
+      flex-wrap: wrap;
 }
 label{
     font-size: large;
@@ -99,13 +100,19 @@ label{
      display: flex;
      flex-direction: column;
 }
-.subsection input{
-    border:1px solid #333;
+.subsection input,
+.subsection textarea,
+.subsection select {
+    border: 1px solid #333;
     border-radius: 10px;
-    padding: 2%;
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
 }
-.subsection select{
-  width:30%;
+
+.subsection input[type="file"] {
+    padding: 4px;
+    background-color: #fff;
 }
 .save_cancel{
   display: flex;

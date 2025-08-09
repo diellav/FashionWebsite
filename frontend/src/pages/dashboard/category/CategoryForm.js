@@ -5,7 +5,6 @@ const CreateCategoryForm = ({ category, categories, onSaved, onCancel }) => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    image: '',
     parentID: '',
   });
   const [error, setError] = useState('');
@@ -15,14 +14,12 @@ const CreateCategoryForm = ({ category, categories, onSaved, onCancel }) => {
       setFormData({
         name: category.name || '',
         description: category.description || '',
-        image: category.image || '',
         parentID: category.parentID || '',
       });
     } else {
       setFormData({
         name: '',
         description: '',
-        image: '',
         parentID: '',
       });
     }
@@ -62,8 +59,6 @@ const CreateCategoryForm = ({ category, categories, onSaved, onCancel }) => {
           placeholder="Name"/></label>
        <label>Description<input name="description" value={formData.description} onChange={handleChange}
           placeholder="Description"/></label>
-           <label>Image<input type="text" name="image" value={formData.image}
-        onChange={handleChange} placeholder="Image"/></label>
         </div>
 
           <div className="subsection">

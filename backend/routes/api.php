@@ -74,7 +74,7 @@ Route::middleware('auth:api')->group(function(){
     Route::delete('/categories/{id}', [CategoryController::class, 'deleteCategory']);
 
      //products
-    Route::post('/products', [ProductController::class, 'createProduct']);
+    Route::post('/products/full-create', [ProductController::class, 'createProduct']);
     Route::put('/products/{id}', [ProductController::class, 'updateProduct']);
     Route::delete('/products/{id}', [ProductController::class, 'deleteProduct']);
 
