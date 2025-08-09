@@ -5,7 +5,7 @@ import axiosInstance from "./axios";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import CreateCategoryForm from "./pages/dashboard/categories/CategoryForm";
+import CreateCategoryForm from "./pages/dashboard/category/CategoryForm";
 import TokenCheck from "./components/TokenCheck";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -22,7 +22,8 @@ import ReturnPolicy from "./pages/ReturnPolicy";
 import PrivacyPolicy from "./pages/Privacy";
 import PaymentPage from "./pages/PaymentPage";
 import ProfilePage from "./pages/ProfilePage";
-
+import Dashboard from "./pages/dashboard/Dashboard";
+import UsersPage from "./pages/dashboard/users/UsersPage";
 function ResetPasswordPage() {
   const query = new URLSearchParams(useLocation().search);
   const token = query.get('token');
@@ -93,7 +94,6 @@ function AppContent() {
       <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} setUser={setUser}/>}/>
       <Route path="/register" element={<RegisterPage/>}/>
       <Route path="/home" element={<HomePage />}/>
-      <Route path="/categories" element={isAuthenticated? (<CreateCategoryForm/>):( <Navigate to="/login"/>)}/>
       <Route path="/checkout" element={isAuthenticated? (<PaymentPage/>):( <Navigate to="/login"/>)}/>
       <Route path="/profile/*" element={isAuthenticated ? (<ProfilePage onLogout={handleLogout}/>) : (<Navigate to="/login" />)} />
        <Route path="/reset-password" element={<ResetPasswordPage />} />
@@ -109,6 +109,10 @@ function AppContent() {
        <Route path="/wishlists" element={<Wishlist />} />
        <Route path="/returns" element={<ReturnPolicy />} />
        <Route path="/privacy" element={<PrivacyPolicy />} />
+
+       <Route path="/categories" element={isAuthenticated? (<CreateCategoryForm/>):( <Navigate to="/login"/>)}/>
+       <Route path="/dashboard/*" element={isAuthenticated ? (<Dashboard onLogout={handleLogout}/>) : (<Navigate to="/login" />)} />
+
     </Routes>
 <Footer user={user}/>
     </>

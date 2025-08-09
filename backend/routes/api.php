@@ -24,6 +24,7 @@ use App\Http\Controllers\VariantSizeStockController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\RoleController;
 
     Route::post('/login',[AuthController::class,'login']);
     Route::post('/register',[AuthController::class,'register']);
@@ -53,6 +54,12 @@ Route::middleware('auth:api')->group(function(){
     Route::get('/logout',[AuthController::class,'logout']);
     Route::get('/orders/my', [OrderController::class, 'myOrders']);
     //users:
+    Route::get('/roles', [RoleController::class, 'getRoles']);
+    Route::get('/roles/{id}', [RoleController::class, 'getRoleID']);
+    Route::post('/roles', [RoleController::class, 'createRole']);
+    Route::put('/roles/{id}', [RoleController::class, 'updateRole']);
+    Route::delete('/roles/{id}', [RoleController::class, 'deleteRole']);
+
     Route::get('/users', [UserController::class, 'getUsers']);
     Route::get('/users/{id}', [UserController::class, 'getUserID']);
     Route::post('/users', [UserController::class, 'createUser']);

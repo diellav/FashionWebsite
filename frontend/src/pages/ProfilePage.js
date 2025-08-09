@@ -18,6 +18,7 @@ const ProfilePage = ({onLogout}) => {
           <li><NavLink to="/profile/my-addresses" activeclassname="active">My Addresses</NavLink></li>
           <li><NavLink to="/wishlists" activeclassname="active">My Wishlist</NavLink></li>
           <li><NavLink to="/profile/change-password" activeclassname="active">Change Password</NavLink></li>
+          <br></br>
           <li><NavLink to="/" activeclassname="active" onClick={onLogout}>Logout</NavLink></li>
         </ul>
       </aside>

@@ -4,6 +4,7 @@ import axiosInstance from "../../axios";
 
 const ProfileInfo = () => {
   const [userData, setUserData] = useState(null);
+  const role=localStorage.getItem('role');
     const navigate=useNavigate();
   useEffect(() => {
     axiosInstance.get("/me").then(res => {
@@ -39,7 +40,13 @@ const ProfileInfo = () => {
       <p><b>Member Since:</b> {new Date(userData.created_at).toLocaleDateString()}</p>
 
        <div className="delete-account-section">
-         <button onClick={()=>navigate('/profile/edit')} className="edit-button">
+         <button onClick={()=>{
+          if(role!=='Admin'){
+            navigate('/profile/edit')
+          }
+         else{
+          navigate('/dashboard/edit')
+        }}} className="edit-button">
         Edit Profile
       </button>
       <button onClick={handleDelete} className="delete-button">

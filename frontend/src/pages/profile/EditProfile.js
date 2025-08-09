@@ -5,6 +5,7 @@ import '../../template/ProfilePage.css';
 const EditProfile = () => {
   const [userData, setUserData] = useState({});
   const [success, setSuccess] = useState("");
+  const role=localStorage.getItem('role');
   const navigate=useNavigate();
   useEffect(() => {
     axiosInstance.get("/me").then(res => setUserData(res.data));
@@ -17,7 +18,8 @@ const EditProfile = () => {
   const handleSubmit = e => {
     e.preventDefault();
     axiosInstance.put(`/users/${userData.id}`, userData)
-      .then(() => setSuccess("Profile updated successfully"), navigate('/profile/info'))
+      .then(() => setSuccess("Profile updated successfully"), 
+       (role!=='Admin')? navigate('/profile/info'):navigate('/dashboard/info'))
       .catch(() => setSuccess("Failed to update profile"));
   };
 

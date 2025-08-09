@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Validator;
 class RoleController extends Controller
 {
     public function getRoles(){
-        return Role::with('role')->get();
+        return Role::all();
     }
     public function getRoleID($id){
-        $Role=Role::with('role')->findOrFail($id);
+        $Role=Role::findOrFail($id);
         return response()->json($Role);
     }
 

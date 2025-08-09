@@ -135,3 +135,133 @@ label{
   flex-direction: column;
   text-align: start;
 }
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;    
+  -webkit-overflow-scrolling: touch; 
+}
+
+.table {
+  width: 100%;
+  min-width: 1000px;    
+  border-collapse: collapse;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table thead {
+  background-color: #361101;
+  color: white;
+}
+
+.table thead th {
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  user-select: none;
+}
+
+.table tbody tr {
+  background-color: #fff;
+  transition: background-color 0.3s ease;
+  cursor: default;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+
+.table tbody tr:hover {
+  background-color: #e2d7c3;
+}
+
+.table tbody td {
+  padding: 12px 15px;
+  font-size: 14px;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+}
+
+.table tbody td:last-child {
+  display: flex;
+  gap: 8px;
+}
+
+.table button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  width: fit-content;
+  transition: background-color 0.3s ease;
+}
+
+.table button:hover {
+  opacity: 0.9;
+}
+
+.table button:first-child {
+  background-color: #91c5c5;
+  color: #fff;
+  border: 1px solid #79b3b3;
+}
+
+.table button:last-child {
+  background-color: #c92c3d;
+  color: #fff;
+  border: 1px solid #a6232f;
+}
+.search-sort-controls{
+  width:50%;
+  display: flex;
+  flex-direction: row;
+  gap:3%;
+  padding: 2% 0%;
+}
+.search-sort-controls input{
+  border-radius: 5px;
+  border:2px solid rgb(148, 147, 147);
+}
+.profile-content .addButton{
+  width:15%;
+  background-color:#4a3020;
+  color:white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: flex-end;
+  padding: 0.5%;
+}
+
+.addButton:hover {
+  background-color:#3C1800;
+}
+.editProfile .pagination {
+  margin-top: 2%;
+  display: flex;
+  justify-content: center;
+  padding: 2%;
+  gap:1%;
+}
+.editProfile .pagination button {
+   all: unset; 
+  padding: 0.5% 1%;
+  border: none;
+  background-color: #eee;
+  cursor: pointer;
+}
+.editProfile .pagination button.active {
+  background-color: #333;
+  color: white;
+}

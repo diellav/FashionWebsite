@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../axios';
 import '../../template/ProfilePage.css';
 const ChangePassword=()=>{
@@ -7,6 +8,8 @@ const ChangePassword=()=>{
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const role=localStorage.getItem('role');
+  const navigate=useNavigate();
   const handleSubmit=async(e)=>{
     e.preventDefault();
     setMessage('');
@@ -20,6 +23,7 @@ const ChangePassword=()=>{
         setCurrentPassword('');
         setNewPassword('');
         setConfirmPassword('');
+        (role!=='Admin')? navigate('/profile/info'):navigate('/dashboard/info')
     }catch(err){
         setError(err.response?.data?.message || 'Something went wrong.');
     }

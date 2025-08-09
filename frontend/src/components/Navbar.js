@@ -110,7 +110,8 @@ const parentCategories = categories.filter(cat => cat.parentID === null);
                 <li className="navbar__dropdown">
                   <span className="navbar__user">Hello, {user.username}</span>
                   <ul className="navbar__dropdown-menu">
-                    <li><NavLink to="/profile" activeclassname="active" >Profile</NavLink></li>
+                    {role!=='Admin'&&(
+                    <li><NavLink to="/profile" activeclassname="active" >Profile</NavLink></li>)}
                     <li><a href="/" onClick={onLogout}>Logout</a></li>
                   </ul>
                 </li>

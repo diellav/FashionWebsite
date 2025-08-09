@@ -11,8 +11,29 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function getUsers(){
-        return User::with('role')->get();
+    public function getUsers(Request $request){
+        $limit = $request->query('limit', 10);
+        $page = $request->query('page', 1);
+        $sort = $request->query('sort', 'first_name');
+        $order = $request->query('order', 'asc'); 
+        $search = $request->query('search', '');
+        $query = User::with('role');
+        if (!empty($search)) {
+        $query->where(function($q) use ($search) {
+            $q->where('first_name', 'like', "%$search%")
+              ->orWhere('last_name', 'like', "%$search%")
+              ->orWhere('gender', 'like', "%$search%")
+              ->orWhere('date_of_birth', 'like', "%$search%")
+              ->orWhere('phone_number', 'like', "%$search%")
+              ->orWhere('address', 'like', "%$search%")
+              ->orWhere('email', 'like', "%$search%")
+              ->orWhere('username', 'like', "%$search%");
+        });
+    }
+    $query->orderBy($sort, $order);
+     $users = $query->paginate($limit, ['*'], 'page', $page);
+
+    return response()->json($users);
     }
     public function getUserID($id){
         $user=User::with('role')->findOrFail($id);
