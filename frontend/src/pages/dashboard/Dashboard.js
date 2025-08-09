@@ -5,7 +5,7 @@ import ProfileInfo from '../profile/ProfileInfo';
 import EditProfile from '../profile/EditProfile';
 import ChangePassword from '../profile/ChangePassword';
 import UsersPage from './users/UsersPage';
-
+import CategoryPage from './category/CategoryPage';
 const Dashboard = ({onLogout}) => {
   return (
     <div className="profile-page-container">
@@ -29,7 +29,7 @@ const Dashboard = ({onLogout}) => {
           <Route path="/" element={<Navigate to="/dashboard/info" replace />} />
           <Route path="info" element={<ProfileInfo />} />
           <Route path="users" element={<UsersPage/>} />
-          {/*<Route path="/categories" element={<CategoriesPage/>} />*/}
+          <Route path="/categories" element={<CategoryPage/>} />
           <Route path="edit" element={<EditProfile />} />
           <Route path="change-password" element={<ChangePassword />} />
         </Routes>

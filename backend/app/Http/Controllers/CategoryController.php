@@ -9,8 +9,31 @@ use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
-    public function getCategorys(){
-        return Category::with(['parent','children'])->get();
+
+        public function getCategorysNavbar(){
+        $categories = Category::with(['parent','children'])->get();
+    return response()->json($categories);
+        }
+
+    public function getCategorys(Request $request){
+         $limit = $request->query('limit', 10);
+        $page = $request->query('page', 1);
+        $sort = $request->query('sort', 'name');
+        $order = $request->query('order', 'asc'); 
+        $search = $request->query('search', '');
+        $query =  Category::with(['parent','children']);
+        if (!empty($search)) {
+        $query->where(function($q) use ($search) {
+            $q->where('name', 'like', "%$search%")
+              ->orWhere('description', 'like', "%$search%")
+              ->orWhere('image', 'like', "%$search%")
+              ->orWhere('parentID', 'like', "%$search%");
+        });
+    }
+    $query->orderBy($sort, $order);
+     $users = $query->paginate($limit, ['*'], 'page', $page);
+
+    return response()->json($users);
     }
     public function getCategoryID($id){
         $category=Category::with(['parent','children'])->findOrFail($id);
@@ -21,7 +44,7 @@ class CategoryController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'required|string|max:255',
+            'image' => 'nullable|string|max:255',
             'parentID' => 'nullable|exists:categories,id',
         ]);
 

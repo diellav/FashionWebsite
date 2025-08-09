@@ -1,18 +1,32 @@
-import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
 import axiosInstance from "../../../axios";
 
-const CreateCategoryForm = () => {
+const CreateCategoryForm = ({ category, categories, onSaved, onCancel }) => {
   const [formData, setFormData] = useState({
     name: '',
-    subcategory: '',
     description: '',
     image: '',
     parentID: '',
   });
-
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (category) {
+      setFormData({
+        name: category.name || '',
+        description: category.description || '',
+        image: category.image || '',
+        parentID: category.parentID || '',
+      });
+    } else {
+      setFormData({
+        name: '',
+        description: '',
+        image: '',
+        parentID: '',
+      });
+    }
+  }, [category]);
 
   const handleChange = (e) => {
     setFormData({...formData, [e.target.name]: e.target.value});
@@ -23,64 +37,55 @@ const CreateCategoryForm = () => {
     setError('');
 
     try {
-      await axiosInstance.post('/categories', formData); 
-      navigate('/categories', { replace: true }); 
+      if (category) {
+        await axiosInstance.put(`/categories/${category.id}`, formData);
+        alert('Category updated successfully');
+      } else {
+        await axiosInstance.post('/categories', formData);
+        alert('Category added successfully');
+      }
+      if (onSaved) onSaved();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to create category');
+      setError(err.response?.data?.message || 'Operation failed');
     }
   };
 
   return (
     <div>
-      <h2>Create Category</h2>
-      <form onSubmit={handleSubmit}>
-        <input 
-          type="text"
-          name="name"
-          placeholder="Name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-        <br />
-        <input 
-          type="text"
-          name="subcategory"
-          placeholder="Subkategory"
-          value={formData.subcategory}
-          onChange={handleChange}
-          required
-        />
-        <br />
-        <input 
-          type="text"
-          name="description"
-          placeholder="Description"
-          value={formData.description}
-          onChange={handleChange}
-          required
-        />
-        <br />
-        <input 
-          type="text"
-          name="image"
-          placeholder="Image link"
-          value={formData.image}
-          onChange={handleChange}
-          required
-        />
-        <br />
-        <input 
-          type="number"
-          name="parentID"
-          placeholder="Parent category"
-          value={formData.parentID}
-          onChange={handleChange}
-        />
-        <br />
-        <button type="submit">Create</button>
-      </form>
+      <h2>{category ? "Edit Category" : "Add Category"}</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      <form onSubmit={handleSubmit} className="editProfile">
+
+        <div className="subsection">
+          <label>Name<input  name="name"  value={formData.name}  onChange={handleChange}
+          placeholder="Name"/></label>
+       <label>Description<input name="description" value={formData.description} onChange={handleChange}
+          placeholder="Description"/></label>
+           <label>Image<input type="text" name="image" value={formData.image}
+        onChange={handleChange} placeholder="Image"/></label>
+        </div>
+
+          <div className="subsection">
+          <label> Parent Category
+           <select
+              name="parentID"
+              value={formData.parentID}
+              onChange={handleChange}
+            >
+              <option value="">Select Category</option>
+              {categories.map(categorie => (
+                <option key={categorie.id} value={categorie.id}>
+                  {categorie.name}
+                </option>
+              ))}
+            </select></label>
+        </div>
+
+          <div className="save_cancel">
+        <button type="submit" className="save">Save Changes</button>
+        <button type="button" onClick={onCancel} className="cancel">Cancel</button></div>
+      </form>
     </div>
   );
 };

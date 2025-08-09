@@ -41,7 +41,7 @@ use App\Http\Controllers\RoleController;
     Route::get('/collection-products', [ProductController::class, 'getCollectionProducts']); 
     Route::get('/collections-home', [CollectionController::class, 'getCollectionHome']);
     Route::get('/deals-of-the-week', [DiscountsController::class, 'getDealsOfTheWeek']);
-    Route::get('/categories', [CategoryController::class, 'getCategorys']);
+    Route::get('/categories-navbar', [CategoryController::class, 'getCategorysNavbar']);
     Route::get('/products/{id}', [ProductController::class, 'getProductID']);
     Route::get('/product_images', [ProductImagesController::class, 'getAllImages']);
     Route::get('/variant_size_stock', [VariantSizeStockController::class, 'getVariantSizeStocks']);
@@ -67,6 +67,7 @@ Route::middleware('auth:api')->group(function(){
     Route::delete('/users/{id}', [UserController::class, 'deleteUser']);
     Route::post('/change-password', [UserController::class, 'changePassword']);
     //categories
+    Route::get('/categories', [CategoryController::class, 'getCategorys']);
     Route::get('/categories/{id}', [CategoryController::class, 'getCategoryID']);
     Route::post('/categories', [CategoryController::class, 'createCategory']);
     Route::put('/categories/{id}', [CategoryController::class, 'updateCategory']);

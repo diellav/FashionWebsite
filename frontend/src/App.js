@@ -24,6 +24,7 @@ import PaymentPage from "./pages/PaymentPage";
 import ProfilePage from "./pages/ProfilePage";
 import Dashboard from "./pages/dashboard/Dashboard";
 import UsersPage from "./pages/dashboard/users/UsersPage";
+import CategoryPage from "./pages/dashboard/category/CategoryPage";
 function ResetPasswordPage() {
   const query = new URLSearchParams(useLocation().search);
   const token = query.get('token');
@@ -109,8 +110,9 @@ function AppContent() {
        <Route path="/wishlists" element={<Wishlist />} />
        <Route path="/returns" element={<ReturnPolicy />} />
        <Route path="/privacy" element={<PrivacyPolicy />} />
-
-       <Route path="/categories" element={isAuthenticated? (<CreateCategoryForm/>):( <Navigate to="/login"/>)}/>
+        
+       <Route path="/categories" element={isAuthenticated? (<CategoryPage/>):( <Navigate to="/login"/>)}/>
+       <Route path="/users" element={isAuthenticated? (<UsersPage/>):( <Navigate to="/login"/>)}/>
        <Route path="/dashboard/*" element={isAuthenticated ? (<Dashboard onLogout={handleLogout}/>) : (<Navigate to="/login" />)} />
 
     </Routes>

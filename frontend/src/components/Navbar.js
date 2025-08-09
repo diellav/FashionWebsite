@@ -16,7 +16,7 @@ const Navbar = ({user, onLogout }) => {
   useEffect(() => {
   const fetchCategories = async () => {
     try {
-      const res = await axiosInstance.get("/categories");
+      const res = await axiosInstance.get("/categories-navbar");
       setCategories(res.data);
     } catch (err) {
       console.error("Error fetching categories", err);

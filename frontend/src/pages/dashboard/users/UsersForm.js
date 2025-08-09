@@ -80,16 +80,13 @@ const CreateUserForm = ({ user, roles, onSaved, onCancel }) => {
           placeholder="First Name"/></label>
           <label>Last Name<input name="last_name" value={formData.last_name} onChange={handleChange}
            placeholder="Last Name"/> </label>
+       <label>Gender<input name="gender" value={formData.gender} onChange={handleChange}
+          placeholder="Gender"/></label>
         </div>
 
         <div className="subsection">
-        <label>Gender<input name="gender" value={formData.gender} onChange={handleChange}
-          placeholder="Gender"/></label>
         <label>Date of Birth<input type="date" name="date_of_birth" value={formData.date_of_birth}
         onChange={handleChange} placeholder="Date of Birth"/></label>
-        </div>
-
-        <div className="subsection">
         <label>Email <input type="email" name="email" value={formData.email}
            onChange={handleChange} placeholder="Email" />
         </label>
@@ -98,16 +95,16 @@ const CreateUserForm = ({ user, roles, onSaved, onCancel }) => {
         </div>
 
         <div className="subsection">
-        <label>Phone Number <input  name="phone_number"  value={formData.phone_number}  onChange={handleChange}
+         <label>Phone Number <input  name="phone_number"  value={formData.phone_number}  onChange={handleChange}
           placeholder="Phone Number" />
         </label>
          <label>Main Address<input name="address"  value={formData.address}  onChange={handleChange}
-          placeholder="Address" />
-          </label>
-           
-          <div className="subsection">
+          placeholder="Address" />  </label>
           <label>Password<input  type="password"  name="password"  value={formData.password}
             onChange={handleChange}  placeholder="Password"/></label>
+        </div>
+
+          <div className="subsection">
           <label> Role
            <select
               name="roleID"
@@ -120,13 +117,12 @@ const CreateUserForm = ({ user, roles, onSaved, onCancel }) => {
                   {role.roleName}
                 </option>
               ))}
-            </select></label></div>
+            </select></label>
         </div>
 
-        <button type="submit">Save Changes</button>
-        <button type="button" onClick={onCancel} style={{ marginLeft: '10px' }}>
-          Cancel
-        </button>
+          <div className="save_cancel">
+        <button type="submit" className="save">Save Changes</button>
+        <button type="button" onClick={onCancel} className="cancel">Cancel</button></div>
       </form>
     </div>
   );
