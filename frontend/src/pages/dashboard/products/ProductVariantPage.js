@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import axiosInstance from "../../../axios";
-import CreateProductForm from "./ProductForm";
+import CreateProductVariantForm from "./ProductVariantForm";
 import '../../../template/ProfilePage.css';
-const CreateProductPage = () => {
-  const [categories, setCategories] = useState([]);
+const CreateProductVariantPage = () => {
   const [products, setProducts] = useState([]);
+  const [pr, setPr] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [editingProduct, setEditingProduct] = useState(null);
@@ -12,7 +12,7 @@ const CreateProductPage = () => {
     const [page, setPage] = useState(1);
     const [limit] = useState(10);
     const [totalPages, setTotalPages] = useState(1);
-    const [sort, setSort] = useState('name');
+    const [sort, setSort] = useState('id');
     const [order, setOrder] = useState('asc');
     const [search, setSearch] = useState('');
     const [searching, setSearching] = useState(false);
@@ -23,14 +23,14 @@ const CreateProductPage = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [productsRes, categoriesRes] = await Promise.all([
-        axiosInstance.get('/products',{params: {page,limit,sort,order,search}}),
-        axiosInstance.get('/categories-navbar'),
+      const [productsRes, prRes] = await Promise.all([
+        axiosInstance.get('/product_variants',{params: {page,limit,sort,order,search}}),
+        axiosInstance.get('/products')
       ]);
      setProducts(Array.isArray(productsRes.data.data) ? productsRes.data.data : []);
       console.log('Products response:', productsRes.data.data);
       setTotalPages(productsRes.data.last_page);
-     setCategories(Array.isArray(categoriesRes.data) ? categoriesRes.data : []);
+      setPr(prRes.data.data);
 
     } catch (err) {
       setError("Failed to load data");
@@ -56,7 +56,7 @@ const CreateProductPage = () => {
   const handleDeleteClick = async (productId) => {
     if(window.confirm("Are you sure you want to delete this product?")) {
       try {
-        await axiosInstance.delete(`/products/${productId}`);
+        await axiosInstance.delete(`/product_variants/${productId}`);
         alert("Product deleted successfully");
         fetchData();
       } catch (err) {
@@ -93,21 +93,20 @@ const CreateProductPage = () => {
      <div className="editProfile">
       {!showForm && (
         <>
-          <h2>Products List</h2>
+          <h2>Product Variants List</h2>
              <div className="search-sort-controls">
             <input
               type="text"
-              placeholder="Search products..."
+              placeholder="Search variants..."
               value={searchInput}
               onChange={handleSearchChange}
             />
             <select value={sort} onChange={e => setSort(e.target.value)}>
               <option value="id">ID</option>
-              <option value="name">Name</option>
-              <option value="description">Description</option>
-              <option value="price">Price</option>
-              <option value="categoryID">Category</option>
-              <option value="main_image">Image</option>
+              <option value="color">Color</option>
+              <option value="material">Material</option>
+              <option value="productID">Product</option>
+              <option value="image">Image</option>
             </select>
             <select value={order} onChange={e => setOrder(e.target.value)}>
               <option value="asc">Ascending</option>
@@ -116,7 +115,7 @@ const CreateProductPage = () => {
           </div>
 
 
-          <button onClick={handleAddClick} className="addButton">Add Product</button>
+          <button onClick={handleAddClick} className="addButton">Add Variant</button>
           <div style={{ position: 'relative' }}>
           {loading && (
             <div style={{
@@ -137,10 +136,9 @@ const CreateProductPage = () => {
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Price</th>
-                  <th>Category</th>
+                  <th>Color</th>
+                  <th>Material</th>
+                  <th>Product</th>
                   <th>Image</th>
                   <th>Actions</th>
                 </tr>
@@ -149,11 +147,10 @@ const CreateProductPage = () => {
                 {products.map(prod => (
                   <tr key={prod.id}>
                     <td>{prod.id}</td>
-                    <td>{prod.name}</td>
-                    <td>{prod.description}</td>
-                    <td>{prod.price}</td>
-                   <td>{categories?.find(c => c.id === prod.categoryID)?.name || '-'}</td>
-                    <td>{prod.main_image}</td>
+                    <td>{prod.color}</td>
+                    <td>{prod.material}</td>
+                   <td>{prod.product?.name || '-'}</td>
+                    <td>{prod.image}</td>
                     <td>
                       <button onClick={() => handleEditClick(prod)}>Edit</button>
                       <button onClick={() => handleDeleteClick(prod.id)}>Delete</button>
@@ -197,9 +194,9 @@ const CreateProductPage = () => {
       )}
 
       {showForm && (
-        <CreateProductForm
+        <CreateProductVariantForm
           product={editingProduct}
-          categories={categories}
+          products={pr}
           onSaved={handleFormSaved}
           onCancel={handleFormCancel}
         />
@@ -208,4 +205,4 @@ const CreateProductPage = () => {
   );
 };
 
-export default CreateProductPage;
+export default CreateProductVariantPage;

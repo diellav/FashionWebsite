@@ -109,7 +109,14 @@ const getStockForSelected = () => {
 
 const getAllImages = () => {
   const productImages = product.images || [];
-  const variantImages = product.variants?.flatMap(v => v.images || []) || [];
+  const variantImages = product.variants?.flatMap(v => {
+    const imagesArray = v.images || [];
+    if (v.image) {
+      return [...imagesArray, { image: v.image }];
+    }
+    return imagesArray;
+  }) || [];
+
   if (product.main_image) {
     productImages.unshift({ images: product.main_image });
   }

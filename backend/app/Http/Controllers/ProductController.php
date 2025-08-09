@@ -206,7 +206,7 @@ private function filterProductsBaseQuery(Request $request)
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $imageFile) {
-                 $imageName = $imageFile->getClientOriginalName();
+              $imageName = $imageFile->getClientOriginalName();
                  $imagePath = '/images/Shop/' . $imageName;
                   $imageFile->storeAs('images/Shop', $imageName, 'public');
                 $product->images()->create(['images' => $imagePath]);
@@ -221,7 +221,7 @@ private function filterProductsBaseQuery(Request $request)
 
                 if ($request->hasFile("variants.$i.images")) {
                     foreach ($request->file("variants.$i.images") as $variantImage) {
-                         $variantImageName = $variantImage->getClientOriginalName();
+                    $variantImageName = $variantImage->getClientOriginalName();
                         $variantImagePath = '/images/Shop/variants/' . $variantImageName;
                         $variantImage->storeAs('images/Shop/variants', $variantImageName, 'public');
                         $variant->images()->create(['images' => $variantImagePath]);

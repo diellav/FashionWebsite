@@ -109,7 +109,7 @@ const CreateProductForm = ({ product, categories, onSaved, onCancel }) => {
 
    try {
   if (product) {
-    data.append('_method', 'PUT');  // kjo shtohet
+    data.append('_method', 'PUT');
     await axiosInstance.post(`/products/${product.id}`, data, {
       headers: { "Content-Type": "multipart/form-data" }
     });
