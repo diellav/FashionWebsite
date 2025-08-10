@@ -28,7 +28,7 @@ const useWishlist=()=>{ //hooks gjith duhen me pas use...
   };
 
 
-    const toggleWishlist=async(product)=>{
+    const toggleWishlist=async(productID, variantID=null)=>{
  if(!user){
           alert('You need to be logged in before adding an item to the wishlist');
           navigate('/login',{replace:true}); return;
@@ -38,18 +38,20 @@ const useWishlist=()=>{ //hooks gjith duhen me pas use...
        const res = await axiosInstance.get('/wishlists');
       const userId = JSON.parse(user).id;
        const itemToDelete = res.data.find(
-        item => item.productID === product.id && item.userID === userId
+        item => item.productID === productID 
+        && item.variantID===variantID
+        && item.userID === userId
       );
       if(itemToDelete){
       await axiosInstance.delete(`/wishlists/${itemToDelete.id}`);
-      updated=wishlist.filter(id=>id!==product.id);
+      updated=wishlist.filter(id=>id!==productID);
       alert('Removed from wishlist');
   }else {
       await axiosInstance.post('/wishlists', {
-        productID: product.id,
-        variantID: null
+        productID,
+        variantID
        });
-      updated=[...wishlist, product.id];
+      updated=[...wishlist, productID];
       alert('Added to wishlist');
     }
     setWishlist(updated);

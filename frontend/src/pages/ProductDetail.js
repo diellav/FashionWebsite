@@ -239,7 +239,8 @@ const getAllImages = () => {
         <h5>Quantity:</h5><input type="number" min="1" value={quantity}
         onChange={(e)=>setQuantity(parseInt(e.target.value)||1)}></input>
       </div>
-      <p id="wishlist" onClick={() => toggleWishlist(product)} >
+      <p id="wishlist" onClick={() => toggleWishlist(product.id, selectedVariant?.id || null)}
+>
         Add to Wishlist{" "}
         <FontAwesomeIcon icon={isInWishlist(product.id ,selectedVariant?.id) ? faHeart : faHeartRegular} />
       </p>

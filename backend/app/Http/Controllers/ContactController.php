@@ -8,8 +8,27 @@ use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
 {
-    public function getContacts(){
-        return Contacts::all();
+    public function getContacts(Request $request){
+          $limit = $request->query('limit', 10);
+        $page = $request->query('page', 1);
+        $sort = $request->query('sort', 'id');
+        $order = $request->query('order', 'asc'); 
+        $search = $request->query('search', '');
+        $query = Contacts::query();
+        if (!empty($search)) {
+        $query->where(function($q) use ($search) {
+            $q->where('id', 'like', "%$search%")
+              ->orWhere('first_name', 'like', "%$search%")
+              ->orWhere('last_name', 'like', "%$search%")
+              ->orWhere('email', 'like', "%$search%")
+              ->orWhere('phone_number', 'like', "%$search%")
+              ->orWhere('message', 'like', "%$search%");
+            });
+    }
+    $query->orderBy($sort, $order);
+     $users = $query->paginate($limit, ['*'], 'page', $page);
+
+    return response()->json($users);
     }
     public function getContactID($id){
         $contact=Contacts->findOrFail($id);

@@ -144,6 +144,7 @@ Route::middleware('auth:api')->group(function(){
 
     //wishlist
     Route::get('/wishlists', [WishlistController::class, 'getWishlists']);           
+    Route::get('/wishlists-dashboard', [WishlistController::class, 'getWishlistsDashboard']);           
     Route::get('/wishlists/{id}', [WishlistController::class, 'getWishlistID']);    
     Route::post('/wishlists', [WishlistController::class, 'createWishlist']);        
     Route::put('/wishlists/{id}', [WishlistController::class, 'updateWishlist']);    
@@ -163,6 +164,7 @@ Route::middleware('auth:api')->group(function(){
 
     //review
     Route::post('/products/{id}/reviews', [ReviewController::class, 'createReview']);
+    Route::get('/reviews', [ReviewController::class, 'getReviews']);
 
     //addresses
     Route::get('/addresses', [AddressController::class, 'getAddresses']);

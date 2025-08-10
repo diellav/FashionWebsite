@@ -9,6 +9,30 @@ use Illuminate\Support\Facades\Auth;
 
 class WishlistController extends Controller
 {
+    public function getWishlistsDashboard(Request $request){
+            $limit = $request->query('limit', 10);
+        $page = $request->query('page', 1);
+        $sort = $request->query('sort', 'id');
+        $order = $request->query('order', 'asc'); 
+        $search = $request->query('search', '');
+        $query = Wishlist::query();
+        if (!empty($search)) {
+        $query->where(function($q) use ($search) {
+            $q->where('id', 'like', "%$search%")
+              >orWhereHas('user', function($q2) use ($search) {
+                  $q2->where('first_name', 'like', "%$search%");
+        })->orWhereHas('product', function($q2) use ($search) {
+                  $q2->where('name', 'like', "%$search%");
+        })->orWhereHas('variant', function($q2) use ($search) {
+                  $q2->where('color', 'like', "%$search%");
+        });
+    });
+    }
+    $query->orderBy($sort, $order);
+     $users = $query->paginate($limit, ['*'], 'page', $page);
+
+    return response()->json($users);
+    }
      public function getWishlists(){
          $userId = auth()->id();
         $wishlists= Wishlist::with(['user', 'product','variant'])->where('userID', $userId)->get();
@@ -32,10 +56,18 @@ class WishlistController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
+            $productID = $request->get('productID');
+           if (!$productID && $request->get('variantID')) {
+        $variant = \App\Models\ProductVariant::find($request->get('variantID'));
+        if ($variant) {
+            $productID = $variant->productID; 
+        }
+    }
+
 
         $wishlist = Wishlist::create([
             'userID' => Auth::check() ? Auth::id() : $request->get('userID'),
-            'productID' => $request->get('productID'),
+            'productID' => $productID,
             'variantID' => $request->get('variantID'),
         ]);
 

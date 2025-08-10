@@ -148,7 +148,7 @@ const CreateProductImagesPage = () => {
                   <tr key={prod.id}>
                     <td>{prod.id}</td>
                     <td>{products?.find(c => c.id === prod.productID)?.name || '-'}</td>
-                    <td>{variants?.find(c => c.id === prod.variantID)?.color || '-'}</td>
+                    <td>{variants?.find(c => c.id === prod.variantID)?.color || '-'} - {variants?.find(c => c.id === prod.variantID)?.material || '-'}</td>
                     <td>{prod.images}</td>
                     <td>
                       <button onClick={() => handleEditClick(prod)}>Edit</button>

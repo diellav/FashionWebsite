@@ -55,7 +55,7 @@ const Wishlist=()=>{
                     <h4>{item.product?.name || 'No product'}</h4>
                     <p>Price: ${item.product?.price || 0}</p>
                     {item.variant && (
-                        <p>Variant: {item.variant.name}</p>
+                        <p>Variant: {item.variant.color} - {item.variant.material}</p>
                     )} <button
                 onClick={() => handleAddToCart(item.product, item.variant)}
                 className="add-btn"
