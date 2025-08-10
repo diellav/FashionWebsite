@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Storage;
 
 class Product_VariantsController extends Controller
 {
+     public function getProductVariantsDashboard(){
+        return Product_Variants::with(['product', 'images'])->get();
+    }
     public function getProductVariants(Request $request){
          $limit = $request->query('limit', 10);
         $page = $request->query('page', 1);
@@ -24,8 +27,9 @@ class Product_VariantsController extends Controller
               ->orWhere('color', 'like', "%$search%")
               ->orWhere('material', 'like', "%$search%")
               ->orWhere('image', 'like', "%$search%")
-              ->orWhere('productID', 'like', "%$search%");
-        });
+              ->orWhereHas('product', function($q2) use ($search) {
+                  $q2->where('name', 'like', "%$search%");
+        });});
     }
     $query->orderBy($sort, $order);
      $users = $query->paginate($limit, ['*'], 'page', $page);

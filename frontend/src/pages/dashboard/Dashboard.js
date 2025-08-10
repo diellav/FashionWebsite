@@ -8,6 +8,7 @@ import UsersPage from './users/UsersPage';
 import CategoryPage from './category/CategoryPage';
 import CreateProductPage from './products/ProductPage';
 import CreateProductVariantPage from './products/ProductVariantPage';
+import CreateProductImagesPage from './products/ProductImagesPage';
 const Dashboard = ({onLogout}) => {
   return (
     <div className="profile-page-container">
@@ -22,6 +23,7 @@ const Dashboard = ({onLogout}) => {
           <li><NavLink to="/dashboard/categories" activeclassname="active">Categories</NavLink></li>
           <li><NavLink to="/dashboard/products" activeclassname="active">Products</NavLink></li>
           <li><NavLink to="/dashboard/product_variants" activeclassname="active">Variants</NavLink></li>
+          <li><NavLink to="/dashboard/product_images" activeclassname="active">Images</NavLink></li>
           <br></br>
           <li><NavLink to="/" activeclassname="active" onClick={onLogout}>Logout</NavLink></li>
         </ul>
@@ -35,6 +37,7 @@ const Dashboard = ({onLogout}) => {
           <Route path="/categories" element={<CategoryPage/>} />
           <Route path="/products" element={<CreateProductPage/>} />
           <Route path="/product_variants" element={<CreateProductVariantPage/>} />
+          <Route path="/product_images" element={<CreateProductImagesPage/>} />
           <Route path="edit" element={<EditProfile />} />
           <Route path="change-password" element={<ChangePassword />} />
         </Routes>

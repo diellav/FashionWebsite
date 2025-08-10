@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-
+    public function getProductsDashboard(){
+        return Product::with(['category', 'discounts', 'variants', 'images', 'collections'])->get();
+    }
       public function getProducts(Request $request){
          $limit = $request->query('limit', 10);
             $page = $request->query('page', 1);

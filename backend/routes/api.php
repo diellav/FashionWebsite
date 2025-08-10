@@ -75,6 +75,7 @@ Route::middleware('auth:api')->group(function(){
 
      //products
     Route::post('/products/full-create', [ProductController::class, 'createProduct']);
+    Route::get('/products-dashboard', [ProductController::class, 'getProductsDashboard']);
     Route::put('/products/{id}', [ProductController::class, 'updateProduct']);
     Route::delete('/products/{id}', [ProductController::class, 'deleteProduct']);
 
@@ -84,6 +85,7 @@ Route::middleware('auth:api')->group(function(){
     Route::post('/product_variants', [Product_VariantsController::class, 'createProductVariant']);
     Route::put('/product_variants/{id}', [Product_VariantsController::class, 'updateProductVariant']);
     Route::delete('/product_variants/{id}', [Product_VariantsController::class, 'deleteProductVariant']);
+    Route::get('/product_variants-dashboard', [Product_VariantsController::class, 'getProductVariantsDashboard']);
 
       //discounts
     Route::get('/discounts', [DiscountsController::class, 'getDiscounts']);
@@ -150,7 +152,7 @@ Route::middleware('auth:api')->group(function(){
     //ProductImage
     Route::get('/product_images/{id}', [ProductImagesController::class, 'getImageById']);
     Route::put('/product_images/{id}', [ProductImagesController::class, 'updateProductImages']);
-    Route::put('/product_images', [ProductImagesController::class, 'createProductImages']);
+    Route::post('/product_images', [ProductImagesController::class, 'createProductImages']);
     Route::delete('/product_images/{id}', [ProductImagesController::class, 'deleteProductImages']);
 
     //sizes
