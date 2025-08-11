@@ -15,6 +15,8 @@ import WishlistsPage from './wishlist/WishlistPage';
 import PaymentsPage from './payments/PaymentsPage';
 import CartsPage from './carts/CartsPage';
 import OrdersPage from './orders/OrdersPage';
+import CollectionsPage from './collections/CollectionsPage';
+import DiscountsPage from './discounts/DiscountsPage';
 const Dashboard = ({onLogout}) => {
   return (
     <div className="profile-page-container">
@@ -36,6 +38,8 @@ const Dashboard = ({onLogout}) => {
           <li><NavLink to="/dashboard/payments" activeclassname="active">Payments</NavLink></li>
           <li><NavLink to="/dashboard/carts" activeclassname="active">Carts</NavLink></li>
           <li><NavLink to="/dashboard/orders" activeclassname="active">Orders</NavLink></li>
+          <li><NavLink to="/dashboard/collections" activeclassname="active">Collections</NavLink></li>
+          <li><NavLink to="/dashboard/discounts" activeclassname="active">Discounts</NavLink></li>
           <br></br>
           <li><NavLink to="/" activeclassname="active" onClick={onLogout}>Logout</NavLink></li>
         </ul>
@@ -56,6 +60,8 @@ const Dashboard = ({onLogout}) => {
           <Route path="/payments" element={<PaymentsPage/>} />
           <Route path="/carts" element={<CartsPage/>} />
           <Route path="/orders" element={<OrdersPage/>} />
+          <Route path="/collections" element={<CollectionsPage/>} />
+          <Route path="/discounts" element={<DiscountsPage/>} />
           <Route path="edit" element={<EditProfile />} />
           <Route path="change-password" element={<ChangePassword />} />
         </Routes>

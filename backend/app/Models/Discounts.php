@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Product;
 
 class Discounts extends Model
 {
@@ -16,6 +17,7 @@ class Discounts extends Model
         'conditions',
         'start_date',
         'end_date',
+        'image'
     ];
     protected $casts=[
         'value'=>'decimal:2',
