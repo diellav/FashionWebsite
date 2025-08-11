@@ -61,6 +61,7 @@ Route::middleware('auth:api')->group(function(){
     Route::delete('/roles/{id}', [RoleController::class, 'deleteRole']);
 
     Route::get('/users', [UserController::class, 'getUsers']);
+    Route::get('/users-dashboard', [UserController::class, 'getUsersDashboard']);
     Route::get('/users/{id}', [UserController::class, 'getUserID']);
     Route::post('/users', [UserController::class, 'createUser']);
     Route::put('/users/{id}', [UserController::class, 'updateUser']);
@@ -96,12 +97,14 @@ Route::middleware('auth:api')->group(function(){
 
     //cart_items
     Route::get('/cart_items', [Cart_ItemsController::class, 'getCart_Items']);
+    Route::get('/cart_items-dashboard/{id}', [Cart_ItemsController::class, 'getCart_ItemsDashboard']);
     Route::get('/cart_items/{id}', [Cart_ItemsController::class, 'getCart_ItemID']);
     Route::post('/cart_items', [Cart_ItemsController::class, 'createCart_Item']);
     Route::put('/cart_items/{id}', [Cart_ItemsController::class, 'updateCart_Item']);
     Route::delete('/cart_items/{id}', [Cart_ItemsController::class, 'deleteCart_Item']);
 
     //cart_items
+    Route::get('/carts-dashboard', [CartController::class, 'getCartsDashboard']);
     Route::get('/cart', [CartController::class, 'getCarts']);
     Route::get('/cart/{id}', [CartController::class, 'getCartID']);
     Route::post('/cart', [CartController::class, 'createCart']);
@@ -109,6 +112,7 @@ Route::middleware('auth:api')->group(function(){
     Route::delete('/cart/{id}', [CartController::class, 'deleteCart']);
 
     //order
+    Route::get('/orders-dashboard', [OrderController::class, 'getOrdersDashboard']);
     Route::get('/orders', [OrderController::class, 'getOrders']);
     Route::get('/orders/{id}', [OrderController::class, 'getOrderID']);
     Route::post('/checkout', [OrderController::class, 'checkout']);
@@ -116,7 +120,7 @@ Route::middleware('auth:api')->group(function(){
     Route::delete('/orders/{id}', [OrderController::class, 'deleteOrder']);
 
      //order_items
-    Route::get('/order_items', [Order_ItemsController::class, 'getOrderItems']);
+    Route::get('/order_items-dashboard/{id}', [Order_ItemsController::class, 'getOrder_ItemsDashboard']);
     Route::get('/order_items/{id}', [Order_ItemsController::class, 'getOrderItemsID']);
     Route::post('/order_items', [Order_ItemsController::class, 'createOrderItems']);
     Route::put('/order_items/{id}', [Order_ItemsController::class, 'updateOrderItems']);

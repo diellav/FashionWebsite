@@ -9,8 +9,27 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-     public function getCarts(){
-        return Cart::with('user')->get();
+     public function getCartsDashboard(){
+        return Cart::with('user')->withCount('items')->get();
+    }
+    public function getCarts(Request $request){
+        $limit = $request->query('limit', 10);
+        $page = $request->query('page', 1);
+        $sort = $request->query('sort', 'id');
+        $order = $request->query('order', 'asc'); 
+        $search = $request->query('search', '');
+        $query = Cart::with('user')->withCount('items');
+        if (!empty($search)) {
+        $query->where(function($q) use ($search) {
+            $q->where('id', 'like', "%$search%")
+              ->orWhereHas('user', function($q2) use ($search) {
+                  $q2->where('first_name', 'like', "%$search%");
+        });});
+    }
+    $query->orderBy($sort, $order);
+     $users = $query->paginate($limit, ['*'], 'page', $page);
+
+    return response()->json($users);
     }
     public function getCartID($id){
         $cart=Cart::with('user')->findOrFail($id);

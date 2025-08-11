@@ -9,10 +9,15 @@ use Illuminate\Support\Facades\Validator;
 class Order_ItemsController extends Controller
 {
      public function getOrderItems(){
-        return Order_Items::with(['order','product_variant'])->get();
+        return Order_Items::with(['order','product','product_variant'])->get();
+    }
+    public function getOrder_ItemsDashboard($orderID){
+          return Order_Items::with(['order','product','product_variant'])
+        ->where('orderID', $orderID)
+        ->get();
     }
     public function getOrderItemsID($id){
-        $order_items=Order_Items::with(['order','product_variant'])->findOrFail($id);
+        $order_items=Order_Items::with(['order','product','product_variant'])->findOrFail($id);
         return response()->json($order_items);
     }
 
@@ -42,7 +47,7 @@ class Order_ItemsController extends Controller
         $order_items = Order_Items::findOrFail($id);
 
         $order_items->update($request->only([
-            'orderID', 'product_variantID', 'quantity', 'price'
+            'orderID', 'productID','product_variantID', 'quantity', 'price'
         ]));
 
         return response()->json($order_items);

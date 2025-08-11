@@ -4,13 +4,36 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Payment;
+use App\Models\Address;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
-     public function getPayments(){
-        return Payment::with(['user','order'])->get();
+     public function getPayments(Request $request){ $limit = $request->query('limit', 10);
+        $page = $request->query('page', 1);
+        $sort = $request->query('sort', 'id');
+        $order = $request->query('order', 'asc'); 
+        $search = $request->query('search', '');
+        $query = Payment::with(['user','order']);
+        if (!empty($search)) {
+        $query->where(function($q) use ($search) {
+            $q->where('id', 'like', "%$search%")
+              ->orWhere('last_name', 'like', "%$search%")
+              ->orWhere('total_price', 'like', "%$search%")
+              ->orWhere('payment_status', 'like', "%$search%")
+              ->orWhere('transaction_reference', 'like', "%$search%")
+              ->orWhere('created_at', 'like', "%$search%")
+              ->orWhereHas('user', function($q2) use ($search) {
+                  $q2->where('first_name', 'like', "%$search%");
+        })     ->orWhereHas('order', function($q3) use ($search) {
+                  $q3->where('id', 'like', "%$search%");
+        });});
+    }
+    $query->orderBy($sort, $order);
+     $users = $query->paginate($limit, ['*'], 'page', $page);
+
+    return response()->json($users);
     }
     public function getPaymentID($id){
         $payment=Payment::with(['user','order'])->findOrFail($id);

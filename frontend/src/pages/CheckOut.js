@@ -18,7 +18,7 @@ const Checkout = () => {
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    axiosInstance.get('/addresses')
+    axiosInstance.get('/my-addresses')
       .then(res => setAddresses(res.data))
       .catch(err => console.error(err));
   }, []);

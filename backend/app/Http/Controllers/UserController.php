@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+     public function getUsersDashboard(){
+        return User::with('role')->get();
+    }
     public function getUsers(Request $request){
         $limit = $request->query('limit', 10);
         $page = $request->query('page', 1);

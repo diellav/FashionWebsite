@@ -74,8 +74,18 @@ class ProductImagesController extends Controller
                 $model->images()->create(['images' => $imagePath]);
             }
         }
+        $productID=$request->productID;
+        if ($request->filled('variantID')) {
+    $variant = Product_Variants::findOrFail($request->variantID);
+        $productID = $variant->productID;
+    } elseif ($request->filled('productID')) {
+        $productID = $request->productID;
+    } else {
+        return response()->json(['error' => 'Duhet të japësh productID ose variantID'], 400);
+    }
+
           ProductImages::create([
-                    'productID' => $request->productID,
+                    'productID' => $productID,
                     'variantID' => $request->variantID,
                     'images'    => $imagePath
                 ]);

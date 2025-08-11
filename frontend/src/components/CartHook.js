@@ -18,7 +18,7 @@ const useCart=()=>{ //hooks gjith duhen me pas use...
   try {
     const userId = JSON.parse(user).id;
     const cartsRes = await axiosInstance.get('/cart');
-    const userCartObj = cartsRes.data.find(cart => cart.userID === userId);
+    const userCartObj = cartsRes.data.data.find(cart => cart.userID === userId);
     if (!userCartObj) {
       setCart([]);
       return;
@@ -38,7 +38,7 @@ const useCart=()=>{ //hooks gjith duhen me pas use...
   const getOrCreateCartId = async (userId) => {
     try {
       const res = await axiosInstance.get('/cart');
-      const existing = res.data.find(cart => cart.userID === userId);
+      const existing = res.data.data.find(cart => cart.userID === userId);
 
       if (existing) return existing.id;
       const createRes = await axiosInstance.post('/cart', {

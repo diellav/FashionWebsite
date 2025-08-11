@@ -12,6 +12,9 @@ import CreateProductImagesPage from './products/ProductImagesPage';
 import ContactsPage from './contact/ContactPage';
 import ReviewsPage from './reviews/ReviewsPage';
 import WishlistsPage from './wishlist/WishlistPage';
+import PaymentsPage from './payments/PaymentsPage';
+import CartsPage from './carts/CartsPage';
+import OrdersPage from './orders/OrdersPage';
 const Dashboard = ({onLogout}) => {
   return (
     <div className="profile-page-container">
@@ -30,6 +33,9 @@ const Dashboard = ({onLogout}) => {
           <li><NavLink to="/dashboard/contacts" activeclassname="active">Contacts</NavLink></li>
           <li><NavLink to="/dashboard/reviews" activeclassname="active">Reviews</NavLink></li>
           <li><NavLink to="/dashboard/wishlists" activeclassname="active">Wishlists</NavLink></li>
+          <li><NavLink to="/dashboard/payments" activeclassname="active">Payments</NavLink></li>
+          <li><NavLink to="/dashboard/carts" activeclassname="active">Carts</NavLink></li>
+          <li><NavLink to="/dashboard/orders" activeclassname="active">Orders</NavLink></li>
           <br></br>
           <li><NavLink to="/" activeclassname="active" onClick={onLogout}>Logout</NavLink></li>
         </ul>
@@ -47,6 +53,9 @@ const Dashboard = ({onLogout}) => {
           <Route path="/contacts" element={<ContactsPage/>} />
           <Route path="/reviews" element={<ReviewsPage/>} />
           <Route path="/wishlists" element={<WishlistsPage/>} />
+          <Route path="/payments" element={<PaymentsPage/>} />
+          <Route path="/carts" element={<CartsPage/>} />
+          <Route path="/orders" element={<OrdersPage/>} />
           <Route path="edit" element={<EditProfile />} />
           <Route path="change-password" element={<ChangePassword />} />
         </Routes>

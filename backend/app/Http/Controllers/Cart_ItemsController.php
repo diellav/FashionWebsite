@@ -19,6 +19,11 @@ class Cart_ItemsController extends Controller
     });
     return $cartItems;
     }
+    public function getCart_ItemsDashboard($cartID){
+          return Cart_Items::with(['cart','product', 'variants'])
+        ->where('cartID', $cartID)
+        ->get();
+    }
     public function getCart_ItemID($id){
         $cart_Item=Cart_Items::with(['cart','product','variants'])->findOrFail($id);
         return response()->json($cart_Item);
