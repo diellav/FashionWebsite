@@ -17,6 +17,8 @@ import CartsPage from './carts/CartsPage';
 import OrdersPage from './orders/OrdersPage';
 import CollectionsPage from './collections/CollectionsPage';
 import DiscountsPage from './discounts/DiscountsPage';
+import AddressPage from './addresses/AddressPage';
+import SizesPage from './sizes/SizesPage';
 const Dashboard = ({onLogout}) => {
   return (
     <div className="profile-page-container">
@@ -26,22 +28,26 @@ const Dashboard = ({onLogout}) => {
           <li><NavLink to="/dashboard/info" activeclassname="active">Profile Info</NavLink></li>
            <li><NavLink to="/dashboard/change-password" activeclassname="active">Change Password</NavLink></li>
            <br></br>
-           <h2>System Management</h2>
+           <h2>User Management</h2>
           <li><NavLink to="/dashboard/users" activeclassname="active">Users</NavLink></li>
+          <li><NavLink to="/dashboard/addresses" activeclassname="active">Addresses</NavLink></li>
+          <li><NavLink to="/dashboard/contacts" activeclassname="active">Contacts</NavLink></li>
+          <li><NavLink to="/dashboard/payments" activeclassname="active">Payments</NavLink></li>
+          <li><NavLink to="/dashboard/carts" activeclassname="active">Carts</NavLink></li>
+          <li><NavLink to="/dashboard/orders" activeclassname="active">Orders</NavLink></li>
+          <li><NavLink to="/dashboard/wishlists" activeclassname="active">Wishlists</NavLink></li>
+           <br></br>
+           <h2>Products Management</h2>
           <li><NavLink to="/dashboard/categories" activeclassname="active">Categories</NavLink></li>
           <li><NavLink to="/dashboard/products" activeclassname="active">Products</NavLink></li>
           <li><NavLink to="/dashboard/product_variants" activeclassname="active">Variants</NavLink></li>
           <li><NavLink to="/dashboard/product_images" activeclassname="active">Images</NavLink></li>
-          <li><NavLink to="/dashboard/contacts" activeclassname="active">Contacts</NavLink></li>
+          <li><NavLink to="/dashboard/sizes" activeclassname="active">Sizes</NavLink></li>
           <li><NavLink to="/dashboard/reviews" activeclassname="active">Reviews</NavLink></li>
-          <li><NavLink to="/dashboard/wishlists" activeclassname="active">Wishlists</NavLink></li>
-          <li><NavLink to="/dashboard/payments" activeclassname="active">Payments</NavLink></li>
-          <li><NavLink to="/dashboard/carts" activeclassname="active">Carts</NavLink></li>
-          <li><NavLink to="/dashboard/orders" activeclassname="active">Orders</NavLink></li>
           <li><NavLink to="/dashboard/collections" activeclassname="active">Collections</NavLink></li>
           <li><NavLink to="/dashboard/discounts" activeclassname="active">Discounts</NavLink></li>
           <br></br>
-          <li><NavLink to="/" activeclassname="active" onClick={onLogout}>Logout</NavLink></li>
+          <li><NavLink to="/" activeclassname="active" onClick={onLogout} style={{fontSize:"larger"}}>Logout</NavLink></li>
         </ul>
       </aside>
 
@@ -50,10 +56,12 @@ const Dashboard = ({onLogout}) => {
           <Route path="/" element={<Navigate to="/dashboard/info" replace />} />
           <Route path="info" element={<ProfileInfo />} />
           <Route path="users" element={<UsersPage/>} />
+          <Route path="/addresses" element={<AddressPage/>} />
           <Route path="/categories" element={<CategoryPage/>} />
           <Route path="/products" element={<CreateProductPage/>} />
           <Route path="/product_variants" element={<CreateProductVariantPage/>} />
           <Route path="/product_images" element={<CreateProductImagesPage/>} />
+          <Route path="/sizes" element={<SizesPage/>} />
           <Route path="/contacts" element={<ContactsPage/>} />
           <Route path="/reviews" element={<ReviewsPage/>} />
           <Route path="/wishlists" element={<WishlistsPage/>} />

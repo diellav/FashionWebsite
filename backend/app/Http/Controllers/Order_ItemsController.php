@@ -9,22 +9,24 @@ use Illuminate\Support\Facades\Validator;
 class Order_ItemsController extends Controller
 {
      public function getOrderItems(){
-        return Order_Items::with(['order','product','product_variant'])->get();
+        return Order_Items::with(['order','product','product_variant', 'sizes'])->get();
     }
     public function getOrder_ItemsDashboard($orderID){
-          return Order_Items::with(['order','product','product_variant'])
+          return Order_Items::with(['order','product','product_variant', 'sizes'])
         ->where('orderID', $orderID)
         ->get();
     }
     public function getOrderItemsID($id){
-        $order_items=Order_Items::with(['order','product','product_variant'])->findOrFail($id);
+        $order_items=Order_Items::with(['order','product','product_variant', 'sizes'])->findOrFail($id);
         return response()->json($order_items);
     }
 
      public function createOrderItems(Request $request) {
         $validator = Validator::make($request->all(), [
             'orderID' => 'required|exists:orders,id',
+            'productID' => 'nullable|exists:products,id',
             'product_variantID' => 'nullable|exists:product_variants,id',
+            'sizeID' => 'nullable|exists:sizes,id',
             'quantity' => 'required|numeric',
             'price' => 'required|numeric',
         ]);
@@ -35,7 +37,9 @@ class Order_ItemsController extends Controller
 
         $order_items = Order_Items::create([
             'orderID' => $request->get('orderID'),
+            'productID' => $request->get('productID'),
             'product_variantID' => $request->get('product_variantID'),
+            'sizeID' => $request->get('sizeID'),
             'quantity' => $request->get('quantity'),
             'price' => $request->get('price'),
         ]);
@@ -47,7 +51,7 @@ class Order_ItemsController extends Controller
         $order_items = Order_Items::findOrFail($id);
 
         $order_items->update($request->only([
-            'orderID', 'productID','product_variantID', 'quantity', 'price'
+            'orderID', 'productID','product_variantID', 'sizeID','quantity', 'price'
         ]));
 
         return response()->json($order_items);

@@ -11,6 +11,7 @@ use App\Models\Order_Items;
 use App\Models\Cart_Items;
 use App\Models\Payment;
 use App\Models\Address;
+use App\Models\Sizes;
 use Stripe\Stripe;
 use Stripe\Charge;
 
@@ -107,10 +108,20 @@ class OrderController extends Controller
         ]);
 
         foreach ($cartItems as $item) {
+             $size = Sizes::find($item->sizeID ?? null);
+              if (!$size) {
+        throw new \Exception('Size not found for product ID ' . $item->productID);
+    }
+    if ($size->stock < $item->quantity) {
+        throw new \Exception('Not enough stock for size ' . $size->size . ' of product ID ' . $item->productID);
+    }
+     $size->stock -= $item->quantity;
+    $size->save();
             Order_Items::create([
                 'orderID' => $order->id,
                 'productID' => $item->productID,
                 'product_variantID' => $item->variantID ?? null,
+                'sizeID' => $item->sizeID,
                 'quantity' => $item->quantity,
                 'price' => $item->product->price,
             ]);

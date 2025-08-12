@@ -12,6 +12,30 @@ class AddressController extends Controller
     public function getAddresses() {
         return Address::with('user')->get();
     }
+    public function getAddressesDashboard(Request $request){
+          $limit = $request->query('limit', 10);
+        $page = $request->query('page', 1);
+        $sort = $request->query('sort', 'id');
+        $order = $request->query('order', 'asc'); 
+        $search = $request->query('search', '');
+        $query = Address::query();
+        if (!empty($search)) {
+        $query->where(function($q) use ($search) {
+            $q->where('id', 'like', "%$search%")
+              ->orWhereHas('user', function($q2) use ($search) {
+                $q2->where('first_name', 'like', "%$search%");
+              })
+              ->orWhere('country', 'like', "%$search%")
+              ->orWhere('city', 'like', "%$search%")
+              ->orWhere('postal_code', 'like', "%$search%")
+              ->orWhere('address', 'like', "%$search%");
+            });
+    }
+    $query->orderBy($sort, $order);
+     $users = $query->paginate($limit, ['*'], 'page', $page);
+
+    return response()->json($users);
+    }
 
     public function getAddressID($id) {
         $address = Address::with('user')->findOrFail($id);

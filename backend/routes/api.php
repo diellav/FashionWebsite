@@ -162,6 +162,7 @@ Route::middleware('auth:api')->group(function(){
 
     //sizes
     Route::get('/sizes_stock/{id}', [SizesController::class, 'getSizeID']);
+    Route::get('/sizes_stock-dashboard', [SizesController::class, 'getSizesDashboard']);
     Route::post('/sizes_stock', [SizesController::class, 'createSize']);
     Route::put('/sizes_stock/{id}', [SizesController::class, 'updateSize']);
     Route::delete('/sizes_stock/{id}', [SizesController::class, 'deleteSize']);
@@ -172,6 +173,7 @@ Route::middleware('auth:api')->group(function(){
 
     //addresses
     Route::get('/addresses', [AddressController::class, 'getAddresses']);
+    Route::get('/addresses-dashboard', [AddressController::class, 'getAddressesDashboard']);
     Route::get('/addresses/{id}', [AddressController::class, 'getAddressID']);
     Route::post('/addresses', [AddressController::class, 'createAddress']);
     Route::put('/addresses/{id}', [AddressController::class, 'updateAddress']);

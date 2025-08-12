@@ -61,12 +61,15 @@ const useCart=()=>{ //hooks gjith duhen me pas use...
     try{
          const userId=JSON.parse(user).id;
          const cartId = await getOrCreateCartId(userId);
-         const existing=cart.find(item=>item.productID===product.id
-          && item.variantID===(product.variant? product.variant.id:null)
-         );
+        const existing = cart.find(item =>
+    item.productID === product.id &&
+    item.variantID === (product.variant ? product.variant.id : null) &&
+    item.sizeID === (product.sizeID ?? null)
+);
          if(existing){
             await axiosInstance.put(`cart_items/${existing.id}`, {
                 quantity:existing.quantity+quantity,
+                 sizeID: product.sizeID || null
             });
             const updated=cart.map(item=>item.id===existing.id?
                 {...item, quantity:item.quantity+quantity}:item);
@@ -75,10 +78,11 @@ const useCart=()=>{ //hooks gjith duhen me pas use...
            }
         else{
             const res=await axiosInstance.post('/cart_items',{
-                cartID:cartId,
-                productID:product.id,
-                variantID:product.variant? product.variant.id:null,
-                quantity,
+                 cartID: cartId,
+    productID: product.id,
+    variantID: product.variant ? product.variant.id : null,
+    sizeID: product.sizeID, // kjo duhet të vijë nga selectedSize.id
+    quantity,
             });
             setCart([...cart, res.data]);
     }

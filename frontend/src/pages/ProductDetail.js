@@ -96,9 +96,9 @@ const getStockForSelected = () => {
     if (selectedSize) {
       addToCart(
         {
-          ...product,
-          variant: selectedVariant,
-          sizeID: selectedSize.id,
+           id: product.id, 
+    variant: selectedVariant,
+    sizeID: selectedSize.id
         },
         quantity
       );
@@ -228,7 +228,7 @@ const getAllImages = () => {
       ? product.sizestocks.filter(s => s.variantID === selectedVariant.id)
       : product.sizestocks.filter(s => s.variantID === null)
     ).map((size) => (
-      <option key={size.id} value={size.id}>
+      <option key={size.id} value={size.id}  disabled={size.stock <= 0}>
         {size.size} {size.stock>0? ' (In stock)': ' (Out of stock)' }
       </option>
     ))}

@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cart_Items;
+use App\Models\Sizes;
 use Illuminate\Support\Facades\Validator;
 
 class Cart_ItemsController extends Controller
 {
       public function getCart_Items(){
          $userId = auth()->id();
-        $cartItems= Cart_Items::with(['cart','product','variants'])
+        $cartItems= Cart_Items::with(['cart','product','variants', 'sizes'])
              ->whereHas('cart', function ($query) use ($userId) {
             $query->where('userID', $userId);
         })->get();
@@ -20,12 +21,12 @@ class Cart_ItemsController extends Controller
     return $cartItems;
     }
     public function getCart_ItemsDashboard($cartID){
-          return Cart_Items::with(['cart','product', 'variants'])
+          return Cart_Items::with(['cart','product', 'variants','sizes'])
         ->where('cartID', $cartID)
         ->get();
     }
     public function getCart_ItemID($id){
-        $cart_Item=Cart_Items::with(['cart','product','variants'])->findOrFail($id);
+        $cart_Item=Cart_Items::with(['cart','product','variants', 'sizes'])->findOrFail($id);
         return response()->json($cart_Item);
     }
 
@@ -40,11 +41,15 @@ class Cart_ItemsController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-
+        $size = Sizes::find($request->get('sizeID'));
+        if ($size && $size->stock < $request->get('quantity')) {
+            return response()->json(['error' => 'Not enough stock available for this size'], 400);
+        }
         $cart_Item = Cart_Items::create([
             'cartID' => $request->get('cartID'),
             'productID' => $request->get('productID'),
             'variantID' => $request->get('variantID'),
+             'sizeID' => $request->get('sizeID'),
             'quantity' => $request->get('quantity'),
         ]);
 
@@ -55,7 +60,7 @@ class Cart_ItemsController extends Controller
         $cart_Item = Cart_Items::findOrFail($id);
 
         $cart_Item->update($request->only([
-            'cartID','productID','variantID', 'quantity'
+            'cartID','productID','variantID','sizeID', 'quantity'
         ]));
 
         return response()->json($cart_Item);

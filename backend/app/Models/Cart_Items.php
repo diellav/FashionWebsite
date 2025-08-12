@@ -13,6 +13,7 @@ class Cart_Items extends Model
         'cartID',
         'productID',
         'variantID',
+        'sizeID',
         'quantity',
     ];
     public function cart(){
@@ -23,5 +24,8 @@ class Cart_Items extends Model
     }
      public function variants(){
         return $this->belongsTo(Product_Variants::class, 'variantID');
+    }
+     public function sizes(){
+        return $this->belongsTo(Sizes::class, 'sizeID');
     }
 }
