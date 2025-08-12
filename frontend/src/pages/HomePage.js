@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import axiosInstance from '../axios';
 import '../template/HomePage.css';
+import '../template/HomePageResponsive.css';
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTruckFast, faCreditCard, faPhoneVolume} from '@fortawesome/free-solid-svg-icons';
@@ -53,6 +54,8 @@ const HomePage=()=>{
     try{
     const res=await axiosInstance.get('/collections-home');
     setCollection(res.data);
+    console.log('collections data:', res.data);
+
     }catch(err){
       console.error('Failed to fetch products', err);
     }
@@ -235,14 +238,29 @@ const HomePage=()=>{
           </div>
           </div>
           <hr></hr>
-          <div className="collections">
-            <h3>New Collections</h3>
-            <div className="new_collection">
-            <div key={collection.id} className="collection" onClick={()=>navigate('/collection-products')}>
-              <img src={collection.image} alt={collection.name}></img>
-              <h3>{collection.name}</h3>
-              <p>{collection.description}</p>
-            </div>
+          <div className="main_deals">
+             <div className="deals">
+               <h3>New Collections</h3>
+              {collection.length>0?(
+              <Slider
+                dots={true}
+                infinite={true}
+                speed={500}
+                slidesToShow={1}
+                slidesToScroll={1}
+                autoplay={true}
+                autoplaySpeed={5000}
+              >
+                {collection.map(deals=>(
+                   <div key={deals.id} className="discount-slide" id='imgW' onClick={()=>navigate(`/collection-products?collectionId=${deals.id}`)}>
+                    <img src={deals.image} alt={deals.name} id='img'/>
+                   <h3>{deals.name}</h3>
+              <h5>{deals.description}</h5>
+              </div>
+                ))}</Slider>
+              ):(
+                <p>No discounts for this week</p>
+              )}
             </div>
           </div>
 

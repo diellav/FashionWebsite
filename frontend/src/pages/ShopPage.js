@@ -44,6 +44,7 @@ useEffect(() => {
   const isRecent = path === "/recent-products";
   const isSale = path === "/sale";
   const isCollection=path==="/collection-products";
+  const collectionId = searchParams.get("collectionId") || null;
   const sortOption = isRecent ? "newest" : "featured";
 
   setFilters(prev => ({
@@ -53,6 +54,7 @@ useEffect(() => {
     recent: isRecent,
     sale: isSale,
     collection:isCollection,
+    collectionId: collectionId,
     sortOption
   }));
 
@@ -83,6 +85,9 @@ useEffect(() => {
     }
       if (!filterData.recent) delete params.recent;
     if (!filterData.sale) delete params.sale;
+    if (filterData.collectionId) {
+  params.collectionId = filterData.collectionId;
+}
       const res = await axiosInstance.get('/products/filter', {params});
       setProducts(res.data.products);
       setTotalPages(res.data.totalPages);
@@ -113,6 +118,7 @@ useEffect(() => {
   if (updatedFilters.recent) params.set("recent", "true");
   if (updatedFilters.sale) params.set("sale", "true");
   if (updatedFilters.collection) params.set("collection", "true");
+  
 
   navigate({ search: params.toString() });
 };

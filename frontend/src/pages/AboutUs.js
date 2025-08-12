@@ -3,6 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {faInstagram, faXTwitter, faFacebook, faTiktok} from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import '../template/AboutUs.css';
+import '../template/AboutUsResponsive.css';
 const AboutUs=()=>{
  const navigate=useNavigate();
 

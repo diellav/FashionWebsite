@@ -149,12 +149,13 @@ private function filterProductsBaseQuery(Request $request)
                 $q->where('start_date', '<=', $now)->where('end_date', '>=', $now);
             });
         }
-        if ($request->has('collection') && $request->boolean('collection')) {
-            $now = now();
-            $query->whereHas('collections', function ($q) use ($now) {
-             $q->where('collections.start_date', '<=', $now)->where('collections.end_date', '>=', $now);
-            });
-        }
+       if ($request->has('collectionId')) {
+    $collectionId = $request->get('collectionId');
+    $query->whereHas('collections', function ($q) use ($collectionId) {
+        $q->where('collections.id', $collectionId);
+    });
+}
+
     });
 }
 

@@ -351,14 +351,25 @@ for (let [key, value] of data.entries()) {
             <div
               style={{
                 maxHeight: "200px",
-                overflowY: "auto",
-                border: "1px solid #ccc",
-                padding: "5px",
-                marginTop: "5px",
+      overflowY: "auto",
+      border: "1px solid #ccc",
+      padding: "5px",
+      marginTop: "5px",
+
+      display: "flex",
+      flexWrap: "wrap",
+      gap: "30px",
               }}
             >
               {products.map((product) => (
-                <label key={product.id} style={{ display: "block" }}>
+                <label key={product.id}  style={{
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      width: '30%',
+      gap: '8px',
+      cursor: 'pointer', 
+      }}>
                   <input
                     type="checkbox"
                     checked={formData.productIDs.includes(product.id)}

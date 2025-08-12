@@ -135,7 +135,14 @@ class CollectionController extends Controller
     }
 
     public function getCollectionHome() {
-        return Collection::with('products')->orderByDesc('created_at')->first();
-    }
+        $collections = Collection::with('products')
+        ->orderByDesc('created_at')
+        ->get();
+    $collections->transform(function ($collection) {
+        $collection->image = url($collection->image);
+        return $collection;
+    });
+
+    return response()->json($collections);}
 
 }

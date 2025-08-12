@@ -71,7 +71,7 @@ body {
   border-radius: 6px;
   font-size: 100%;
 }
-label{
+.description label{
   font-size: x-large;
 }
 select{

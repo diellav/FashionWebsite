@@ -1,0 +1,74 @@
+@media (max-width:900px){
+    
+.achievements{
+    padding:2%;
+}
+.bar{
+    gap:5%;
+    padding: 1%;
+}
+.group{
+    width:20%;
+}
+.group h3{
+  font-size: medium;
+}
+.section {
+    flex-direction: column;
+    gap:5%;
+}
+
+.msg {
+    width:90%;
+}
+.img {
+    width:80%;
+}
+
+.socials{
+    flex-direction: row;
+      gap:10%;
+}
+.socials .box{
+    width:40%;
+    margin-bottom: 5%;
+}
+.socials .box p{
+    font-size: medium;
+}
+.introduction h2, .msg h3{
+   font-size: medium;
+}
+.socialIcon{
+    width:25%;
+    height: 45%;
+}
+}
+
+@media (max-width:600px){
+    
+.bar{
+    gap:5%;
+    padding: 1%;
+}
+.group{
+    width:15%;
+}
+.group h3{
+  font-size: small;
+}
+
+.txt{
+    width:30%;
+}
+.txt p{
+    font-size: small;
+    
+}
+.txt h2{
+font-size: medium;
+}
+.mainF img{
+    height:30vh;
+}
+}
