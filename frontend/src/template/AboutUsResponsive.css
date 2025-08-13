@@ -71,4 +71,19 @@ font-size: medium;
 .mainF img{
     height:30vh;
 }
+
+.introduction{
+    padding: 4%;
+    flex-wrap: wrap;
+
+}
+.intro{
+    width:80%;
+    font-size: medium;
+}
+
+.intro ul > li {
+  font-size: medium;
+  margin-bottom: 8px;
+}
 }

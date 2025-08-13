@@ -201,8 +201,8 @@ const getAllImages = () => {
     >
       <option value="" disabled>Choose</option>
       {product.variants.map((variant) => (
-        <option key={variant.id} value={variant.id}>
-          Color: {variant.color}, Material: {variant.material}
+        <option key={variant.id} value={variant.id} className="options">
+          {variant.color} - {variant.material}
         </option>
       ))}
     </select>

@@ -92,16 +92,17 @@
 }
 .links a{
      
-     font-size: medium;
+     font-size: small;
 }
 h4{
-    font-size: medium;
+    font-size: small;
 }
 
 .end{
     flex-direction: row;
     flex-wrap: wrap;
     height:fit-content;
+    font-size: small;
 }
 
 .tt{
@@ -109,6 +110,7 @@ h4{
     flex-direction: row; 
     margin-top: 5%;
     width:90%;
+     font-size: small;
 
 }
 #urban{

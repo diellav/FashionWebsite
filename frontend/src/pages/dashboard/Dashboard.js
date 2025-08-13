@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Routes, Route, NavLink, Navigate, Link} from 'react-router-dom';
 import '../../template/ProfilePage.css';
 import ProfileInfo from '../profile/ProfileInfo';
@@ -20,11 +20,20 @@ import DiscountsPage from './discounts/DiscountsPage';
 import AddressPage from './addresses/AddressPage';
 import SizesPage from './sizes/SizesPage';
 const Dashboard = ({onLogout}) => {
+  const [showFilters, setShowFilters] = useState(false);
   return (
+    <>
+     <div className='myaccount'>
+      <h4>Dashboard</h4>
+        <button 
+        className={`btn ${showFilters? 'shifted':''}`}
+        onClick={() => setShowFilters(!showFilters)}
+      >
+        <span>{showFilters ? 'X' : 'Menu'}</span>
+      </button></div>
     <div className="profile-page-container">
-      <aside className="sidebar">
-        <h2>My Account</h2>
-        <ul>
+       <div className={`filters-overlay ${showFilters ? 'visible' : ''}`}>
+        <ul style={{ margin:"2% 0%"}}>
           <li><NavLink to="/dashboard/info" activeclassname="active">Profile Info</NavLink></li>
            <li><NavLink to="/dashboard/change-password" activeclassname="active">Change Password</NavLink></li>
            <br></br>
@@ -49,7 +58,7 @@ const Dashboard = ({onLogout}) => {
           <br></br>
           <li><NavLink to="/" activeclassname="active" onClick={onLogout} style={{fontSize:"larger"}}>Logout</NavLink></li>
         </ul>
-      </aside>
+      </div>
 
       <main className="profile-content">
         <Routes>
@@ -75,6 +84,7 @@ const Dashboard = ({onLogout}) => {
         </Routes>
       </main>
     </div>
+    </>
   );
 };
 

@@ -34,8 +34,8 @@ body{
     width:30%;
 }
 .photoCart img{
-    width:100%;
-    height:45vh;
+    width:300px;
+    height:50vh;
     border-radius: 5px;
     justify-self: center;
 }
@@ -48,12 +48,12 @@ body{
     margin-left:100px;
 }
 
-.textCart, .variant{
+.textCart{
     display: flex;
     flex-direction: column;
     justify-content: center;
     font-size: larger;
-    width:20;
+    width:20%;
 }
 .textCart h4{
     margin-bottom:10%;

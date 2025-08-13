@@ -156,19 +156,22 @@ const SizesPage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {sizes.map(s => (
+                  {sizes.map(s => {
+                     const sizeProduct = products.find(p => p.id === s.productID);
+                     const sizeVariant = variants.find(v => v.id === s.variantID);
+                    return(
                     <tr key={s.id}>
                       <td>{s.id}</td>
                       <td>{s.size}</td>
                       <td>{s.stock}</td>
-                      <td>{s.productID || '-'}</td>
-                      <td>{s.variantID || '-'}</td>
+                      <td>{sizeProduct? sizeProduct.name : '-'}</td>
+                      <td>{sizeVariant? sizeVariant.color : '-'} - {sizeVariant? sizeVariant.material : '-'}</td>
                       <td>
                         <button onClick={() => handleEditClick(s)}>Edit</button>
                         <button onClick={() => handleDeleteClick(s.id)}>Delete</button>
                       </td>
                     </tr>
-                  ))}
+                  )})}
                 </tbody>
               </table>
             </div>

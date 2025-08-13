@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axios";
 import '../template/Cart.css';
+import '../template/CartResponsive.css';
 const Cart=()=>{
     const[error,setError]=useState('');
     const user=JSON.parse(localStorage.getItem('user'));
@@ -54,6 +55,7 @@ const Cart=()=>{
 
     return(
         <div className="mainCart">
+            <br></br>
             <h3>My Cart</h3>
 <p id='helper-text'>Your selected items are listed below. You can adjust quantities or remove products before checking out.</p>
 
@@ -66,6 +68,9 @@ const Cart=()=>{
                     <img src={item.variants && item.variants.image? `${item.variants.image}` : `${item.product.main_image}`}></img></div>
                     <div className="textCart">
                     <h4>{item.product.name}</h4>
+                    {item.variants && (
+                    <p>Color: {item.variants.color}</p>
+                )}
                     <div className="quantity">
                     <h5>Quantity:</h5><input type="number" min="1" value={item.quantity}
                     onChange={(e)=>handleQuantityChange(item.id, parseInt(e.target.value))}></input>
@@ -79,10 +84,6 @@ const Cart=()=>{
                     ) : (
                        <span className="normal-price">Price: ${item.product.price}</span>
                     )}</div>
-                    <div className="variant">
-                    {item.variants && (
-                    <p>Color: {item.variants.color}</p>
-                )}</div>
                     <button className="remove-btn" onClick={() => handleRemoveFromCart(item.id)}>
                         X
                     </button><p className='Cartmessage'>Remove From Cart</p>

@@ -5,33 +5,26 @@
   padding:4%;
 }
 
-.sidebar {
-  width: 220px;
-  background-color: #f7f7f7;
-  padding: 20px;
-  border-right: 1px solid #ccc;
-}
-
-.sidebar h2 {
+.profile-page-container h2 {
   font-size: 18px;
   margin-bottom: 10px;
 }
 
-.sidebar ul {
+.profile-page-container ul {
   list-style-type: none;
   padding: 0;
 }
 
-.sidebar li {
+.profile-page-container li {
   margin-bottom: 10px;
 }
 
-.sidebar a {
+.profile-page-container a {
   text-decoration: none;
   color: #333;
 }
 
-.sidebar a.active {
+.profile-page-container a.active {
   font-weight: bold;
   color:#361101;
 }
@@ -149,6 +142,7 @@ width:100%;
   flex-direction: row;
   gap:20%;
    padding:3%;
+   height:500px;
 }
 .map-container{
   width:70%;
@@ -338,4 +332,88 @@ width:100%;
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.btn{
+  display: none;
+}
+.myaccount{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 4%;
+}
+
+@media (max-width:1000px){
+ .close-filters {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+.btn{
+  display: block;
+}
+.sidebar{
+  display: block;
+}
+.profile-page-container .filters-overlay {
+  width: 180px;
+  background-color: #f4eeed;
+  padding: 20px;
+  box-shadow: 2px 2px 8px rgb(88, 88, 88, 0.5);
+  left: 0;
+  height: 100%;
+  z-index: 1007;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+.profile-page-container .filters-overlay ul{
+  margin-top: 200%;
+}
+.profile-page-container .filters-overlay ul li{
+  margin: 12% 0%;
+}
+.profile-page-container .filters-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+.btn.shifted {
+  left:180px;
+   position: fixed;
+  top: 25%; 
+  width:fit-content;  
+  background-color: #eaeaea;
+    z-index: 1007;
+     box-shadow: 2px 2px 8px rgb(88, 88, 88, 0.5);
+}
+.btn.shifted span{
+  color: #333;
+}
+.profile-page-container {
+  display: flex;
+  min-height: 80vh;
+  width:100%;
+  padding:4%;
+}
+
+.map_address{
+  display: flex;
+  flex-direction: column;
+  gap:5%;
+  height: auto;
+  justify-content: center;
+}
+.map-container{
+  width:400px;
+  height:500px;
+}
+.addresses-list{
+  width:80%;
+}
 }
