@@ -175,7 +175,6 @@ nav ul li a:hover {
   display: flex;
   align-items: center;
   gap: 8px;
-  width:5%;
 }
 
 .search-icon {
@@ -190,9 +189,9 @@ nav ul li a:hover {
 
 .search-input {
   position: absolute;
-  right: -180px;
+  right: -120px;
   opacity: 0;
-  width: 150px;
+  width: 100px;
   padding: 6px 10px;
   border: 1px solid #ccc;
   border-radius: 20px;

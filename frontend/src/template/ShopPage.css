@@ -85,11 +85,20 @@ body{
 
 @media (max-width: 992px) {
   .main_cart .single_cart {
-    width: 45%;
+   max-width: 45%;
+     margin:0% 3%;
+  min-width: 300px;
   }
 
+  .main_cart .single_cart_image {
+  height: 35vh;
+}
 .shop-page {
   position: relative;
+}
+.shop-description{
+  width:60%;
+  font-size: medium;
 }
 
 .filter-toggle-btn {
@@ -132,12 +141,17 @@ body{
 }
 @media (max-width: 600px) {
   .main_cart .single_cart {
-    width: 90%;
+    width: 100%;
   }
 
 .shop-page {
   position: relative;
 }
+.shop-description{
+  width:100%;
+  font-size: small;
+}
+
 
 .filter-toggle-btn {
   z-index: 101;

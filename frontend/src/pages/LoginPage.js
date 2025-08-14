@@ -28,12 +28,18 @@ const Login = ({setIsAuthenticated,setUser}) => {
       setIsAuthenticated(true);
       setSuccess(true);
       setUser(user);
+       const redirectPath = localStorage.getItem("redirectAfterLogin");
+
+    if (redirectPath) {
+      localStorage.removeItem("redirectAfterLogin");
+      navigate(redirectPath);
+    } else {
       if (user.role === 'Customer') {
           navigate('/home');
         } else if (user.role === 'Admin') {
           navigate('/dashboard');
         }
-    } catch (err) {
+    } }catch (err) {
       setError(err.response?.data?.error || 'Login failed');
     }
   };

@@ -44,10 +44,10 @@ const CreateAddressForm = ({ address, users, onSaved, onCancel }) => {
 
     try {
       if (address) {
-        await axiosInstance.put(`/address/${address.id}`, formData);
+        await axiosInstance.put(`/addresses/${address.id}`, formData);
         alert('Address updated successfully');
       } else {
-        await axiosInstance.post('/address', formData);
+        await axiosInstance.post('/addresses', formData);
         alert('Address added successfully');
       }
       if (onSaved) onSaved();

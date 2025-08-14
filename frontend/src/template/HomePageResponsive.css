@@ -51,7 +51,7 @@
     padding: 2%;
 }
 .products .box{
-    height:40vh;
+    height:30vh;
      background-size: cover;
 }
 .products .box p{
@@ -145,12 +145,12 @@
 }
 
 .products .box{
-    height:35vh;
+    height:20vh;
      background-size: cover;
 }
 .products .box p{
-    font-size: small;
-    width:80%;
+    font-size: smaller;
+    width:90%;
 }
   .discount-slide img {
     height: 300px;

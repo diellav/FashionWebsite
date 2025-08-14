@@ -9,6 +9,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import FAQ from '../components/FAQ';
+import LazyImage from './LazyImage';
 const HomePage=()=>{
   const navigate=useNavigate();
   const[recent,setRecent]=useState([]);
@@ -26,7 +27,6 @@ const HomePage=()=>{
   const fetchRecentProducts=async()=>{
     try{
     const res=await axiosInstance.get('/recent-products');
-     console.log('recent products:', res.data);
     setRecent(res.data.products);
     }catch(err){
       console.error('Failed to fetch products', err);
@@ -43,7 +43,6 @@ const HomePage=()=>{
     const fetchBestSellerProducts=async()=>{
     try{
     const res=await axiosInstance.get('/best-products');
-    console.log('best products:', res.data);
     setBestSeller(res.data);
     }catch(err){
       console.error('Failed to fetch products', err);
@@ -54,7 +53,6 @@ const HomePage=()=>{
     try{
     const res=await axiosInstance.get('/collections-home');
     setCollection(res.data);
-    console.log('collections data:', res.data);
 
     }catch(err){
       console.error('Failed to fetch products', err);
@@ -65,7 +63,7 @@ const HomePage=()=>{
     <div>
       <div className="main">
       <div className="mainFoto">
-        <img src='../../../../images/MainPhoto.jpg'></img>
+        <LazyImage src='../../../../images/MainPhoto.jpg'></LazyImage>
         <div className="text">
         <p>Welcome to Urban Gaze, where modern minimalism meets effortless sophistication.</p>
         <p id='secondText'>Crafted for the city, tailored for distinction.</p>
@@ -129,10 +127,11 @@ const HomePage=()=>{
           {recent.length>0 ? (
             <Slider
               dots={true}
-              infinite={true}
+               
               speed={500}
               slidesToShow={4}
               slidesToScroll={1}
+               lazyLoad="progressive"
               responsive={[
                 {
                 breakpoint: 1024,
@@ -151,8 +150,8 @@ const HomePage=()=>{
             ]}>
           {recent.map(product=>(
             <div key={product.id} className="product-slide" onClick={()=>navigate(`/products/${product.id}`)}>
-              <img src={product.main_image} alt={product.name}
-              style={{ width: '100%', height: '270px', objectFit: 'cover' }}></img>
+              <LazyImage src={product.main_image} alt={product.name}
+              style={{ width: '100%', height: '270px', objectFit: 'cover' }}></LazyImage>
               <h5>{product.name}</h5>
               {product.discounted_price ? (
               <>
@@ -178,16 +177,17 @@ const HomePage=()=>{
               {deals.length>0?(
               <Slider
                 dots={true}
-                infinite={true}
+                 
                 speed={500}
                 slidesToShow={1}
                 slidesToScroll={1}
                 autoplay={true}
                 autoplaySpeed={5000}
+                 lazyLoad="progressive"
               >
                 {deals.map(deals=>(
                    <div key={deals.id} className="discount-slide" onClick={()=>navigate('/sale')}>
-                    <img src={deals.image} alt={deals.name}/>
+                    <LazyImage src={deals.image} alt={deals.name}/>
                      <div className="text">
                   <h2>{deals.name}</h2>
                    <h3>Discount: {deals.value}{deals.type === 'percentage' ? '%' : '$'}</h3>
@@ -206,10 +206,11 @@ const HomePage=()=>{
           {bestseller.length>0 ? (
             <Slider
               dots={true}
-              infinite={true}
+               
               speed={500}
               slidesToShow={4}
               slidesToScroll={1}
+               lazyLoad="progressive"
               responsive={[
                 {
                 breakpoint: 1024,
@@ -228,8 +229,8 @@ const HomePage=()=>{
             ]}>
           {bestseller.map(product=>(
             <div key={product.id} className="product-slide" onClick={()=>navigate(`/products/${product.id}`)}>
-              <img src={product.main_image} alt={product.name}
-              style={{ width: '100%', height: '250px', objectFit: 'cover' }}></img>
+              <LazyImage src={product.main_image} alt={product.name}
+              style={{ width: '100%', height: '250px', objectFit: 'cover' }}></LazyImage>
               <h5>{product.name}</h5>
               <p>${product.price}</p>
             </div>
@@ -244,16 +245,17 @@ const HomePage=()=>{
               {collection.length>0?(
               <Slider
                 dots={true}
-                infinite={true}
+                 
                 speed={500}
                 slidesToShow={1}
                 slidesToScroll={1}
                 autoplay={true}
                 autoplaySpeed={5000}
+                 lazyLoad="progressive"
               >
                 {collection.map(deals=>(
-                   <div key={deals.id} className="discount-slide" id='imgW' onClick={()=>navigate(`/collection-products?collectionId=${deals.id}`)}>
-                    <img src={deals.image} alt={deals.name} id='img'/>
+                   <div key={deals.id} className="discount-slide" id='LazyImageW' onClick={()=>navigate(`/collection-products?collectionId=${deals.id}`)}>
+                    <LazyImage src={deals.image} alt={deals.name} id='LazyImage'/>
                    <h3>{deals.name}</h3>
               <h5>{deals.description}</h5>
               </div>

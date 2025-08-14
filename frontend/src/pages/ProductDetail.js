@@ -28,14 +28,35 @@ const ProductDetail = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const { wishlist, isInWishlist, toggleWishlist } = useWishlist();
   const { cart, addToCart, isInCart } = useCart();
+  const [isDiscountActive, setIsDiscountActive] = useState(false);
   const navigate=useNavigate();
 
-  useEffect(() => {
-    fetchProduct();
-    fetchReviews();
-    fetchSimilar();
-    fetchBestSellerProducts();
-  }, [id]);
+ useEffect(() => {
+  const loadData = async () => {
+    try {
+      const [productRes, reviewsRes, similarRes, bestRes] = await Promise.all([
+        axiosInstance.get(`/products/${id}`),
+        axiosInstance.get(`/products/${id}/reviews`),
+        axiosInstance.get(`/similar-products/${id}`),
+        axiosInstance.get(`/best-products`)
+      ]);
+
+      setProduct(productRes.data);
+      setMainImage(productRes.data.main_image);
+      setSelectedVariant(null);
+      setSelectedSize(null);
+      setReviews(reviewsRes.data);
+      setSimilar(similarRes.data);
+      setBestSeller(bestRes.data);
+
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load data.");
+    }
+  };
+
+  loadData();
+}, [id]);
 
    const fetchProduct = async () => {
       try {
@@ -93,6 +114,12 @@ const getStockForSelected = () => {
 };
 
   const handleAddToCart = () => {
+    if(!user){
+        localStorage.setItem("redirectAfterLogin", window.location.pathname);
+        alert("Please log in to add items to cart");
+    navigate("/login");
+    return;
+    }
     if (selectedSize) {
       addToCart(
         {
