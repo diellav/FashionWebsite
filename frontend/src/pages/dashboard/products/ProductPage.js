@@ -12,7 +12,7 @@ const CreateProductPage = () => {
     const [page, setPage] = useState(1);
     const [limit] = useState(10);
     const [totalPages, setTotalPages] = useState(1);
-    const [sort, setSort] = useState('name');
+    const [sort, setSort] = useState('id');
     const [order, setOrder] = useState('asc');
     const [search, setSearch] = useState('');
     const [searching, setSearching] = useState(false);
@@ -57,7 +57,6 @@ const CreateProductPage = () => {
     if(window.confirm("Are you sure you want to delete this product?")) {
       try {
         await axiosInstance.delete(`/products/${productId}`);
-        alert("Product deleted successfully");
         fetchData();
       } catch (err) {
         alert("Failed to delete product");

@@ -68,7 +68,6 @@ const SizesPage = () => {
     if (window.confirm("Are you sure you want to delete this size?")) {
       try {
         await axiosInstance.delete(`/sizes_stock/${sizeId}`);
-        alert("Size deleted successfully");
         fetchSizes();
       } catch {
         alert("Failed to delete size");

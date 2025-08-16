@@ -57,7 +57,6 @@ const CreateProductVariantPage = () => {
     if(window.confirm("Are you sure you want to delete this product?")) {
       try {
         await axiosInstance.delete(`/product_variants/${productId}`);
-        alert("Product deleted successfully");
         fetchData();
       } catch (err) {
         alert("Failed to delete product");
@@ -106,7 +105,6 @@ const CreateProductVariantPage = () => {
               <option value="color">Color</option>
               <option value="material">Material</option>
               <option value="productID">Product</option>
-              <option value="image">Image</option>
             </select>
             <select value={order} onChange={e => setOrder(e.target.value)}>
               <option value="asc">Ascending</option>
@@ -150,7 +148,6 @@ const CreateProductVariantPage = () => {
                     <td>{prod.color}</td>
                     <td>{prod.material}</td>
                    <td>{prod.product?.name || '-'}</td>
-                    <td>{prod.image}</td>
                     <td>
                       <button onClick={() => handleEditClick(prod)}>Edit</button>
                       <button onClick={() => handleDeleteClick(prod.id)}>Delete</button>

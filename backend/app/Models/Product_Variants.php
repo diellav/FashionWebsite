@@ -14,7 +14,6 @@ class Product_Variants extends Model
         'productID',
         'color',
         'material',
-        'image',
        
     ];
     

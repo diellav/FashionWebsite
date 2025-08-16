@@ -133,28 +133,14 @@ const getStockForSelected = () => {
       alert("Please select a size first.");
     }
   };
-
 const getAllImages = () => {
-  const productImages = product.images || [];
-  const variantImages = product.variants?.flatMap(v => {
-    const imagesArray = v.images || [];
-    if (v.image) {
-      return [...imagesArray, { image: v.image }];
-    }
-    return imagesArray;
-  }) || [];
-
-  if (product.main_image) {
-    productImages.unshift({ images: product.main_image });
-  }
+  const productImages = product.images?.map(img => img.images) || [];
+  if (product.main_image) productImages.unshift(product.main_image);
+  const variantImages = selectedVariant
+    ? selectedVariant.images?.map(img => img.images) || []
+    : [];
   const allImages = [...productImages, ...variantImages];
-
-  const seen = new Set();
-  return allImages.filter(img => {
-    if (seen.has(img.images)) return false;
-    seen.add(img.images);
-    return true;
-  });
+  return Array.from(new Set(allImages));
 };
 
  const fetchBestSellerProducts=async()=>{
@@ -174,9 +160,14 @@ const getAllImages = () => {
     <>
     <div className="product-detail-page">
      <div className="thumbnail-container">
-  {getAllImages().map((img) => (
-    <img key={img.id} src={img.images} alt="" className={mainImage === img.images ? "selected" : ""}onClick={() => setMainImage(img.images)}
-    /> 
+   {getAllImages().map((img, idx) => (
+    <img
+      key={idx}
+      src={img}
+      alt=""
+      className={mainImage === img ? "selected" : ""}
+      onClick={() => setMainImage(img)}
+    />
   ))}
 </div>
 

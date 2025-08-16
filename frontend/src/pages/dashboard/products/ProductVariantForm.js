@@ -5,7 +5,6 @@ const CreateProductVariantForm = ({ product = null, products=[], onSaved, onCanc
     productID: '',
     color: '',
     material: '',
-    image: null,
   });
   const [error, setError] = useState('');
 
@@ -15,16 +14,12 @@ const CreateProductVariantForm = ({ product = null, products=[], onSaved, onCanc
          productID: product.productID || '',
         color: product.color || '',
         material: product.material || '',
-        image: null,
       });
     } else {
       setFormData({
          productID: '',
         color: '',
         material: '',
-      
-        image: null,
-       
       });
     }
     setError('');
@@ -32,10 +27,6 @@ const CreateProductVariantForm = ({ product = null, products=[], onSaved, onCanc
 
   const handleChange = (e) => {
     setFormData({...formData, [e.target.name]: e.target.value});
-  };
-
-  const handleMainImageChange = (e) => {
-    setFormData({...formData, image: e.target.files[0]});
   };
 
   const handleSubmit = async (e) => {
@@ -46,11 +37,6 @@ const CreateProductVariantForm = ({ product = null, products=[], onSaved, onCanc
       data.append("productID", formData.productID);
     data.append("color", formData.color);
     data.append("material", formData.material);
-    if (formData.image) {
-      data.append("image", formData.image);
-    }
-
-  
 
    try {
   if (product) {
@@ -98,12 +84,6 @@ const CreateProductVariantForm = ({ product = null, products=[], onSaved, onCanc
             ))}
           </select>
         </label>
-
-        <label>
-          Main Image
-          <input type="file" accept="image/*" onChange={handleMainImageChange} />
-        </label>
-
     </div>
 
         <hr />

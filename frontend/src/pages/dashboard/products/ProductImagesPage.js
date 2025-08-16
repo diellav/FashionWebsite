@@ -60,7 +60,6 @@ const CreateProductImagesPage = () => {
     if(window.confirm("Are you sure you want to delete this image?")) {
       try {
         await axiosInstance.delete(`/product_images/${imageId}`);
-        alert("Image deleted successfully");
         fetchData();
       } catch (err) {
         alert("Failed to delete image");

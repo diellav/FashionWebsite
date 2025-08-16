@@ -95,26 +95,22 @@ const HomePage=()=>{
       <div className="products">
         <div className="box" id='women'>
         <h4>Women</h4>
-        <p>Modern styles for every mood.</p>
         <p>Explore curated fits, fresh silhouettes, and seasonal drops tailored for her.</p>
         <p>Shop dresses, tops, pants, jackets & more.</p>
         </div>
         <div className="box" id='men'>
         <h4>Men</h4>
-        <p>Laid-back, clean, and confident.</p>
-        <p>Discover street-ready styles, smart layers, and versatile staples made to move with your lifestyle.</p>
+        <p>Discover street-ready styles and versatile staples made for your lifestyle.</p>
         <p>Tees, cargos, outerwear, and everything in between.</p>
         </div>
          <div className="box" id='shoes'>
         <h4>Shoes</h4>
-        <p>Fresh kicks. Solid steps.</p>
-        <p>From chill everyday sneakers to boots that turn heads — we’ve got your style covered from the ground up.</p>
+        <p>From everyday sneakers to boots that turn heads — we’ve got your style covered from the ground up.</p>
         <p>Sneakers, boots, sandals, heels, slides & more.</p>
         </div>
         <div className="box" id='accessories'>
         <h4>Accessories</h4>
-        <p>The details that complete the look.</p>
-        <p>Level up your fit with bags, jewelry, shades, and more. Minimal or bold — it’s your move.</p>
+        <p>Level up your fit with bags, jewelery, shades, and more.</p>
         <p>Bags, watches, caps, rings, sunglasses & more.</p>
         </div>
       </div>

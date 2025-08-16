@@ -26,7 +26,6 @@ class Product_VariantsController extends Controller
             $q->where('id', 'like', "%$search%")
               ->orWhere('color', 'like', "%$search%")
               ->orWhere('material', 'like', "%$search%")
-              ->orWhere('image', 'like', "%$search%")
               ->orWhereHas('product', function($q2) use ($search) {
                   $q2->where('name', 'like', "%$search%");
         });});
@@ -47,27 +46,16 @@ class Product_VariantsController extends Controller
         'productID' => 'required|exists:products,id',
         'color' => 'required|string|max:255',
         'material' => 'required|string|max:255',
-        'image' => 'nullable|image|max:2048',
     ]);
 
     if ($validator->fails()) {
         return response()->json($validator->errors(), 400);
-    }
-$imagePath = null;
-$imageFile = null;
-$imageName = null;
- if ($request->hasFile('image')) {
-        $imageFile = $request->file('image');
-        $imageName = $imageFile->getClientOriginalName();
-        $imagePath = '/images/Shop/' . $imageName;
-        $imageFile->storeAs('images/Shop', $imageName, 'public');
     }
 
     $product_variant = Product_Variants::create([
         'productID' => $request->get('productID'),
         'color' => $request->get('color'),
         'material' => $request->get('material'),
-        'image' => $imagePath,
     ]);
 
     return response()->json($product_variant, 201);
@@ -78,7 +66,7 @@ $imageName = null;
         $product_variant = Product_Variants::findOrFail($id);
 
         $product_variant->update($request->only([
-            'productID', 'color', 'material','image'
+            'productID', 'color', 'material'
         ]));
 
         return response()->json($product_variant);

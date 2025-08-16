@@ -227,7 +227,11 @@ private function filterProductsBaseQuery(Request $request)
                     $variantImageName = $variantImage->getClientOriginalName();
                         $variantImagePath = '/images/Shop/variants/' . $variantImageName;
                         $variantImage->storeAs('images/Shop/variants', $variantImageName, 'public');
-                        $variant->images()->create(['images' => $variantImagePath]);
+                         $variant->images()->create([
+                            'images' => $variantImagePath,
+                            'productID' => $product->id,
+                            'variantID' => $variant->id,]);
+                        
                     }
                 }
             }
@@ -293,7 +297,11 @@ private function filterProductsBaseQuery(Request $request)
                         $variantImageName = $variantImage->getClientOriginalName();
                         $variantImagePath = '/images/Shop/variants/' . $variantImageName;
                         $variantImage->storeAs('images/Shop/variants', $variantImageName, 'public');
-                        $variant->images()->create(['images' => $variantImagePath]);
+                       $variant->images()->create([
+                        'images' => $variantImagePath,
+                        'productID' => $product->id,
+                        'variantID' => $variant->id,
+                ]);
                     }
                 }
             }

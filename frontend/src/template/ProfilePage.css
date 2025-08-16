@@ -276,6 +276,7 @@ width:100%;
   justify-content: center;
   padding: 2%;
   gap:1%;
+  flex-wrap: wrap;
 }
 .editProfile .pagination button {
    all: unset; 

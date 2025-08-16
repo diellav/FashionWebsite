@@ -108,18 +108,18 @@ const CreateProductForm = ({ product, categories, onSaved, onCancel }) => {
     });
 
    try {
-  if (product) {
-    data.append('_method', 'PUT');
-    await axiosInstance.post(`/products/${product.id}`, data, {
-      headers: { "Content-Type": "multipart/form-data" }
-    });
-    alert("Product updated successfully");
-  } else {
-    await axiosInstance.post("/products/full-create", data, {
-      headers: { "Content-Type": "multipart/form-data" }
-    });
-    alert("Product created successfully");
-  }
+        let response;
+
+if (product && product.id) {
+   data.append('_method', 'PUT');
+      response = await axiosInstance.post(`/products/${product.id}`, data, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+    } else {
+      response = await axiosInstance.post('/products', data, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+    }
   if (onSaved) onSaved();
 } catch (err) {
   setError(err.response?.data?.message || "Failed to save product");

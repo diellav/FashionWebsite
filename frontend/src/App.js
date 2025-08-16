@@ -23,8 +23,7 @@ import PrivacyPolicy from "./pages/Privacy";
 import PaymentPage from "./pages/PaymentPage";
 import ProfilePage from "./pages/ProfilePage";
 import Dashboard from "./pages/dashboard/Dashboard";
-import UsersPage from "./pages/dashboard/users/UsersPage";
-import CategoryPage from "./pages/dashboard/category/CategoryPage";
+
 function ResetPasswordPage() {
   const query = new URLSearchParams(useLocation().search);
   const token = query.get('token');
@@ -43,10 +42,10 @@ function AppContent() {
     const[user,setUser]=useState(null);
     const[role,setRole]=useState(null);
     const navigate=useNavigate();
-
+const roleStored=localStorage.getItem('role');
    useEffect(()=>{
     const token=localStorage.getItem('token');
-    const roleStored=localStorage.getItem('role');
+    
     setRole(roleStored);
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
@@ -111,9 +110,8 @@ function AppContent() {
        <Route path="/returns" element={<ReturnPolicy />} />
        <Route path="/privacy" element={<PrivacyPolicy />} />
         
-       <Route path="/categories" element={isAuthenticated? (<CategoryPage/>):( <Navigate to="/login"/>)}/>
-       <Route path="/users" element={isAuthenticated? (<UsersPage/>):( <Navigate to="/login"/>)}/>
-       <Route path="/dashboard/*" element={isAuthenticated ? (<Dashboard onLogout={handleLogout}/>) : (<Navigate to="/login" />)} />
+       {roleStored==='Admin' &&
+        <Route path="/dashboard/*" element={isAuthenticated ? (<Dashboard onLogout={handleLogout}/>) : (<Navigate to="/login" />)} />}
 
     </Routes>
 <Footer user={user}/>

@@ -7,10 +7,10 @@ body {
     font-family: 'Josefin Sans';
 }
 .product-detail-page {
-  max-width: 100%;         
+  width: 100%;         
   display: flex;
   flex-direction: row;    
-  padding: 8%;
+  padding: 2% 8%;
   font-family: 'Josefin Sans';
   justify-items: flex-start;
   gap:5%;
@@ -31,7 +31,7 @@ body {
   text-align: start;
 }
 .product-detail-page img{
-  max-width: 100%;
+  max-width: 90%;
   height: auto;
   margin:2% 1%;
   border-radius: 10px;
@@ -73,6 +73,15 @@ body {
 }
 .description label{
   font-size: x-large;
+}
+
+.main-image-container{
+width:40%;
+height:90vh;
+}
+.main-image-container img{
+width:100%;
+height:100%;
 }
 .sizes-container select{
   border-radius:5px;
@@ -135,7 +144,7 @@ input[type="number"]{
 }
 
 .reviewSection {
-  margin: 5%;
+  margin:3% 5%;
   border-top: 1px solid #ccc;
   padding:3%;
 }
@@ -159,7 +168,7 @@ input[type="number"]{
 
 
 
-@media (max-width:900px){
+@media (max-width:1000px){
 .thumbnail-container{
   width:10%;
 }
@@ -173,7 +182,9 @@ height:50vh;
 }
 .main-image-container img{
 width:100%;
+height:100%;
 }
+
 
 .sizes-container {
     flex-direction: column;

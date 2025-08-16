@@ -17,7 +17,7 @@ class SizesController extends Controller
         $sort = $request->query('sort', 'id');
         $order = $request->query('order', 'asc'); 
         $search = $request->query('search', '');
-        $query = Sizes::query();
+        $query =  Sizes::with('product', 'variant');
         if (!empty($search)) {
         $query->where(function($q) use ($search) {
             $q->where('id', 'like', "%$search%")

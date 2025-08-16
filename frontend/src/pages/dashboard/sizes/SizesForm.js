@@ -110,12 +110,10 @@ const SizesForm = ({ size, products, variants, onSaved, onCancel }) => {
         await axiosInstance.post(`/sizes_stock/${size.id}`, data, {
           headers: { "Content-Type": "multipart/form-data" }
         });
-        alert("Size updated successfully");
       } else {
         await axiosInstance.post("/sizes_stock", data, {
           headers: { "Content-Type": "multipart/form-data" }
         });
-        alert("Size created successfully");
       }
       if (onSaved) onSaved();
     } catch (err) {

@@ -6,6 +6,7 @@ body {
     background-color: #fff4f2;
     align-items: center;  
     font-family: 'Josefin Sans';
+    overflow-x: hidden;
 }
 
 .main{

@@ -52,6 +52,13 @@ const Footer = () => {
           <p style={{ marginTop: "10px", textAlign: "center" }}>
             © {new Date().getFullYear()} UrbanGaze. All rights reserved.
           </p>
+           <p style={{ fontSize: "12px", color: "#888", marginTop: "5px", textAlign: "center" }}>
+      Disclaimer: This website is for demonstration purposes only.  
+      All products, brand names, and images belong to their respective owners.  
+      We do not claim ownership and do not collect personal data for misuse.
+        <br></br>Some images on this site are sourced from Freepik.com.  
+  All rights belong to their respective owners.
+    </p>
         </div>
       </div>
       </div>
