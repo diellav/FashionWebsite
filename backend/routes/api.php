@@ -97,6 +97,7 @@ Route::middleware('auth:api')->group(function(){
 
     //cart_items
     Route::get('/cart_items', [Cart_ItemsController::class, 'getCart_Items']);
+    Route::get('/cart_items-overview', [Cart_ItemsController::class, 'getAllCart_Items']);
     Route::get('/cart_items-dashboard/{id}', [Cart_ItemsController::class, 'getCart_ItemsDashboard']);
     Route::get('/cart_items/{id}', [Cart_ItemsController::class, 'getCart_ItemID']);
     Route::post('/cart_items', [Cart_ItemsController::class, 'createCart_Item']);
@@ -125,6 +126,8 @@ Route::middleware('auth:api')->group(function(){
     Route::post('/order_items', [Order_ItemsController::class, 'createOrderItems']);
     Route::put('/order_items/{id}', [Order_ItemsController::class, 'updateOrderItems']);
     Route::delete('/order_items/{id}', [Order_ItemsController::class, 'deleteOrderItems']);
+    Route::get('/order_items', [Order_ItemsController::class, 'getOrderItems']);
+    Route::get('/order_items_sales', [Order_ItemsController::class, 'getTotalSales']);
 
          //payment
     Route::get('/payments', [PaymentController::class, 'getPayments']);

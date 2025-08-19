@@ -173,8 +173,8 @@ class OrderController extends Controller
     }
     public function myOrders(){
     $userId = auth()->id();
-    $orders = Order::where('userID', $userId)->get();
+    $orders = Order::where('userID', $userId)->orderBy('created_at','desc')->get();
     return response()->json($orders);
 }
-
+   
 }

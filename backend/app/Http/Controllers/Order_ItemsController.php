@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order_Items;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class Order_ItemsController extends Controller
 {
@@ -21,6 +22,14 @@ class Order_ItemsController extends Controller
         return response()->json($order_items);
     }
 
+    public function getTotalSales() {
+    $totalSales =Order_Items::sum(DB::raw('price * quantity'));
+     $totalProductsSold = Order_Items::sum('quantity');
+    return response()->json([
+        'total_sales' => $totalSales,
+        'total_products_sold' => $totalProductsSold
+    ]);
+}
      public function createOrderItems(Request $request) {
         $validator = Validator::make($request->all(), [
             'orderID' => 'required|exists:orders,id',

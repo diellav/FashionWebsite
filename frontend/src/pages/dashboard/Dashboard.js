@@ -19,6 +19,7 @@ import CollectionsPage from './collections/CollectionsPage';
 import DiscountsPage from './discounts/DiscountsPage';
 import AddressPage from './addresses/AddressPage';
 import SizesPage from './sizes/SizesPage';
+import Overview from './OverviewPage.js';
 const Dashboard = ({onLogout}) => {
   const [showFilters, setShowFilters] = useState(false);
   return (
@@ -34,6 +35,7 @@ const Dashboard = ({onLogout}) => {
     <div className="profile-page-container">
        <div className={`filters-overlay ${showFilters ? 'visible' : ''}`}>
         <ul style={{ margin:"2% 0%"}}>
+          <li><NavLink to="/dashboard/overview" activeclassname="active">Overview</NavLink></li>
           <li><NavLink to="/dashboard/info" activeclassname="active">Profile Info</NavLink></li>
            <li><NavLink to="/dashboard/change-password" activeclassname="active">Change Password</NavLink></li>
            <br></br>
@@ -62,7 +64,7 @@ const Dashboard = ({onLogout}) => {
 
       <main className="profile-content">
         <Routes>
-          <Route path="/" element={<Navigate to="/dashboard/info" replace />} />
+          <Route path="/" element={<Navigate to="/dashboard/overview" replace />} />
           <Route path="info" element={<ProfileInfo />} />
           <Route path="users" element={<UsersPage/>} />
           <Route path="/addresses" element={<AddressPage/>} />
@@ -79,6 +81,7 @@ const Dashboard = ({onLogout}) => {
           <Route path="/orders" element={<OrdersPage/>} />
           <Route path="/collections" element={<CollectionsPage/>} />
           <Route path="/discounts" element={<DiscountsPage/>} />
+          <Route path="/overview" element={<Overview/>} />
           <Route path="edit" element={<EditProfile />} />
           <Route path="change-password" element={<ChangePassword />} />
         </Routes>

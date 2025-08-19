@@ -71,8 +71,7 @@ const ContactUs=()=>{
                     value={formData.phone_number} name='phone_number'
                     onChange={handleChange} required></input></div>
                     <br></br>
-                    <p className="helper-text">Let us know how we can help you. Be as detailed as possible.</p>
-                    <textarea placeholder="Your Message..."
+                    <textarea placeholder="Let us know how we can help you. Be as detailed as possible."
                     value={formData.message} name='message'
                     onChange={handleChange} required></textarea>
                     <br></br>

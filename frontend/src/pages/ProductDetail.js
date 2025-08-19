@@ -11,6 +11,7 @@ import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import { nameToHex } from './color';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -197,60 +198,49 @@ const getAllImages = () => {
           )}
 </div>
 
-
+<br></br>
 {hasVariants && (
-  <div className="sizes-container">
-    <label htmlFor="variant-select"><h5>Options:</h5></label>
-    <select
-      id="variant-select"
-      value={selectedVariant?.id || ""}
-      onChange={(e) => {
-        const selected = product.variants.find(
-          (v) => v.id === parseInt(e.target.value)
-        );
-        setSelectedVariant(selected);
-        setSelectedSize(null);
-        if (selected?.images?.length > 0) {
-          setMainImage(selected.images[0].images);
-        } else {
-          setMainImage(product.main_image);
-        }
-      }}
-    >
-      <option value="" disabled>Choose</option>
+  <div className="variants-container">
+    <h5>Colours:</h5>
+    <div className="variant-buttons">
       {product.variants.map((variant) => (
-        <option key={variant.id} value={variant.id} className="options">
-          {variant.color} - {variant.material}
-        </option>
+        <button
+          key={variant.id}
+          className={`variant-btn ${selectedVariant?.id === variant.id ? "active" : ""}`}
+          style={{ backgroundColor: nameToHex(variant.color) || 'transparent' }}
+          onClick={() => {
+            setSelectedVariant(variant);
+            setSelectedSize(null);
+            if (variant?.images?.length > 0) {
+              setMainImage(variant.images[0].images);
+            } else {
+              setMainImage(product.main_image);
+            }
+          }}
+           title={variant.color}
+        >
+        </button>
       ))}
-    </select>
+    </div>
   </div>
 )}
-
-
 <div className="sizes-container">
-  <label htmlFor="size-select"><h5>Sizes:</h5></label>
-  <select
-    id="size-select"
-    value={selectedSize?.id || ""}
-    onChange={(e) => {
-      const selected = (selectedVariant
-        ? product.sizestocks.filter(s => s.variantID === selectedVariant.id)
-        : product.sizestocks.filter(s => s.variantID === null)
-      ).find(s => s.id === parseInt(e.target.value));
-      setSelectedSize(selected);
-    }}
-  >
-    <option value="" disabled>Choose</option>
+  <h5>Sizes:</h5>
+  <div className="size-buttons">
     {(selectedVariant
       ? product.sizestocks.filter(s => s.variantID === selectedVariant.id)
       : product.sizestocks.filter(s => s.variantID === null)
     ).map((size) => (
-      <option key={size.id} value={size.id}  disabled={size.stock <= 0}>
-        {size.size} {size.stock>0? ' (In stock)': ' (Out of stock)' }
-      </option>
+      <button
+        key={size.id}
+        className={`size-btn ${selectedSize?.id === size.id ? "active" : ""}`}
+        disabled={size.stock <= 0}
+        onClick={() => setSelectedSize(size)}
+      >
+        {size.size}
+      </button>
     ))}
-  </select>
+  </div>
 </div>
 
       <div className="sizes-container">
@@ -344,6 +334,8 @@ const getAllImages = () => {
             </Slider>):(<p>No new products this week</p>)}
           </div>
           </div>
+          <br></br>
+          <br></br>
 </>
   );
 };

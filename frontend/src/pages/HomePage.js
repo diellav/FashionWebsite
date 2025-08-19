@@ -115,7 +115,9 @@ const HomePage=()=>{
         </div>
       </div>
       </div>
+     
       <hr></hr>
+       <br></br>
         <div className="main_arrivals">
          <h3>New Arrivals</h3>
           <div className="arrivals">
@@ -166,9 +168,10 @@ const HomePage=()=>{
             </Slider>):(<p>No new products this week</p>)}
           </div>
           </div>
+          <br></br>
           <hr></hr>
           <div className="main_deals">
-            <div className="deals">
+        
                <h3>Deals of the week</h3>
               {deals.length>0?(
               <Slider
@@ -193,9 +196,11 @@ const HomePage=()=>{
               ):(
                 <p>No discounts for this week</p>
               )}
-            </div>
+          
           </div>
+          <br></br>
           <hr></hr>
+           <br></br>
            <div className="main_arrivals">
          <h3>Our best sellers</h3>
           <div className="arrivals">
@@ -234,9 +239,10 @@ const HomePage=()=>{
             </Slider>):(<p>No new products this week</p>)}
           </div>
           </div>
+          
           <hr></hr>
-          <div className="main_deals">
-             <div className="deals">
+          <div className="main_deals" id='collection'>
+
                <h3>New Collections</h3>
               {collection.length>0?(
               <Slider
@@ -259,7 +265,7 @@ const HomePage=()=>{
               ):(
                 <p>No discounts for this week</p>
               )}
-            </div>
+     
           </div>
 
           <hr></hr>

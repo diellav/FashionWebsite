@@ -22,11 +22,15 @@ body.menu-open {
   display: flex;
   align-items: center;
   list-style: none;
-  justify-content: center; 
+  justify-content: space-around; 
   margin: 0 10px 0 0;
   padding: 0 20px;
   width:100%;
-  gap:70px; 
+}
+.iconsW{
+  display: flex;
+  flex-direction: row;
+
 }
 
 .navbar__logo {
@@ -184,14 +188,14 @@ nav ul li a:hover {
   color: #555;
   cursor: pointer;
   z-index: 2;
-   margin-left: 5%;
+   margin-left: 2%;
 }
 
 .search-input {
   position: absolute;
-  right: -100px;
+  right: -80px;
   opacity: 0;
-  width: 100px;
+  width: 80px;
   padding: 6px 10px;
   border: 1px solid #ccc;
   border-radius: 20px;
@@ -208,7 +212,7 @@ nav ul li a:hover {
 .search-results {
   position: absolute;
   top: 40px;
-  right: -100px;
+  right: -60px;
   width: 150px;
   background: white;
   border: 1px solid #ccc;
@@ -317,7 +321,7 @@ nav ul li a:hover {
   position: relative;
 }
 .mobile-shop-list {
-  padding-left: 15px;
+  padding-left: 30px;
   list-style: none;
 }
 
@@ -351,6 +355,9 @@ nav ul li a:hover {
   .mobile-shop-list {
     display: none;
   }
+ .iconsW.hidden {
+  display: none !important;
+}
    .searchitem {
     display: flex;
     flex-direction: column;
@@ -376,7 +383,9 @@ nav ul li a:hover {
 
 
 @media (max-width: 1042px) {
- 
+  .iconsW.hidden {
+  display: none !important;
+}
   .hamburger {
     display: flex;
   }

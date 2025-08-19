@@ -17,7 +17,7 @@ const Footer = () => {
             pharetra vel ultricies vitae, rutrum sed nibh. Nulla facilisi.
           </p>
           <div className="social">
-            <p>Logos</p>
+            
           </div>
         </div>
 
@@ -25,7 +25,7 @@ const Footer = () => {
           <p className="newLine">Our store</p>
           <Link to="/home">Home</Link>
           <Link to="/products/filter">Shop</Link>
-          <Link to="/aboutUs">About Us</Link>
+          <Link to="/aboutUs">About</Link>
           <Link to="/contactUs">Contact</Link>
         </div>
     <br></br>

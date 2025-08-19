@@ -117,7 +117,7 @@ const parentCategories = categories.filter(cat => cat.parentID === null);
 ) : (
 
           <li className="navbar__item navbar__item--products">
-          <li><NavLink to="/products/filter">Shop</NavLink></li>
+          <NavLink to="/products/filter">Shop</NavLink>
           <div className='navbar__list'>
             <div className="mega-menu-wrapper">
               <div className="mega-menu">
@@ -152,7 +152,7 @@ const parentCategories = categories.filter(cat => cat.parentID === null);
           </li>) }
 
 
-            <li><NavLink to="/aboutUs" activeclassname="active">About Us</NavLink></li>
+            <li><NavLink to="/aboutUs" activeclassname="active">About</NavLink></li>
             <li><NavLink to="/contactUs" activeclassname="active">Contact</NavLink></li>
             {role === 'Admin' && <li><NavLink to="/dashboard">Dashboard</NavLink></li>}
            {mobileMenuOpen? (
@@ -169,7 +169,7 @@ const parentCategories = categories.filter(cat => cat.parentID === null);
             ) : (
               user && !location.pathname.startsWith("/profile") ? (
                 <li className="navbar__dropdown">
-                  <span className="navbar__user">Hello, {user.username}</span>
+                  <span className="navbar__user">{user.username}</span>
                   <ul className="navbar__dropdown-menu">
                     {role!=='Admin'&&(
                     <li><NavLink to="/profile" activeclassname="active" >Profile</NavLink></li>)}
@@ -179,18 +179,29 @@ const parentCategories = categories.filter(cat => cat.parentID === null);
               ) : (
                 !user && <li><NavLink to="/login" activeclassname="active" >Login</NavLink></li>
               )
-            )}
-            <div className="icon-wrapper">
-              <FontAwesomeIcon icon={faCartShopping} className='icon' onClick={()=>navigate('/cart')}/>
-              {!mobileMenuOpen && <p className='message'>Cart</p>}
+            )} 
+            {mobileMenuOpen && (<> <div className="icon-wrapper">
+              <FontAwesomeIcon icon={faCartShopping} className="icon" onClick={() => navigate('/cart')} />
+              <p className="message">Cart</p>
             </div>
             <div className="icon-wrapper">
-              <FontAwesomeIcon icon={faHeartRegular} className='icon' onClick={()=>navigate('/wishlists')}/>
-              {!mobileMenuOpen && <p className='message'>Wishlist</p>}
+              <FontAwesomeIcon icon={faHeartRegular} className="icon" onClick={() => navigate('/wishlists')} />
+              <p className="message">Wishlist</p>
+            </div></>)}
+            </ul></div>
+         {!mobileMenuOpen && (
+<div className={`iconsW ${!mobileMenuOpen ? 'hidden' : ''}`}>
+            <div className="icon-wrapper">
+              <FontAwesomeIcon icon={faCartShopping} className="icon" onClick={() => navigate('/cart')} />
+              <p className="message">Cart</p>
             </div>
-           {!mobileMenuOpen && <div><SearchToggle/></div>}
-          </ul>
-        </div>
+            <div className="icon-wrapper">
+              <FontAwesomeIcon icon={faHeartRegular} className="icon" onClick={() => navigate('/wishlists')} />
+              <p className="message">Wishlist</p>
+            </div>
+            <SearchToggle />
+          </div>
+        )}
       </div>
     </nav>
   );

@@ -21,6 +21,7 @@ const Orders = () => {
               <p><b>Total:</b> €{order.total_price}</p>
               <p><b>Status:</b> {order.status}</p>
               <p><b>Created:</b> {new Date(order.created_at).toLocaleDateString()}</p>
+               <hr></hr>
             </li>
           ))}
         </ul>

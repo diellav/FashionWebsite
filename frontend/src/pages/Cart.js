@@ -71,6 +71,7 @@ const Cart=()=>{
                     {item.variants && (
                     <p>Color: {item.variants.color}</p>
                 )}
+                    <p>Size: {item.sizes.size}</p>
                     <div className="quantity">
                     <h5>Quantity:</h5><input type="number" min="1" value={item.quantity}
                     onChange={(e)=>handleQuantityChange(item.id, parseInt(e.target.value))}></input>
@@ -91,8 +92,9 @@ const Cart=()=>{
             ))}
             <div className="check">
             <h4>Total: ${calculateTotal()}</h4>
+           </div>
             <p className="checkout-hint">Review your cart and proceed to checkout to complete your purchase.</p>
-            <button onClick={()=>navigate('/checkout')} className="add-btn">Continue to Checkout</button></div>
+            <button onClick={()=>navigate('/checkout')} className="add-btn">Proceed to Checkout</button>
         </ul>
     ):(<p>Your Cart is Empty! Start shopping and add some great items.</p>)
 }
