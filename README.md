@@ -83,16 +83,25 @@ Customers can browse products, search and filter items, create an account, add p
 
 Admins can access the dashboard to manage store data such as products, orders, users, categories, discounts, payments, and customer messages.
 
+
 ## Screenshots
 
-Add screenshots here after running the project:
+### Home Page
+<img src="screenshots/homepage1.png" width="700">
+<img src="screenshots/homepage3.png" width="700">
 
-```markdown
-![Home Page](docs/screenshots/home.png)
-![Shop Page](docs/screenshots/shop.png)
-![Product Details](docs/screenshots/product-details.png)
-![Admin Dashboard](docs/screenshots/dashboard.png)
-```
+### Navbar with categories
+<img src="screenshots/navbar.png" width="700">
+
+### Shop Page
+<img src="screenshots/shoppage.png" width="700">
+
+### Product Details
+<img src="screenshots/product.png" width="700">
+
+### Dashboard
+<img src="screenshots/dashboard.png" width="700">
+
 
 ## What I Learned
 
